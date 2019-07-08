@@ -35,7 +35,7 @@ kill k:
 log l:
 	tail -f $(PROG).log
 # -----------------------------------------------------------------------------------------------------------------------
-ngrok:
+ngrok n:
 	@echo "> make (ngrok) [install|run]"
 
 ngrok-install ni:
