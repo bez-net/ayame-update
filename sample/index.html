@@ -13,22 +13,22 @@
       </div>
       <div id="inputs">
         <div class="input">
-          <label for="url">シグナリングサーバのURL:</label>
+          <label for="url">Signaling Server URL:</label>
           <input type="text" id="url" name="url" required onchange="onChangeWsUrl();" value="ws://localhost:3000/ws">
         </div>
         <div class="input">
-          <label for="roomId">部屋のID:</label>
+          <label for="roomId">Room ID:</label>
           <input type="text" id="roomId" name="roomId" required onchange="onChangeRoomId();" value="">
         </div>
       </div>
       <div id="recent-rooms">
-        <p>最近使った部屋のID:</p>
+        <p>Recently used Room ID:</p>
         <ul id="recent-item-list">
         </ul>
       </div>
     <div id="buttons">
-      <button id="connect-button" type="button" onclick="connect();">接続</button>
-      <button id="disconnect-button" type="button" onclick="disconnect();">切断</button>
+      <button id="connect-button" type="button" onclick="connect();">Connect</button>
+      <button id="disconnect-button" type="button" onclick="disconnect();">Disconnect</button>
     </div>
     <div id="videos">
     <video id="local-video" muted autoplay></video>
