@@ -3,3 +3,4 @@ ayame
 # log file
 *.log
 *.log.*
+bin/
