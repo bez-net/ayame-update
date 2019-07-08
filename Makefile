@@ -2,7 +2,7 @@ PROG=ayame
 VERSION=19.02.1
 
 usage:
-	@echo "make [build|run|kill|ngrok]"
+	@echo "make [build|run|kill|ngrok|git]"
 
 build b: *.go
 	GO111MODULE=on go build -ldflags '-X main.AyameVersion=${VERSION}' -o $(PROG)
@@ -22,10 +22,10 @@ clean:
 	rm -rf $(PROG)
 
 run r:
-	./ayame &
+	./$(PROG) &
 
 kill k:
-	pkill ayame
+	pkill $(PROG)
 
 log:
 	tail -f $(PROG).log
