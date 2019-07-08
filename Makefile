@@ -1,7 +1,11 @@
+#
+# Makefile for ayame, WebRTC signaling server
+#
 PROG=ayame
 VERSION=19.02.1
 
 usage:
+	@echo "$(PROG) Version: $(VERSION)"
 	@echo "make [build|run|kill|ngrok|git]"
 
 build b: *.go
@@ -32,7 +36,7 @@ log:
 
 # -----------------------------------------------------------------------------------------------------------------------
 ngrok:
-	@echo "make (ngrok) [install|run]"
+	@echo "> make (ngrok) [install|run]"
 
 ngrok-install ni:
 	snap install ngrok
@@ -42,7 +46,7 @@ ngrok-run nr:
 
 #-----------------------------------------------------------------------------------------
 git g:
-	@echo "make (git) [update|login|tag|status]"
+	@echo "> make (git) [update|login|tag|status]"
 
 git-update gu:
 	git add .gitignore *.md Makefile doc/ sample/ go.* *.go
