@@ -1,4 +1,4 @@
-# リリースノート
+# Release Note
 
 ## develop
 
