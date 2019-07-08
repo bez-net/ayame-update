@@ -3,11 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
-	logrus "github.com/sirupsen/logrus"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	logrus "github.com/sirupsen/logrus"
+	"gopkg.in/yaml.v2"
 )
 
 var AyameVersion = "19.02.1"
@@ -23,12 +24,12 @@ type AyameOptions struct {
 }
 
 var (
-	// 起動時のオプション
+	// start options
 	Options *AyameOptions
 	logger  *logrus.Logger
 )
 
-// 初期化処理
+// Initialize
 func init() {
 	configFilePath := flag.String("c", "./config.yaml", "ayame の設定ファイルへのパス(yaml)")
 	// yaml ファイルを読み込み
