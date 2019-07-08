@@ -1,6 +1,6 @@
 ## Ayame를 사용해보자.
 
-이리 엔트리는 크롤링합니다. 디렉토리 구성은 다음과 같게됩니다.
+이 레포지토리를 크롤링해보면 디렉토리 구성은 다음과 같습니다.
 
 ```
 $ ./
@@ -34,7 +34,7 @@ go 1.12
 $ go build
 ```
 
-`make` 로드 빌드가 됩니다.
+`make` 로도 빌드가 됩니다.
 
 ```
 $ make
@@ -107,24 +107,25 @@ ws.onmessage = (event) => {
 
 ## `register` 메시지에 대하여
 
-クライアントは ayame への接続可否を問い合わせるために WebSocket に接続した際に、まず `"type": "register"` のJSON メッセージを WS で送信する必要があります。
-register で送信できるプロパティは以下になります。
+클라이언트는 ayame 연결 여부를 문의하기 위해 WebSocket에 연결했을 때 먼저` "type": "register"`의 JSON 메시지를 WS로 전송해야합니다.
+필요가 있습니다.
+register로 보낼 수 속성은 다음입니다.
 
 
-- `"type"`: (string): 必須。 `"register"` を指定する。
-- `"clientId"`: (string): 必須
-- `"roomId": (string): 必須
+- `"type"`: (string): 필수. `"register"` 을 지정한다.
+- `"clientId"`: (string): 필수 
+- `"roomId": (string):  필수
 - `"key"`(string): Optional
 - `"authnMetadata"`(Object): Optional
-    - 多段ウェブフック認証の際に利用することができます。多段ウェブフック認証については後述します。
+    - 단 웹 후크 인증시 사용할 수 있습니다. 다단 웹 후크 인증에 대해서는 후술합니다.
 
 
-## `auth_webhook_url` オプションについて
+## `auth_webhook_url` 옵션에 대하여
 
 `config.yaml` にて `auth_webhook_url` を指定している場合、 ayame は client が {"type": "register" } メッセージを送信してきた際に `config.yaml` に指定した `auth_webhook_url` に対して認証リクエストをJSON 形式で POST します。
 
 
-このとき、{"type": "register" } のメッセージに
+이 때, { "type": "register"} 메시지에
 
 - `"key"`(string)
 - `"room_id"`: (string)
@@ -140,8 +141,8 @@ register で送信できるプロパティは以下になります。
     - 多段認証については次の項で説明します。
 
 `allowed` が false の場合 client の ayame への WebSocket 接続は切断されます。
-
-この auth_webhook はシグナリング key とroom ID の結びつきを確認する想定のものです。
+ 
+이 auth_webhook는 신호 key와 room ID의 관계를 확인하는 것을 가정한 것입니다.
 
 
 ### 다단계 webhook 설정에 대하여
@@ -152,18 +153,17 @@ ayame は通常の認証 wehbook での認証後:wその URL に対してさら�
 
 #### request
 
-- `host`: string。クライアントの host。
+- `host`: string. 클라이언트의 host.
 - `authn_metadata`(Object)
-    - register 時に `authn_metadata` をプロパティとして指定していると、その値がそのまま付与されます。
+    - register시`authn_metadata`를 속성으로 지정하고, 그 값이 그대로 부여됩니다.
 
 
 #### response
 
-- `allowed`: boolean。認証の可否 (必須)
-- `reason`: string。認証不可の際の理由 (`allowed` が false の場合のみ)
+- `allowed`: boolean. 허용가부 (필수)
+- `reason`: string. 허용불가의 이유 (allowed가 false가 되는 이유)
 - `authzMetadata`(Object, Optional)
-    - 任意に払い出せるメタデータ。 client はこの値を読み込むことで、例えば username を認証サーバから送ったりということも可能になる。
-
+    - 임의로 들어가고 나가는 메타 데이터. client는이 값을 가져 와서 예를 들어 username을 인증 서버에서 보내거나하는 것도 가능하게된다.
 
 ```
 {"allowed": true, "authzMetadata": {"username": "kdxu", "owner": "true"}}
