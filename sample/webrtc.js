@@ -1,4 +1,4 @@
-// シグナリングサーバのURLを指定する
+// Set URL for signaling server
 let wsUrl = 'ws://localhost:3000/ws';
 const roomStorageKey = "OPEN-AYAME-SAMPLE-ROOM-IDS";
 const roomInput = document.getElementById("roomId");
@@ -22,11 +22,11 @@ const peerConnectionConfig = {
 let isNegotiating = false;
 disconnectButton.disabled = true;
 
-// 接続処理
+// processing for connection
 function connect() {
   roomId = document.getElementById("roomId").value;
   if (roomId.length < 2 || !roomId){
-    alert("部屋のID を指定してください");
+    alert("Please set Room ID");
     return;
   }
   let newRoomIds = [];
@@ -37,11 +37,11 @@ function connect() {
   localStorage.setItem(roomStorageKey, JSON.stringify(newRoomIds));
   recentRoomDiv.style.display = 'none';
   isNegotiating = false;
-  // 新規に websocket を作成
+  // write a new websocket
   if(!ws){
     ws = new WebSocket(wsUrl);
   }
-  // ws のコールバックを定義する
+  // set ws callbacks
   ws.onopen = (event) => {
     console.log('ws open()');
     ws.send(JSON.stringify({
@@ -243,7 +243,7 @@ function prepareNewConnection(isOffer) {
     }
   }
 
-  // ICEのステータスが変更になったときの処理
+  // Processing for ICE state channge
   peer.oniceconnectionstatechange = () => {
     console.log('ICE connection Status has changed to ' + peer.iceConnectionState);
     switch (peer.iceConnectionState) {
@@ -261,7 +261,7 @@ function prepareNewConnection(isOffer) {
   peer.onsignalingstatechange = (e) => {
     console.log('signaling state changes:', peer.signalingState);
   }
-  // ローカルのMediaStreamを利用できるようにする
+  // To use local MediaStream
   if (localStream) {
     console.log('Adding local stream...');
     const videoTrack = localStream.getVideoTracks()[0];
@@ -290,7 +290,7 @@ function isUnifiedPlan(peer) {
   return ('addTransceiver' in peer) && (!('sdpSemantics' in config) || config.sdpSemantics === "unified-plan");
 }
 
-// sdp を ws で送る
+// send sdp over ws
 function sendSdp(sessionDescription) {
   if(ws){
   console.log('---sending sdp ---');
@@ -304,7 +304,7 @@ function sendSdp(sessionDescription) {
 }
 
 
-// Answer SDP を生成する
+// Generate Answer SDP
 async function makeAnswer() {
   console.log('sending Answer. Creating remote session description...' );
   if (!peerConnection) {
@@ -322,7 +322,7 @@ async function makeAnswer() {
   }
 }
 
-// Offer SDP を生成する
+// Generate Offer SDP
 async function setOffer(sessionDescription) {
   peerConnection = prepareNewConnection(false);
   try{
@@ -334,7 +334,7 @@ async function setOffer(sessionDescription) {
   }
 }
 
-// Answer SDP を生成する
+// Set Answer SDP
 async function setAnswer(sessionDescription) {
   if (!peerConnection) {
     console.error('peerConnection DOES NOT exist!');
@@ -348,7 +348,7 @@ async function setAnswer(sessionDescription) {
   }
 }
 
-// video element を初期化する
+// Initialize video element
 function cleanupVideoElement(element) {
   let stream = element.srcObject;
   if(stream){
@@ -373,8 +373,7 @@ function randomString(strLength) {
 
 startVideo();
 
-
-// ここからルームID の取得の処理
+// Search Room ID and handle it
 
 function setRoomId(r) {
   roomId = r;
