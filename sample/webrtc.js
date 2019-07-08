@@ -258,6 +258,7 @@ function prepareNewConnection(isOffer) {
         break;
     }
   };
+  
   peer.onsignalingstatechange = (e) => {
     console.log('signaling state changes:', peer.signalingState);
   }
@@ -284,7 +285,7 @@ function prepareNewConnection(isOffer) {
   return peer;
 }
 
-
+// check unified plan of sdp semantics
 function isUnifiedPlan(peer) {
   const config = peer.getConfiguration();
   return ('addTransceiver' in peer) && (!('sdpSemantics' in config) || config.sdpSemantics === "unified-plan");
@@ -322,7 +323,7 @@ async function makeAnswer() {
   }
 }
 
-// Generate Offer SDP
+// Set Offer SDP
 async function setOffer(sessionDescription) {
   peerConnection = prepareNewConnection(false);
   try{

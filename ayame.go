@@ -31,17 +31,17 @@ var (
 
 // Initialize
 func init() {
-	configFilePath := flag.String("c", "./config.yaml", "ayame の設定ファイルへのパス(yaml)")
-	// yaml ファイルを読み込み
+	configFilePath := flag.String("c", "./config.yaml", "ayame configuration file (yaml)")
+	// read yaml file
 	buf, err := ioutil.ReadFile(*configFilePath)
 	if err != nil {
-		// 読み込めない場合 Fatal で終了
+		// Fatal eit on read error
 		log.Fatal("cannot open config file, err=", err)
 	}
-	// yaml をパース
+	// parse yaml
 	err = yaml.Unmarshal(buf, &Options)
 	if err != nil {
-		// パースに失敗した場合 Fatal で終了
+		// Fatal exit on parse failure
 		log.Fatal("cannot parse config file, err=", err)
 	}
 }
@@ -49,7 +49,7 @@ func init() {
 func main() {
 	flag.Parse()
 	args := flag.Args()
-	// 引数の処理
+	// processing arguments
 	if len(args) > 0 {
 		if args[0] == "version" {
 			fmt.Printf("WebRTC Signaling Server Ayame version %s", AyameVersion)

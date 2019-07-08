@@ -5,7 +5,7 @@ PROG=ayame
 VERSION=19.02.1
 # -----------------------------------------------------------------------------------------------------------------------
 usage:
-	@echo "WebRTC signaling server : $(PROG) version $(VERSION)"
+	@echo "WebRTC signaling server : $(PROG) $(VERSION)"
 	@echo "> make [build|run|kill|ngrok|git]"
 
 # -----------------------------------------------------------------------------------------------------------------------
