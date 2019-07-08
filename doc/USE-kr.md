@@ -47,17 +47,17 @@ $ make
 ```
 $ ./ayame
 ```
-기동한 후에, http://localhost:3000 로 액세스할 때 데모 화면에 액세스 할 수 있습니다.
+기동한 후에, http://localhost:3000 로 액세스할 때 데모 화면에 액세스할 수 있습니다.
 
-アクセス時に各ブラウザで「カメラ・マイクでのアクセス」権限を要求された場合は「許可する」を選択してください。
+액세스 할 때 각 브라우저에 "카메라 마이크에 액세스"권한을 요청한 경우 "허용"을 선택하십시오.
 
-権限を確認できたら、「接続する」を選択してください。
+권한을 확인한 후 "연결"을 선택하십시오.
 
-別のタブ or ブラウザから同様にアクセスして、互いの画面が表示されたら接続成功です。
+다른 탭이나 브라우저에서 동일하게 액세스하여 서로의 화면이 나타나면 연결 성공입니다.
 
-※ あくまで Peer 2 Peer なので、最大 2 クライアントまでの接続しかできません。
+※ 어디까지나 Peer 2 Peer 용이므로、최대 2명의 클라이언트만 접속할 수 있습니다.
 
-切断するときは「切断する」を選択してください。
+연결을 끊고자 할때는 "절단한다"고 선언해주세요.
 
 
 ## Comment
@@ -81,10 +81,10 @@ Usage of ./ayame:
     	ayame configuration file (yaml) (default "./config.yaml")
 ```
 
-## `over_ws_ping_pong` オプションについて
+## `over_ws_ping_pong` 옵션에 대하여
 
-- `config.yaml` にて `over_ws_ping_pong: true` に設定した場合、 ayame はクライアントに対して(WebSocket の ping frame の代わりに) ** 9 ** 秒おきに JSON 形式で `{"type": "ping"}` メッセージを送信します。
-- これに対してクライアントは ** 10 ** 秒以内に JSON 形式で `{"type": "pong"}` を返すことで ping-pong を実現します。
+- `config.yaml`에서`over_ws_ping_pong : true`로 설정 한 경우 ayame는 클라이언트에 대해 (WebSocket의 ping frame 대신) ** 9 ** 초 소리>와에 JSON 형식의`{ "type ":"ping "}`메시지를 보냅니다.
+- 이에 대해 클라이언트 ** 10 ** 초 이내에 JSON 형식의`{ "type": "pong"}`을 반환에서 ping-pong을 제공합니다.
 
 클라이언트 (자바 스크립트)의 샘플 코드를 아래에 설명합니다.
 
@@ -105,7 +105,7 @@ ws.onmessage = (event) => {
 ```
 
 
-## `register` メッセージについて
+## `register` 메시지에 대하여
 
 クライアントは ayame への接続可否を問い合わせるために WebSocket に接続した際に、まず `"type": "register"` のJSON メッセージを WS で送信する必要があります。
 register で送信できるプロパティは以下になります。
@@ -144,7 +144,7 @@ register で送信できるプロパティは以下になります。
 この auth_webhook はシグナリング key とroom ID の結びつきを確認する想定のものです。
 
 
-### 多段ウェブフック認証について
+### 다단계 webhook 설정에 대하여
 
 `auth_webhook_url` を指定して、その `auth_webhook_url` からの返り値の JSON プロパティに `auth_webhook_url` が指定してある場合、
 ayame は通常の認証 wehbook での認証後:wその URL に対してさらに認証リクエストを POST します。
