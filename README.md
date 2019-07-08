@@ -2,6 +2,7 @@
 
 ## History
 - 2019/07/08 update slightly Makefile, README.md
+    - Refer the base example [webrtc/apprtc](https://github.com/webrtc/apprtc)
 - 2019/07/07 forked from [OpenAyame/ayame](https://github.com/OpenAyame/ayame)
 
 

@@ -3,11 +3,12 @@
 #
 PROG=ayame
 VERSION=19.02.1
-
+# -----------------------------------------------------------------------------------------------------------------------
 usage:
 	@echo "WebRTC signaling server : $(PROG) version $(VERSION)"
 	@echo "> make [build|run|kill|ngrok|git]"
 
+# -----------------------------------------------------------------------------------------------------------------------
 build b: *.go
 	GO111MODULE=on go build -ldflags '-X main.AyameVersion=${VERSION}' -o $(PROG)
 
@@ -31,9 +32,8 @@ run r:
 kill k:
 	pkill $(PROG)
 
-log:
+log l:
 	tail -f $(PROG).log
-
 # -----------------------------------------------------------------------------------------------------------------------
 ngrok:
 	@echo "> make (ngrok) [install|run]"
@@ -45,13 +45,16 @@ ngrok-run nr:
 	ngrok http 3000
 #-----------------------------------------------------------------------------------------
 open o:
-	@echo "> make (open) [origin|page]"
+	@echo "> make (open) [orig|page|app]"
 
-open-origin oo:
+open-orig oo:
 	xdg-open https://github.com/OpenAyame/ayame
 
 open-page op:
 	xdg-open https://github.com/sikang99/ayame
+
+open-app oa:	# AppRTC
+	xdg-open https://github.com/webrtc/apprtc
 #-----------------------------------------------------------------------------------------
 git g:
 	@echo "> make (git) [update|login|tag|status]"
