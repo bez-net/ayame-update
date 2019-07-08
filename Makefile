@@ -45,7 +45,7 @@ git g:
 	@echo "make (git) [update|login|tag|status]"
 
 git-update gu:
-	git add .gitignore *.md Makefile doc/ sample/ *.go
+	git add .gitignore *.md Makefile doc/ sample/ go.* *.go
 	#git commit -m "initial commit"
 	#git remote remove go.mod sse.go
 	#git commit -m "add examples"
