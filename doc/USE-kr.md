@@ -122,7 +122,8 @@ register로 보낼 수 속성은 다음입니다.
 
 ## `auth_webhook_url` 옵션에 대하여
 
-`config.yaml` にて `auth_webhook_url` を指定している場合、 ayame は client が {"type": "register" } メッセージを送信してきた際に `config.yaml` に指定した `auth_webhook_url` に対して認証リクエストをJSON 形式で POST します。
+`config.yaml`에서 `auth_webhook_url`을 지정하는 경우, ayame는 client가 { "type": "register"} 메시지를 보내 왔을 때에
+`config.yaml` 지정한`auth_webhook_url` 대해 인증 요청을 JSON 형식으로 POST합니다.
 
 
 이 때, { "type": "register"} 메시지에
@@ -130,26 +131,26 @@ register로 보낼 수 속성은 다음입니다.
 - `"key"`(string)
 - `"room_id"`: (string)
 
-を含めていると、そのデータを ayame はそのまま指定した `auth_webhook_url` に JSON 形式で送信します。
+를 포함하고, 그 데이터를 ayame은 그대로 지정한`auth_webhook_url`에 JSON 형식으로 보냅니다.
+
+또한 auth webhook의 반환 값은 JSON 형식으로 다음과 같이 상정되고 있습니다.
 
 
-また、 auth webhook の返り値は JSON 形式で、以下のように想定されています。
+- `allowed`: boolean. 허용가부 (필수)
+- `reason`: string. 인증 불가시 이유 (`allowed`가 false의 경우에만 필수)
+- `auth_webhook_url`: 다단 인증 용 webhook url. (optional 다단 인증을하지 않는 경우 제외)
+    - 단 인증에 대해서는 다음 절에서 설명합니다.
 
-- `allowed`: boolean。認証の可否 (必須)
-- `reason`: string。認証不可の際の理由 (`allowed` が false の場合のみ必須)
-- `auth_webhook_url`: 多段認証用の webhook url。(optional、多段認証をしない場合不要)
-    - 多段認証については次の項で説明します。
-
-`allowed` が false の場合 client の ayame への WebSocket 接続は切断されます。
+`allowed`가 false의 경우 client의 ayame에 WebSocket 연결이 끊어집니다.
  
 이 auth_webhook는 신호 key와 room ID의 관계를 확인하는 것을 가정한 것입니다.
 
 
 ### 다단계 webhook 설정에 대하여
 
-`auth_webhook_url` を指定して、その `auth_webhook_url` からの返り値の JSON プロパティに `auth_webhook_url` が指定してある場合、
-ayame は通常の認証 wehbook での認証後:wその URL に対してさらに認証リクエストを POST します。
-この `auth_webhook_url` へのリクエスト、レスポンスは以下のように想定されています。
+`auth_webhook_url`을 지정하여 그`auth_webhook_url`에서 반환 값의 JSON 속성에 `auth_webhook_url`가 지정되어있는 경우 
+ayame는 일반 인증 wehbook에서 인증 후 해당 URL에 추가 인증 요청을 POST합니다.
+이`auth_webhook_url`에 요청, 응답은 다음과 같이 예상되고 있습니다.
 
 #### request
 
@@ -174,7 +175,7 @@ ayame は通常の認証 wehbook での認証後:wその URL に対してさら�
 
 ### local에서 wss/https를 시험해보는 경우 
 
-[ngrok - secure introspectable tunnels to localhost](https://ngrok.com/) 사용 확실히하는 것이 좋습니다.
+[ngrok - secure introspectable tunnels to localhost](https://ngrok.com/) 확실히 하기위해 사용해보는 것이 좋습니다.
 
 ```
 $ ngrok http 3000
