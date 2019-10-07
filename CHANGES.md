@@ -1,6 +1,30 @@
-# Release Note
+# リリースノート
+
+- UPDATE
+    - 下位互換がある変更
+- ADD
+    - 下位互換がある追加
+- CHANGE
+    - 下位互換のない変更
+- FIX
+    - バグ修正
+
 
 ## develop
+
+- [ADD] CI の go を 1.13 に上げる
+- [UPDATE] @kdxu 推奨の go version を 1.13 にあげる
+
+## 19.08.0
+
+2019-08-16
+
+- [UPDATE] `/ws` エンドポイントと同様のものを `/signaling` エンドポイントとして追加する
+- [UPDATE] ayame register 時に key も送信できるようにする
+- [UPDATE] auth webhook の返り値に iceServers があれば返却するようにする
+
+## 19.07.1
+- [CHANGE] @kdxu サンプルを ayame-web-sdk を用いたものに置き換える
 
 ## 19.07.0
 

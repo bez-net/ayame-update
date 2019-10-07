@@ -11,6 +11,7 @@ require (
 	github.com/lestrrat-go/strftime v0.0.0-20180821113735-8b31f9c59b0f // indirect
 	github.com/mattn/go-colorable v0.1.2 // indirect
 	github.com/onsi/ginkgo v1.8.0 // indirect
+	github.com/ryanuber/go-glob v1.0.0
 	github.com/satori/go.uuid v1.2.0
 	github.com/sirupsen/logrus v1.4.2
 	github.com/stevenmatthewt/semantics v2.0.4+incompatible // indirect
@@ -30,3 +31,5 @@ require (
 	gopkg.in/yaml.v2 v2.2.2
 	honnef.co/go/tools v0.0.0-20190607181801-497c8f037f5a // indirect
 )
+
+go 1.13

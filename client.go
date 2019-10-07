@@ -1,9 +1,8 @@
 package main
 
 import (
-	"sync"
-
 	"github.com/gorilla/websocket"
+	"sync"
 )
 
 type Client struct {
@@ -16,7 +15,7 @@ type Client struct {
 	sync.Mutex
 }
 
-// send json
+// json を送る
 func (c *Client) SendJSON(v interface{}) error {
 	c.Lock()
 	defer c.Unlock()

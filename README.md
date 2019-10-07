@@ -1,17 +1,8 @@
 # WebRTC Signaling Server Ayame
 
-## History
-- 2019/07/08 translate Japanese(jp) into Korean(kr) for files in the foler /doc
-- 2019/07/08 update slightly Makefile, README.md
-    - Refer the base example [webrtc/apprtc](https://github.com/webrtc/apprtc) : video chatting demo app
-- 2019/07/07 forked from [OpenAyame/ayame](https://github.com/OpenAyame/ayame)
-
-
-## Information
-
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/OpenAyame/ayame.svg)](https://github.com/OpenAyame/ayame)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![CircleCI](https://circleci.com/gh/OpenAyame/ayame.svg?style=svg)](https://circleci.com/gh/OpenAyame/ayame)
+[![Actions Status](https://github.com/OpenAyame/ayame/workflows/Go%20Build%20&%20Format/badge.svg)](https://github.com/OpenAyame/ayame/actions)
 
 ## WebRTC Signaling Server Ayame について
 
@@ -53,15 +44,15 @@ Ayame を使ってみたい人は [USE.md](doc/USE.md) をお読みください�
 [OpenAyame/ayame\-web\-sdk: Web SDK for WebRTC Signaling Server Ayame](https://github.com/OpenAyame/ayame-web-sdk)
 
 ```javascript
-const conn = Ayame.connection('wss://example.com:3000/ws', 'test-room');
+const conn = Ayame.connection('wss://example.com:3000/signaling', 'test-room');
 const startConn = async () => {
     const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true, video: true});
-    const stream = await conn.connect(mediaStream);
+    await conn.connect(mediaStream);
     conn.on('disconnect', (e) => console.log(e));
     conn.on('addstream', (e) => {
         document.querySelector('#remote-video').srcObject = e.stream;
     });
-    document.querySelector('#local-video').srcObject = stream;
+    document.querySelector('#local-video').srcObject = mediaStream;
 };
 startConn();
 ```
@@ -71,6 +62,20 @@ startConn();
 **このリポジトリにあるサンプルと全く同じ動作になっています**
 
 [OpenAyame/ayame\-react\-sample](https://github.com/OpenAyame/ayame-react-sample)
+
+## WebRTC シグナリングサービス Ayame Lite を使ってみる
+
+Ayame を利用したシグナリングサービスを提供しています。
+
+```
+wss://ayame-lite.shiguredo.jp/signaling
+```
+
+認証などは現時点ではかけていませんので、ルーム ID は他の人から推測されない値を使うようにしてください。
+
+詳細については以下をお読みください。
+
+[WebRTC シグナリングサービス Ayame Lite 開発ログ](https://gist.github.com/voluntas/396167bd197ba005ae5a9e8c5e60f7cd)
 
 ## 仕組みの詳細を知りたい
 

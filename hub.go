@@ -10,31 +10,20 @@ type RegisterInfo struct {
 	roomId   string
 	clientId string
 	client   *Client
-	metadata interface{}
-	key      string
+	metadata *interface{}
+	key      *string
+}
+
+type Room struct {
+	clients map[*Client]bool
+	roomId  string
 }
 
 type Hub struct {
-	clients map[string]map[*Client]bool
-
-	broadcast chan *Broadcast
-
-	register chan *RegisterInfo
-
+	rooms      map[string]*Room
+	broadcast  chan *Broadcast
+	register   chan *RegisterInfo
 	unregister chan *RegisterInfo
-}
-
-type AcceptMessage struct {
-	Type string `json:"type"`
-}
-
-type RejectMessage struct {
-	Type string `json:"type"`
-}
-
-type AcceptMetadataMessage struct {
-	Type     string      `json:"type"`
-	Metadata interface{} `json:"authzMetadata"`
 }
 
 func newHub() *Hub {
@@ -42,7 +31,7 @@ func newHub() *Hub {
 		broadcast:  make(chan *Broadcast),
 		register:   make(chan *RegisterInfo),
 		unregister: make(chan *RegisterInfo),
-		clients:    make(map[string]map[*Client]bool),
+		rooms:      make(map[string]*Room),
 	}
 }
 
@@ -54,65 +43,75 @@ func (h *Hub) run() {
 			clientId := registerInfo.clientId
 			roomId := registerInfo.roomId
 			client = client.Setup(roomId, clientId)
-			if h.clients[roomId] == nil {
-				h.clients[roomId] = make(map[*Client]bool)
+			room := h.rooms[roomId]
+			if _, ok := h.rooms[roomId]; !ok {
+				room = &Room{
+					clients: make(map[*Client]bool),
+					roomId:  roomId,
+				}
+				h.rooms[roomId] = room
 			}
-			ok := len(h.clients[roomId]) < 2
+			ok := len(room.clients) < 2
 			if !ok {
 				msg := &RejectMessage{
-					Type: "reject",
+					Type:   "reject",
+					Reason: "TOO-MANY-USERS",
 				}
 				client.SendJSON(msg)
 				client.conn.Close()
 				break
 			}
 			// auth webhook を用いる場合
-			if Options.AuthWebhookUrl != "" {
-				metadata, err := AuthWebhookRequest(registerInfo.key, roomId, registerInfo.metadata, client.host)
+			if Options.AuthWebhookURL != "" {
+				resp, err := AuthWebhookRequest(registerInfo.key, roomId, registerInfo.metadata, client.host)
 				if err != nil {
 					msg := &RejectMessage{
-						Type: "reject",
+						Type:   "reject",
+						Reason: "AUTH-WEBHOOK-ERROR",
+					}
+					if resp != nil {
+						msg.Reason = resp.Reason
 					}
 					client.SendJSON(msg)
 					client.conn.Close()
 					break
 				}
-				if metadata != nil {
-					msg := &AcceptMetadataMessage{
-						Type:     "accept",
-						Metadata: metadata,
-					}
-					h.clients[roomId][client] = true
-					client.SendJSON(msg)
-				} else {
-					msg := &AcceptMessage{
-						Type: "accept",
-					}
-					h.clients[roomId][client] = true
-					client.SendJSON(msg)
+				msg := &AcceptMetadataMessage{
+					Type:       "accept",
+					IceServers: resp.IceServers,
 				}
+				if resp.AuthzMetadata != nil {
+					msg.Metadata = resp.AuthzMetadata
+				}
+
+				room.clients[client] = true
+				client.SendJSON(msg)
 			} else {
 				msg := &AcceptMessage{
 					Type: "accept",
 				}
-				h.clients[roomId][client] = true
+				room.clients[client] = true
 				client.SendJSON(msg)
 			}
 		case registerInfo := <-h.unregister:
 			roomId := registerInfo.roomId
 			client := registerInfo.client
-			if _, ok := h.clients[roomId][client]; ok {
-				delete(h.clients[roomId], client)
-				close(client.send)
+			if room, ok := h.rooms[roomId]; ok {
+				if _, ok := room.clients[client]; ok {
+					delete(room.clients, client)
+					close(client.send)
+				}
 			}
 		case broadcast := <-h.broadcast:
-			for client := range h.clients[broadcast.roomId] {
-				if client.clientId != broadcast.client.clientId {
-					select {
-					case client.send <- broadcast.messages:
-					default:
-						close(client.send)
-						delete(h.clients[broadcast.roomId], client)
+			if room, ok := h.rooms[broadcast.roomId]; ok {
+				for client := range room.clients {
+					if client.clientId != broadcast.client.clientId {
+						select {
+						case client.send <- broadcast.messages:
+						default:
+							close(client.send)
+							delete(room.clients, client)
+						}
 					}
 				}
 			}

@@ -26,7 +26,7 @@ $ ./
 
 推奨バージョンは以下のようになります。
 ```
-go 1.12
+go 1.13
 ```
 
 ## ビルドする
@@ -129,15 +129,15 @@ register で送信できるプロパティは以下になります。
 このとき、{"type": "register" } のメッセージに
 
 - `"key"`(string)
-- `"room_id"`: (string)
+- `"roomId"`: (string)
 
 を含めていると、そのデータを ayame はそのまま指定した `auth_webhook_url` に JSON 形式で送信します。
-
 
 また、 auth webhook の返り値は JSON 形式で、以下のように想定されています。
 
 - `allowed`: boolean。認証の可否 (必須)
 - `reason`: string。認証不可の際の理由 (`allowed` が false の場合のみ必須)
+- `iceServers`: (array object) クライアントに peer connection で接続する iceServer 情報 (optional)
 - `auth_webhook_url`: 多段認証用の webhook url。(optional、多段認証をしない場合不要)
     - 多段認証については次の項で説明します。
 
@@ -149,14 +149,14 @@ register で送信できるプロパティは以下になります。
 ### 多段ウェブフック認証について
 
 `auth_webhook_url` を指定して、その `auth_webhook_url` からの返り値の JSON プロパティに `auth_webhook_url` が指定してある場合、
-ayame は通常の認証 wehbook での認証後:wその URL に対してさらに認証リクエストを POST します。
+ayame は通常の認証 wehbook での認証後、その URL に対してさらに認証リクエストを POST します。
 この `auth_webhook_url` へのリクエスト、レスポンスは以下のように想定されています。
 
 #### リクエスト
 
 - `host`: string。クライアントの host。
 - `authn_metadata`(Object)
-    - register 時に `authn_metadata` をプロパティとして指定していると、その値がそのまま付与されます。
+    - register 時に `authnMetadata` をプロパティとして指定していると、その値がそのまま付与されます。
 
 
 #### レスポンス
