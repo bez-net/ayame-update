@@ -12,7 +12,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var AyameVersion = "19.08.0"
+var AyameVersion = "19.08.2"
 
 type AyameOptions struct {
 	LogDir         string `yaml:"log_dir"`
@@ -63,21 +63,37 @@ func main() {
 	hub := newHub()
 	go hub.run()
 
+	go runPlainServer(hub, url)
+	runSecureServer(":3443")
+}
+
+func runPlainServer(hub *Hub, url string) {
 	// web file server for working sample service
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./sample/"+r.URL.Path[1:])
 	})
 	// /ws endpoint is same with /signaling for compatibility
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		logger.Println("ws")
 		signalingHandler(hub, w, r)
 	})
 	http.HandleFunc("/signaling", func(w http.ResponseWriter, r *http.Request) {
+		logger.Println("/signal")
 		signalingHandler(hub, w, r)
 	})
 	// timeout is 10 sec
 	timeout := 10 * time.Second
 	server := &http.Server{Addr: url, Handler: nil, ReadHeaderTimeout: timeout}
 	err := server.ListenAndServe()
+	if err != nil {
+		logger.Fatal(err)
+	}
+}
+
+func runSecureServer(url string) {
+	timeout := 10 * time.Second
+	server := &http.Server{Addr: url, Handler: nil, ReadHeaderTimeout: timeout}
+	err := server.ListenAndServeTLS("certs/cert.pem", "certs/key.pem")
 	if err != nil {
 		logger.Fatal(err)
 	}

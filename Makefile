@@ -27,7 +27,7 @@ clean:
 	rm -rf $(PROG)
 
 run r:
-	./$(PROG) &
+	./$(PROG)
 
 kill k:
 	pkill $(PROG)
@@ -64,7 +64,7 @@ git-update gu:
 	#git commit -m "initial commit"
 	#git remote remove go.mod sse.go
 	#git commit -m "add examples"
-	git commit -m "update contents"
+	git commit -m "plain and secure signaling server"
 	git push
 
 git-login gl:
