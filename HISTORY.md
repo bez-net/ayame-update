@@ -1,4 +1,4 @@
-# WebRTC Signaling Server Ayame
+# WebRTC Signaling Server Ayame Update
 
 ## History
 - 2019/07/08 translate jp into kr for files in the foler /doc
