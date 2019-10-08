@@ -63,11 +63,14 @@ func main() {
 	hub := newHub()
 	go hub.run()
 
-	go runPlainServer(hub, url)
+	setupServerAPI(hub)
+
+	go runPlainServer(":3000")
 	runSecureServer(":3443")
 }
 
-func runPlainServer(hub *Hub, url string) {
+// Setting API endpoints for signalling
+func setupServerAPI(hub *Hub) {
 	// web file server for working sample service
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./sample/"+r.URL.Path[1:])
@@ -81,6 +84,10 @@ func runPlainServer(hub *Hub, url string) {
 		logger.Println("/signal")
 		signalingHandler(hub, w, r)
 	})
+}
+
+// Plain server supporint http and ws
+func runPlainServer(url string) {
 	// timeout is 10 sec
 	timeout := 10 * time.Second
 	server := &http.Server{Addr: url, Handler: nil, ReadHeaderTimeout: timeout}
@@ -90,6 +97,7 @@ func runPlainServer(hub *Hub, url string) {
 	}
 }
 
+// Secure server supporting https and wss
 func runSecureServer(url string) {
 	timeout := 10 * time.Second
 	server := &http.Server{Addr: url, Handler: nil, ReadHeaderTimeout: timeout}

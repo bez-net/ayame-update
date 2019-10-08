@@ -64,7 +64,7 @@ git-update gu:
 	#git commit -m "initial commit"
 	#git remote remove go.mod sse.go
 	#git commit -m "add examples"
-	git commit -m "plain and secure signaling server"
+	git commit -m "plain and secure signaling server w/ API setup"
 	git push
 
 git-login gl:
