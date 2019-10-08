@@ -5,13 +5,13 @@ import (
 	"errors"
 )
 
-// webhook リクエスト
+// webhook request
 type WebhookRequest struct {
 	Key    *string `json:"key,omitempty"`
 	RoomId string  `json:"room_id"`
 }
 
-// webhook レスポンス
+// webhook response
 type WebhookResponse struct {
 	Allowed       bool          `json:"allowed"`
 	IceServers    []interface{} `json:"iceServers,omitempty"`

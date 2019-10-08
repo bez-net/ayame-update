@@ -1,4 +1,5 @@
 # WebRTC Signaling Server Ayame Update
+by Stoney Kang, sikang99@gmail.com
 
 ## History
 - 2019/10/09 update to support plain(3000) and secure(3443) server at the same time
