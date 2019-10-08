@@ -36,12 +36,12 @@ SDP는 WebRTC 연결에 필요한 peer connection의 내부 정보입니다.
         |                      |                      |
     ----------------------WebSocket 접속확립----------------
         +--------------------->|                      |
-        |      websocket 접속  | <--------------------+
-        |                      |     websocket 접속   |
+        |      websocket 접속   | <--------------------+
+        |                      |     websocket 접속    |
     -----------------Peer-Connection 초기화 ---------------
         |                      |                      |
         | getUserMedia()       |                      | getUserMedia() 
-        | localStream를 취득   |                      | localStream를 취득
+        | localStream를 취득     |                      | localStream를 취득
         | peer = new PeerConnection()                 | peer = new PeerConnection()
     ----------------- 클라이언트 정보 등록 ----------------
         +--------------------->|                      | room id와 client id를 등록합니다.
@@ -58,7 +58,7 @@ SDP는 WebRTC 연결에 필요한 peer connection의 내부 정보입니다.
         |                      |                      |
         + peer.createOffer(),  |                      |
         | peer.setLocalDescription()                  |
-        |  offerSDP를 생성      |                      |
+        |  offerSDP를 생성       |                      |
         |                      |                      |
         +--------------------->|                      |
         |      ws message      |--------------------> |
