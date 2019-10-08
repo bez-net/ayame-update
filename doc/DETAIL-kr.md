@@ -58,7 +58,7 @@ SDP는 WebRTC 연결에 필요한 peer connection의 내부 정보입니다.
         |                      |                      |
         + peer.createOffer(),  |                      |
         | peer.setLocalDescription()                  |
-        |  offerSDP를 생성     |                      |
+        |  offerSDP를 생성      |                      |
         |                      |                      |
         +--------------------->|                      |
         |      ws message      |--------------------> |
@@ -72,13 +72,13 @@ SDP는 WebRTC 연결에 필요한 peer connection의 내부 정보입니다.
         |     　answerSDP      |                      |
         |                      |                      |
         + setRemoteDescription(answerSDP)             |
-        | Remote Description 전송                     |
+        | Remote Description 전송                      |
         |                      |                      |
-　   　 |                      |                      |
+　      |                      |                      |
     ------------------ ICE candidate를 교환 -----------------------
         |                      |                      |
-　　　　+onicecandidate() 동작 |                      |
-        |  candidate 취득      |                      |
+　　　　 + onicecandidate() 동작 |                      |
+        |  candidate 취득       |                      |
         +--------------------->+                      |
         |      ws message      +--------------------> | peerConnection에 ice candidate를 추가합니다.
         |  {type: "candidate", |   ws message         | peer.addIceCandidate(candidate)
@@ -88,10 +88,10 @@ SDP는 WebRTC 연결에 필요한 peer connection의 내부 정보입니다.
         |                      |                      |
      ========= ICE negotiation이 있으면 갱신 SDP를 다시 교환 =================
         |                      |                      |
-        + onaddstream() 동작   |                      + onaddstream() 동작
-        | remoteStream를 전송（browser2）             | remoteStream をセット(browser1)
+        + onaddstream() 동작    |                      + onaddstream() 동작
+        | remoteStream를 전송（browser2）                | remoteStream をセット(browser1)
     ------------------ Peer Connection 확립 ------------------------
- 　　   |                      |                      |　
+ 　　    |                      |                      |　
 ```
 
 
