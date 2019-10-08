@@ -74,17 +74,17 @@ func main() {
 
 // Setting API endpoints for signalling
 func setupServerAPI(hub *Hub) {
-	// web file server for working sample service
+	// web file server for working a sample service
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./sample/"+r.URL.Path[1:])
 	})
 	// /ws endpoint is same with /signaling for compatibility
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
-		logger.Println("ws")
+		log.Println("/ws")
 		signalingHandler(hub, w, r)
 	})
 	http.HandleFunc("/signaling", func(w http.ResponseWriter, r *http.Request) {
-		logger.Println("/signaling")
+		log.Println("/signaling")
 		signalingHandler(hub, w, r)
 	})
 }
