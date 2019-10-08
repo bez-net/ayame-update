@@ -8,5 +8,4 @@
 - 2019/07/07 forked from [OpenAyame/ayame](https://github.com/OpenAyame/ayame)
 
 ## Information
-
-
+- [hakobera/serverless-webrtc-signaling-server](https://github.com/hakobera/serverless-webrtc-signaling-server) - Serverless WebRTC Signaling Server only works for WebRTC P2P
