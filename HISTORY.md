@@ -1,6 +1,7 @@
 # WebRTC Signaling Server Ayame Update
 
 ## History
+- 2019/10/09 update to support plain(3000) and secure(3443) server at the same time
 - 2019/07/08 translate jp into kr for files in the foler /doc
 - 2019/07/08 translate Japanese(jp) into Korean(kr) for files in the foler /doc
 - 2019/07/08 update slightly Makefile, README.md
