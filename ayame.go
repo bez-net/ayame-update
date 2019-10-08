@@ -12,14 +12,15 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var AyameVersion = "19.08.2"
+var AyameVersion = "19.08.4"
 
 type AyameOptions struct {
 	LogDir         string `yaml:"log_dir"`
 	LogName        string `yaml:"log_name"`
 	LogLevel       string `yaml:"log_level"`
 	Addr           string `yaml:"addr"`
-	Port           int    `yaml:"port"`
+	PortPlain      int    `yaml:"port_plain"`
+	PortSecure     int    `yaml:"port_secure"`
 	OverWsPingPong bool   `yaml:"over_ws_ping_pong"`
 	AuthWebhookURL string `yaml:"auth_webhook_url"`
 	AllowOrigin    string `yaml:"allow_origin"`
@@ -57,16 +58,18 @@ func main() {
 		}
 	}
 	logger = setupLogger()
-	url := fmt.Sprintf("%s:%d", Options.Addr, Options.Port)
+	// CAUTION: don't use localhost
+	urlPlain := fmt.Sprintf(":%d", Options.PortPlain)
+	urlSecure := fmt.Sprintf(":%d", Options.PortSecure)
 	logger.Infof("WebRTC Signaling Server Ayame. version=%s", AyameVersion)
-	logger.Infof("running on http://%s (Press Ctrl+C quit)", url)
+	logger.Infof("running on http://%s and https://%s (Press Ctrl+C quit)", urlPlain, urlSecure)
 	hub := newHub()
 	go hub.run()
 
 	setupServerAPI(hub)
 
-	go runPlainServer(":3000")
-	runSecureServer(":3443")
+	go runPlainServer(urlPlain)
+	runSecureServer(urlSecure)
 }
 
 // Setting API endpoints for signalling
@@ -81,7 +84,7 @@ func setupServerAPI(hub *Hub) {
 		signalingHandler(hub, w, r)
 	})
 	http.HandleFunc("/signaling", func(w http.ResponseWriter, r *http.Request) {
-		logger.Println("/signal")
+		logger.Println("/signaling")
 		signalingHandler(hub, w, r)
 	})
 }
