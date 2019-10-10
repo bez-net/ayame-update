@@ -56,7 +56,7 @@ func main() {
 	// argument processing
 	if len(args) > 0 {
 		if args[0] == "version" {
-			fmt.Printf("WebRTC Signaling Server Ayame version %s\n", AyameVersion)
+			log.Printf("WebRTC Signaling Server Ayame version=%s", AyameVersion)
 			return
 		}
 	}
@@ -64,11 +64,12 @@ func main() {
 	// NOTICE: I will not use logrus for readability
 	// logger = setupLogger()
 
-	// CAUTION: don't use localhost
+	// CAUTION: don't use localhost in url
 	urlPlain := fmt.Sprintf(":%d", Options.PortPlain)
 	urlSecure := fmt.Sprintf(":%d", Options.PortSecure)
-	log.Printf("WebRTC Signaling Server Ayame. version=%s", AyameVersion)
-	log.Printf("running on http://%s and https://%s (Press Ctrl+C quit)", urlPlain, urlSecure)
+	log.Printf("WebRTC Signaling Server Ayame, version=%s", AyameVersion)
+	log.Printf("running on http://<server>%s and https://<server>%s (Press Ctrl+C quit)", urlPlain, urlSecure)
+
 	hub := newHub()
 	go hub.run()
 
@@ -80,7 +81,7 @@ func main() {
 
 // Setting API endpoints for signalling
 func setupServerAPI(hub *Hub) {
-	// web file server for working a sample service
+	// web file server for working a sample page
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./sample/"+r.URL.Path[1:])
 	})

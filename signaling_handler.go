@@ -20,7 +20,7 @@ const (
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
-	// クロスオリジンを一旦許可する
+	// allow cross orgin
 	CheckOrigin: func(r *http.Request) bool {
 		return true
 	},
@@ -30,7 +30,7 @@ type Message struct {
 	Type     string       `json:"type"`
 	RoomId   string       `json:"roomId"`
 	ClientId string       `json:"clientId"`
-	Metadata *interface{} `json:"authnMetadata,omitempty"`
+	Metadata *interface{} `json:"authn_metadata,omitempty"`
 	Key      *string      `json:"key,omitempty"`
 }
 

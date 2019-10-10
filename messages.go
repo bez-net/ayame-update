@@ -2,7 +2,7 @@ package main
 
 type AcceptMessage struct {
 	Type       string        `json:"type"`
-	IceServers []interface{} `json:"iceServers,omitempty"`
+	IceServers []interface{} `json:"ice_servers,omitempty"`
 }
 
 type RejectMessage struct {
@@ -12,6 +12,6 @@ type RejectMessage struct {
 
 type AcceptMetadataMessage struct {
 	Type       string        `json:"type"`
-	Metadata   interface{}   `json:"authzMetadata,omitempty"`
-	IceServers []interface{} `json:"iceServers,omitempty"`
+	Metadata   interface{}   `json:"authz_metadata,omitempty"`
+	IceServers []interface{} `json:"ice_servers,omitempty"`
 }

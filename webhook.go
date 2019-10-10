@@ -15,8 +15,8 @@ type WebhookRequest struct {
 // webhook response
 type WebhookResponse struct {
 	Allowed       bool          `json:"allowed"`
-	IceServers    []interface{} `json:"iceServers,omitempty"`
-	WebhookURL    *string       `json:"auth_webhook_url,omitempty"`
+	IceServers    []interface{} `json:"ice_servers, omitempty"`
+	WebhookURL    *string       `json:"auth_webhook_url, omitempty"`
 	Reason        string        `json:"reason"`
 	AuthzMetadata interface{}   `json:"authz_metadata"`
 }
