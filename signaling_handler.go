@@ -75,28 +75,28 @@ func (c *Client) listen(cancel context.CancelFunc) {
 	for {
 		_, message, err := c.conn.ReadMessage()
 		if err != nil {
-			log.Printf("ws error: %v", err)
+			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
+				log.Printf("ws error: %v", err)
+			}
 			return
 		}
 
 		msg := &Message{}
 		json.Unmarshal(message, &msg)
-		log.Printf("signaling: %s %s", msg.Type, message)
+		log.Printf("message=%s", message)
 
 		switch msg.Type {
 		case "":
-			// log.Println("invalid signaling type: ", msg.Type)
-			break
+			log.Printf("ignore null message")
+			continue
 		case "pong":
-			// log.Println("recv ping over WS")
 			c.conn.SetReadDeadline(time.Now().Add(pongWait))
 			break
 		case "register":
-			if msg.RoomId == "" {
-				log.Printf(msg.Type, "invalid room id=", msg.RoomId)
+			if msg.ClientId == "" || msg.RoomId == "" {
+				log.Printf("register error: clientId=%s, roomId=%s", msg.ClientId, msg.RoomId)
 				return
 			}
-			log.Printf("%s: %v", msg.Type, msg)
 			c.hub.register <- &RegisterInfo{
 				clientId: msg.ClientId,
 				client:   c,
@@ -106,24 +106,13 @@ func (c *Client) listen(cancel context.CancelFunc) {
 			}
 			break
 		case "onmessage":
-			if c.roomId == "" {
-				log.Printf("client does not registered: %v", c)
-				return
-			}
-			// check websocket error
-			if err != nil {
-				if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
-					log.Printf("error: %v", err)
-				}
-				return
-			}
-			break
 		default:
-			// log.Println("pass signaling type: ", msg.Type)
+			if c.clientId == "" || c.roomId == "" {
+				log.Printf("%s error: client not registered: %v", msg.Type, c)
+				return
+			}
 			break
 		}
-
-		log.Printf("clientId=%s, roomId=%s", c.clientId, c.roomId)
 
 		// Broadcast the signaling message received
 		broadcast := &Broadcast{
