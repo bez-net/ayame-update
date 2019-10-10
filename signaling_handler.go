@@ -74,6 +74,11 @@ func (c *Client) listen(cancel context.CancelFunc) {
 
 	for {
 		_, message, err := c.conn.ReadMessage()
+		if err != nil {
+			log.Printf("ws error: %v", err)
+			return
+		}
+
 		msg := &Message{}
 		json.Unmarshal(message, &msg)
 		log.Printf("signaling: %s %s", msg.Type, message)
@@ -105,6 +110,7 @@ func (c *Client) listen(cancel context.CancelFunc) {
 				log.Printf("client does not registered: %v", c)
 				return
 			}
+			// check websocket error
 			if err != nil {
 				if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
 					log.Printf("error: %v", err)
@@ -119,7 +125,7 @@ func (c *Client) listen(cancel context.CancelFunc) {
 
 		log.Printf("clientId=%s, roomId=%s", c.clientId, c.roomId)
 
-		// Broadcast the signaling message
+		// Broadcast the signaling message received
 		broadcast := &Broadcast{
 			client:   c,
 			roomId:   c.roomId,
