@@ -6,13 +6,11 @@ port_plain: 3000
 port_secure: 3443
 max_sessions: 3
 
-# json 形式で ping-pong するかどうかのフラグ
-#over_ws_ping_pong: true
+# - Set flag for ping-pong in json format 
+# over_ws_ping_pong: true
 
-# 認証ウェブフックURLを用いるときに設定します
-# Webhook URL
+# - Authenticated Webhook URL
 # auth_webhook_url: http://127.0.0.1:3001/auth/webhook
 
-# ws でOriginを指定したいときに設定します
-# set Origin in ws
+# - Set origin in websocket
 # allow_origin: *.example.com
