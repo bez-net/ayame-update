@@ -69,7 +69,7 @@ async function disconnect(){
   }
 }
 
-// chnage ws url
+// change ws url
 function onChangeWsUrl() {
   wsUrl = document.getElementById("url").value;
   console.log('ws url changes', wsUrl);

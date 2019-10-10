@@ -4,6 +4,7 @@ log_level: info
 addr: localhost
 port_plain: 3000
 port_secure: 3443
+max_sessions: 3
 
 # json 形式で ping-pong するかどうかのフラグ
 #over_ws_ping_pong: true

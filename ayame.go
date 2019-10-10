@@ -24,6 +24,7 @@ type AyameOptions struct {
 	OverWsPingPong bool   `yaml:"over_ws_ping_pong"`
 	AuthWebhookURL string `yaml:"auth_webhook_url"`
 	AllowOrigin    string `yaml:"allow_origin"`
+	MaxSessions    int    `yaml:"max_sessions"`
 }
 
 var (

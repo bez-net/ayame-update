@@ -64,7 +64,7 @@ git-update gu:
 	#git commit -m "initial commit"
 	#git remote remove go.mod sse.go
 	#git commit -m "add examples"
-	git commit -m "server urls handling"
+	git commit -m "max number of sessions can be configured"
 	git push
 
 git-login gl:
