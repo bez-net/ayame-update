@@ -53,12 +53,12 @@ func (c *Client) listen(cancel context.CancelFunc) {
 			return true
 		}
 		origin := r.Header.Get("Origin")
-		// origin を trim
+		// trim origin
 		host, err := TrimOriginToHost(origin)
 		if err != nil {
 			log.Println("Invalid Origin Header, header=", origin)
 		}
-		// config.yaml で指定した Allow Origin と一致するかで検査する
+		// check the origin is same with one of Allow Origin in config.yaml
 		log.Printf("[WS] Request Origin=%s, AllowOrigin=%s", origin, Options.AllowOrigin)
 		if &Options.AllowOrigin == host {
 			return true
@@ -91,7 +91,6 @@ func (c *Client) listen(cancel context.CancelFunc) {
 			continue
 		case "pong":
 			c.conn.SetReadDeadline(time.Now().Add(pongWait))
-			break
 		case "register":
 			if msg.ClientId == "" || msg.RoomId == "" {
 				log.Printf("register error: clientId=%s, roomId=%s", msg.ClientId, msg.RoomId)
@@ -104,14 +103,12 @@ func (c *Client) listen(cancel context.CancelFunc) {
 				key:      msg.Key,
 				metadata: msg.Metadata,
 			}
-			break
-		case "onmessage":
+		// case "onmessage":
 		default:
 			if c.clientId == "" || c.roomId == "" {
 				log.Printf("%s error: client not registered: %v", msg.Type, c)
 				return
 			}
-			break
 		}
 
 		// Broadcast the signaling message received
@@ -121,47 +118,6 @@ func (c *Client) listen(cancel context.CancelFunc) {
 			messages: message,
 		}
 		c.hub.broadcast <- broadcast
-
-		/*
-			if msg.Type == "" {
-				log.Println("Invalid Signaling Type")
-				break
-			}
-			if msg.Type == "pong" {
-				log.Println("recv ping over WS")
-				c.conn.SetReadDeadline(time.Now().Add(pongWait))
-			} else {
-				if msg.Type == "register" && msg.RoomId != "" {
-					log.Printf("register: %v", msg)
-					c.hub.register <- &RegisterInfo{
-						clientId: msg.ClientId,
-						client:   c,
-						roomId:   msg.RoomId,
-						key:      msg.Key,
-						metadata: msg.Metadata,
-					}
-				} else {
-					log.Printf("onmessage: %s", message)
-					log.Printf("client roomId: %s", c.roomId)
-					if c.roomId == "" {
-						log.Printf("client does not registered: %v", c)
-						return
-					}
-					if err != nil {
-						if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
-							log.Printf("error: %v", err)
-						}
-						break
-					}
-					broadcast := &Broadcast{
-						client:   c,
-						roomId:   c.roomId,
-						messages: message,
-					}
-					c.hub.broadcast <- broadcast
-				}
-			}
-		*/
 	}
 }
 
@@ -174,7 +130,7 @@ func (c *Client) broadcast(ctx context.Context) {
 	for {
 		select {
 		case <-ctx.Done():
-			// exit loop if channel already close
+			// exit the loop if the channel already close
 			c.conn.WriteMessage(websocket.CloseMessage, []byte{})
 			return
 		case message, ok := <-c.send:
