@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 )
@@ -24,7 +25,7 @@ func PostRequest(reqUrl string, reqBody interface{}) ([]byte, error) {
 		bytes.NewBuffer([]byte(reqJson)),
 	)
 	if err != nil {
-		logger.Info("post request error, error=", err)
+		log.Println("post request error, error=", err)
 		return nil, err
 	}
 	req.Header.Set("Content-Type", "application/json")
@@ -43,7 +44,7 @@ func PostRequest(reqUrl string, reqBody interface{}) ([]byte, error) {
 func TrimOriginToHost(origin string) (*string, error) {
 	url, err := url.Parse(origin)
 	if err != nil {
-		logger.Warning("origin parse error, origin=", origin)
+		log.Println("origin parse error, origin=", origin)
 		return nil, err
 	}
 	return &url.Host, nil

@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"net/http"
 	"time"
 
@@ -55,10 +56,10 @@ func (c *Client) listen(cancel context.CancelFunc) {
 		// origin を trim
 		host, err := TrimOriginToHost(origin)
 		if err != nil {
-			logger.Warn("Invalid Origin Header, header=", origin)
+			log.Println("Invalid Origin Header, header=", origin)
 		}
 		// config.yaml で指定した Allow Origin と一致するかで検査する
-		logger.Infof("[WS] Request Origin=%s, AllowOrigin=%s", origin, Options.AllowOrigin)
+		log.Printf("[WS] Request Origin=%s, AllowOrigin=%s", origin, Options.AllowOrigin)
 		if &Options.AllowOrigin == host {
 			return true
 		}
@@ -74,15 +75,15 @@ func (c *Client) listen(cancel context.CancelFunc) {
 		msg := &Message{}
 		json.Unmarshal(message, &msg)
 		if msg.Type == "" {
-			logger.Warnf("Invalid Signaling Type")
+			log.Println("Invalid Signaling Type")
 			break
 		}
 		if msg.Type == "pong" {
-			logger.Printf("recv ping over WS")
+			log.Println("recv ping over WS")
 			c.conn.SetReadDeadline(time.Now().Add(pongWait))
 		} else {
 			if msg.Type == "register" && msg.RoomId != "" {
-				logger.Printf("register: %v", msg)
+				log.Printf("register: %v", msg)
 				c.hub.register <- &RegisterInfo{
 					clientId: msg.ClientId,
 					client:   c,
@@ -91,15 +92,15 @@ func (c *Client) listen(cancel context.CancelFunc) {
 					metadata: msg.Metadata,
 				}
 			} else {
-				logger.Printf("onmessage: %s", message)
-				logger.Printf("client roomId: %s", c.roomId)
+				log.Printf("onmessage: %s", message)
+				log.Printf("client roomId: %s", c.roomId)
 				if c.roomId == "" {
-					logger.Printf("client does not registered: %v", c)
+					log.Printf("client does not registered: %v", c)
 					return
 				}
 				if err != nil {
 					if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
-						logger.Printf("error: %v", err)
+						log.Printf("error: %v", err)
 					}
 					break
 				}
@@ -142,7 +143,7 @@ func (c *Client) broadcast(ctx context.Context) {
 			c.conn.SetWriteDeadline(time.Now().Add(writeWait))
 			// over Ws で ping-pong を設定している場合
 			if Options.OverWsPingPong {
-				logger.Info("send ping over WS")
+				log.Println("send ping over WS")
 				pingMsg := &PingMessage{Type: "ping"}
 				if err := c.SendJSON(pingMsg); err != nil {
 					return
@@ -159,17 +160,17 @@ func (c *Client) broadcast(ctx context.Context) {
 func signalingHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		logger.Println(err)
+		log.Println(err)
 		return
 	}
 	origin := r.Header.Get("Origin")
 	host, err := TrimOriginToHost(origin)
 	if err != nil {
-		logger.Println(err)
+		log.Println(err)
 		return
 	}
 	client := &Client{hub: hub, conn: c, host: *host, send: make(chan []byte, 256)}
-	logger.Printf("[WS] connected")
+	log.Printf("[WS] connected")
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	go client.listen(cancel)

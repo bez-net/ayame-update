@@ -12,7 +12,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var AyameVersion = "19.08.4"
+var AyameVersion = "19.08.5"
 
 type AyameOptions struct {
 	LogDir         string `yaml:"log_dir"`
@@ -58,12 +58,15 @@ func main() {
 			return
 		}
 	}
+
+	// NOTICE: I will not use logrus for readability
 	logger = setupLogger()
+
 	// CAUTION: don't use localhost
 	urlPlain := fmt.Sprintf(":%d", Options.PortPlain)
 	urlSecure := fmt.Sprintf(":%d", Options.PortSecure)
-	logger.Infof("WebRTC Signaling Server Ayame. version=%s", AyameVersion)
-	logger.Infof("running on http://%s and https://%s (Press Ctrl+C quit)", urlPlain, urlSecure)
+	log.Printf("WebRTC Signaling Server Ayame. version=%s", AyameVersion)
+	log.Printf("running on http://%s and https://%s (Press Ctrl+C quit)", urlPlain, urlSecure)
 	hub := newHub()
 	go hub.run()
 
@@ -97,7 +100,7 @@ func runPlainServer(url string) {
 	server := &http.Server{Addr: url, Handler: nil, ReadHeaderTimeout: timeout}
 	err := server.ListenAndServe()
 	if err != nil {
-		logger.Fatal(err)
+		log.Fatal(err)
 	}
 }
 
@@ -107,6 +110,6 @@ func runSecureServer(url string) {
 	server := &http.Server{Addr: url, Handler: nil, ReadHeaderTimeout: timeout}
 	err := server.ListenAndServeTLS("certs/cert.pem", "certs/key.pem")
 	if err != nil {
-		logger.Fatal(err)
+		log.Fatal(err)
 	}
 }

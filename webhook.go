@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"log"
 )
 
 // webhook request
@@ -35,7 +36,7 @@ func AuthWebhookRequest(key *string, roomId string, metadata interface{}, host s
 		return nil, err
 	}
 	if !whResp.Allowed {
-		logger.Info("authn webhook not allowed, resp=", &whResp)
+		log.Println("authn webhook not allowed, resp=", &whResp)
 		return &whResp, errors.New("Not Allowed")
 	}
 	if whResp.WebhookURL != nil {
@@ -46,12 +47,12 @@ func AuthWebhookRequest(key *string, roomId string, metadata interface{}, host s
 			return &whResp, err
 		}
 		if !twoAuthnResp.Allowed {
-			logger.Info("two authn webhook not allowed, resp=", &twoAuthnResp)
+			log.Println("two authn webhook not allowed, resp=", &twoAuthnResp)
 			return &twoAuthnResp, errors.New("Not Allowed")
 		}
-		logger.Info("two authn webhook allowed, resp=", &twoAuthnResp)
+		log.Println("two authn webhook allowed, resp=", &twoAuthnResp)
 		return &twoAuthnResp, nil
 	}
-	logger.Info("auth webhook allowed, resp=", whResp)
+	log.Println("auth webhook allowed, resp=", whResp)
 	return &whResp, nil
 }
