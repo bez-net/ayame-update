@@ -33,15 +33,17 @@ var (
 	logger  *logrus.Logger
 )
 
-// initialization
+// initialization from config
 func init() {
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+
 	configFilePath := flag.String("c", "./config.yaml", "ayame configuration file path (yaml)")
-	// yaml file set
+	// yaml file read
 	buf, err := ioutil.ReadFile(*configFilePath)
 	if err != nil {
 		log.Fatal("cannot open config file, err=", err)
 	}
-	// yaml parse
+	// yaml data parse
 	err = yaml.Unmarshal(buf, &Options)
 	if err != nil {
 		log.Fatal("cannot parse config file, err=", err)
@@ -60,7 +62,7 @@ func main() {
 	}
 
 	// NOTICE: I will not use logrus for readability
-	logger = setupLogger()
+	// logger = setupLogger()
 
 	// CAUTION: don't use localhost
 	urlPlain := fmt.Sprintf(":%d", Options.PortPlain)
