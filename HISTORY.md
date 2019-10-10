@@ -2,6 +2,8 @@
 by Stoney Kang, sikang99@gmail.com
 
 ## History
+- 2019/10/10 add MaxSessions in the server configuration
+- 2019/10/10 removed ws_handler.go
 - 2019/10/09 update to support plain(3000) and secure(3443) server at the same time
 - 2019/07/08 translate jp into kr for files in the foler /doc
 - 2019/07/08 translate Japanese(jp) into Korean(kr) for files in the foler /doc
