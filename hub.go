@@ -51,7 +51,7 @@ func (h *Hub) run() {
 				}
 				h.rooms[roomId] = room
 			}
-			ok := len(room.clients) < 2
+			ok := len(room.clients) < Options.MaxSessions
 			if !ok {
 				msg := &RejectMessage{
 					Type:   "reject",
