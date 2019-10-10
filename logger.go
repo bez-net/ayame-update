@@ -2,22 +2,17 @@ package main
 
 import (
 	"fmt"
-	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
-	logrus "github.com/sirupsen/logrus"
 	"io"
 	"log"
 	"os"
 	"path/filepath"
 	"time"
+
+	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
+	logrus "github.com/sirupsen/logrus"
 )
 
-// logrus.logger に
-// - ログローテ
-// - ログディレクトリ
-// - ログファイル名
-// を設定する初期処理
-// ayame 起動時に呼ばれる
-// ログディレクトリおよびファイル名は起動時のオプションにて指定している
+// for the logrus.logger, set log rotation, directory, file name
 func setupLogger() *logrus.Logger {
 	level, err := logrus.ParseLevel(Options.LogLevel)
 	if err != nil {
