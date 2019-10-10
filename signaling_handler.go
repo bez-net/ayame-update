@@ -68,50 +68,105 @@ func (c *Client) listen(cancel context.CancelFunc) {
 		}
 		return false
 	}
+
 	c.conn.SetReadDeadline(time.Now().Add(pongWait))
 	c.conn.SetPongHandler(func(string) error { c.conn.SetReadDeadline(time.Now().Add(pongWait)); return nil })
+
 	for {
 		_, message, err := c.conn.ReadMessage()
 		msg := &Message{}
 		json.Unmarshal(message, &msg)
-		if msg.Type == "" {
-			log.Println("Invalid Signaling Type")
+		log.Printf("signaling: %s %s", msg.Type, message)
+
+		switch msg.Type {
+		case "":
+			// log.Println("invalid signaling type: ", msg.Type)
+			break
+		case "pong":
+			// log.Println("recv ping over WS")
+			c.conn.SetReadDeadline(time.Now().Add(pongWait))
+			break
+		case "register":
+			if msg.RoomId == "" {
+				log.Printf(msg.Type, "invalid room id=", msg.RoomId)
+				return
+			}
+			log.Printf("%s: %v", msg.Type, msg)
+			c.hub.register <- &RegisterInfo{
+				clientId: msg.ClientId,
+				client:   c,
+				roomId:   msg.RoomId,
+				key:      msg.Key,
+				metadata: msg.Metadata,
+			}
+			break
+		case "onmessage":
+			if c.roomId == "" {
+				log.Printf("client does not registered: %v", c)
+				return
+			}
+			if err != nil {
+				if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
+					log.Printf("error: %v", err)
+				}
+				return
+			}
+			break
+		default:
+			// log.Println("pass signaling type: ", msg.Type)
 			break
 		}
-		if msg.Type == "pong" {
-			log.Println("recv ping over WS")
-			c.conn.SetReadDeadline(time.Now().Add(pongWait))
-		} else {
-			if msg.Type == "register" && msg.RoomId != "" {
-				log.Printf("register: %v", msg)
-				c.hub.register <- &RegisterInfo{
-					clientId: msg.ClientId,
-					client:   c,
-					roomId:   msg.RoomId,
-					key:      msg.Key,
-					metadata: msg.Metadata,
-				}
-			} else {
-				log.Printf("onmessage: %s", message)
-				log.Printf("client roomId: %s", c.roomId)
-				if c.roomId == "" {
-					log.Printf("client does not registered: %v", c)
-					return
-				}
-				if err != nil {
-					if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
-						log.Printf("error: %v", err)
-					}
-					break
-				}
-				broadcast := &Broadcast{
-					client:   c,
-					roomId:   c.roomId,
-					messages: message,
-				}
-				c.hub.broadcast <- broadcast
-			}
+
+		log.Printf("clientId=%s, roomId=%s", c.clientId, c.roomId)
+
+		// Broadcast the signaling message
+		broadcast := &Broadcast{
+			client:   c,
+			roomId:   c.roomId,
+			messages: message,
 		}
+		c.hub.broadcast <- broadcast
+
+		/*
+			if msg.Type == "" {
+				log.Println("Invalid Signaling Type")
+				break
+			}
+			if msg.Type == "pong" {
+				log.Println("recv ping over WS")
+				c.conn.SetReadDeadline(time.Now().Add(pongWait))
+			} else {
+				if msg.Type == "register" && msg.RoomId != "" {
+					log.Printf("register: %v", msg)
+					c.hub.register <- &RegisterInfo{
+						clientId: msg.ClientId,
+						client:   c,
+						roomId:   msg.RoomId,
+						key:      msg.Key,
+						metadata: msg.Metadata,
+					}
+				} else {
+					log.Printf("onmessage: %s", message)
+					log.Printf("client roomId: %s", c.roomId)
+					if c.roomId == "" {
+						log.Printf("client does not registered: %v", c)
+						return
+					}
+					if err != nil {
+						if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
+							log.Printf("error: %v", err)
+						}
+						break
+					}
+					broadcast := &Broadcast{
+						client:   c,
+						roomId:   c.roomId,
+						messages: message,
+					}
+					c.hub.broadcast <- broadcast
+				}
+			}
+		*/
 	}
 }
 
@@ -124,8 +179,7 @@ func (c *Client) broadcast(ctx context.Context) {
 	for {
 		select {
 		case <-ctx.Done():
-			// channel がすでに close していた場合
-			// ループを抜ける
+			// exit loop if channel already close
 			c.conn.WriteMessage(websocket.CloseMessage, []byte{})
 			return
 		case message, ok := <-c.send:
@@ -141,7 +195,7 @@ func (c *Client) broadcast(ctx context.Context) {
 			w.Write(message)
 		case <-ticker.C:
 			c.conn.SetWriteDeadline(time.Now().Add(writeWait))
-			// over Ws で ping-pong を設定している場合
+			// if over_ws_ping_pong is set
 			if Options.OverWsPingPong {
 				log.Println("send ping over WS")
 				pingMsg := &PingMessage{Type: "ping"}

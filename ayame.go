@@ -87,11 +87,11 @@ func setupServerAPI(hub *Hub) {
 	})
 	// /ws endpoint is same with /signaling for compatibility
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
-		log.Println("/ws")
+		// log.Printf("/ws")
 		signalingHandler(hub, w, r)
 	})
 	http.HandleFunc("/signaling", func(w http.ResponseWriter, r *http.Request) {
-		log.Println("/signaling")
+		// log.Printf("/signaling")
 		signalingHandler(hub, w, r)
 	})
 }
