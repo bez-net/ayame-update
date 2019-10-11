@@ -75,6 +75,7 @@ func main() {
 
 	setupServerAPI(hub)
 
+	go runSocketioServer()
 	go runPlainServer(urlPlain)
 	runSecureServer(urlSecure)
 }
@@ -115,4 +116,8 @@ func runSecureServer(url string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func runSocketioServer() {
+
 }
