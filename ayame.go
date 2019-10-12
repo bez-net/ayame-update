@@ -135,7 +135,3 @@ func handleSignalMessage(client *gosf.Client, request *gosf.Request) *gosf.Messa
 	log.Printf("message: %v", request.Message)
 	return gosf.NewSuccessMessage(request.Message.Text)
 }
-
-func adminHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
-	log.Printf("admin")
-}
