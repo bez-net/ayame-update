@@ -130,8 +130,3 @@ func runSocketioServer(hub *Hub) {
 	gosf.Startup(map[string]interface{}{"port": 9999})
 	log.Printf("socket.io closed")
 }
-
-func handleSignalMessage(client *gosf.Client, request *gosf.Request) *gosf.Message {
-	log.Printf("message: %v", request.Message)
-	return gosf.NewSuccessMessage(request.Message.Text)
-}

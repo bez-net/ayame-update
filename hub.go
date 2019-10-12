@@ -14,6 +14,11 @@ type RegisterInfo struct {
 	key      *string
 }
 
+const (
+	ROOM_TYPE_PRE_DEFINED  = 1
+	ROOM_TYPE_USER_DEFINED = 2
+)
+
 type Room struct {
 	clients map[*Client]bool
 	roomId  string
