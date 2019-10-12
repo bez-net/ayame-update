@@ -2,7 +2,7 @@
 # Makefile for ayame, WebRTC signaling server
 #
 PROG=ayame
-VERSION=19.02.7
+VERSION=19.02.8
 # -----------------------------------------------------------------------------------------------------------------------
 usage:
 	@echo "WebRTC signaling server : $(PROG) $(VERSION)"
@@ -62,7 +62,6 @@ git g:
 git-update gu:
 	git add .gitignore *.md Makefile doc/ sample/ go.* *.go *.yaml certs/
 	#git remote remove go.mod sse.go
-	#git commit -m "add examples"
 	git commit -m "prepare socket.io support"
 	git push
 
@@ -70,7 +69,6 @@ git-login gl:
 	git config --global user.email "sikang99@gmail.com"
 	git config --global user.name "Stoney Kang"
 	git config --global push.default matching
-	#git config --global push.default simple
 	git config credential.helper store
 
 git-tag gt:

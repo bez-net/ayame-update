@@ -13,7 +13,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var AyameVersion = "19.08.7s"
+var AyameVersion = "19.08.8"
 
 type AyameOptions struct {
 	LogDir         string `yaml:"log_dir"`
@@ -88,6 +88,11 @@ func setupServerAPI(hub *Hub) {
 		http.ServeFile(w, r, "./sample/"+r.URL.Path[1:])
 	})
 	// /ws endpoint is same with /signaling for compatibility
+	http.HandleFunc("/admin", func(w http.ResponseWriter, r *http.Request) {
+		// log.Printf("/admin")
+		adminHandler(hub, w, r)
+	})
+	// /ws endpoint is same with /signaling for compatibility
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		// log.Printf("/ws")
 		signalingHandler(hub, w, r)
@@ -119,14 +124,18 @@ func runSecureServer(url string) {
 	}
 }
 
-// Socket.io server for plain and secure connections
+// Socket.io(gosf) server for plain and secure connections
 func runSocketioServer(hub *Hub) {
-	gosf.Listen("message", handleMessage)
+	gosf.Listen("message", handleSignalMessage)
 	gosf.Startup(map[string]interface{}{"port": 9999})
 	log.Printf("socket.io closed")
 }
 
-func handleMessage(client *gosf.Client, request *gosf.Request) *gosf.Message {
+func handleSignalMessage(client *gosf.Client, request *gosf.Request) *gosf.Message {
 	log.Printf("message: %v", request.Message)
 	return gosf.NewSuccessMessage(request.Message.Text)
+}
+
+func adminHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
+	log.Printf("admin")
 }
