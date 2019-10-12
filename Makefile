@@ -63,7 +63,7 @@ git-update gu:
 	git add .gitignore *.md Makefile doc/ sample/ go.* *.go *.yaml certs/
 	#git remote remove go.mod sse.go
 	#git commit -m "add examples"
-	git commit -m "disable logrus and use plain log"
+	git commit -m "prepare socket.io support"
 	git push
 
 git-login gl:

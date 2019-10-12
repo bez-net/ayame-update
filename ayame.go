@@ -8,11 +8,12 @@ import (
 	"net/http"
 	"time"
 
-	logrus "github.com/sirupsen/logrus"
+	"github.com/ambelovsky/gosf"
+	"github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )
 
-var AyameVersion = "19.08.6"
+var AyameVersion = "19.08.7s"
 
 type AyameOptions struct {
 	LogDir         string `yaml:"log_dir"`
@@ -75,7 +76,7 @@ func main() {
 
 	setupServerAPI(hub)
 
-	go runSocketioServer()
+	go runSocketioServer(hub)
 	go runPlainServer(urlPlain)
 	runSecureServer(urlSecure)
 }
@@ -118,6 +119,14 @@ func runSecureServer(url string) {
 	}
 }
 
-func runSocketioServer() {
+// Socket.io server for plain and secure connections
+func runSocketioServer(hub *Hub) {
+	gosf.Listen("message", handleMessage)
+	gosf.Startup(map[string]interface{}{"port": 9999})
+	log.Printf("socket.io closed")
+}
 
+func handleMessage(client *gosf.Client, request *gosf.Request) *gosf.Message {
+	log.Printf("message: %v", request.Message)
+	return gosf.NewSuccessMessage(request.Message.Text)
 }
