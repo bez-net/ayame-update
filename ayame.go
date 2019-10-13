@@ -71,7 +71,7 @@ func main() {
 	log.Printf("WebRTC Signaling Server Ayame, version=%s", AyameVersion)
 	log.Printf("running on http://<server>%s and https://<server>%s (Press Ctrl+C quit)", urlPlain, urlSecure)
 
-	hub := newHub(AyameVersion)
+	hub := newHub("Ayame " + AyameVersion)
 	go hub.run()
 
 	setupServerAPI(hub)

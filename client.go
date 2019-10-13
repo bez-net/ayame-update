@@ -6,7 +6,14 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+type Common struct {
+	uuid  string
+	name  string
+	class string
+}
+
 type Client struct {
+	Common
 	hub      *Hub
 	conn     *websocket.Conn
 	host     string

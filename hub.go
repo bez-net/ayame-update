@@ -21,29 +21,28 @@ const (
 )
 
 type Room struct {
+	Common
 	clients map[*Client]bool
 	roomId  string
-	ID      string
-	class   int
 }
 
 type Hub struct {
+	Common
 	rooms      map[string]*Room
 	broadcast  chan *Broadcast
 	register   chan *RegisterInfo
 	unregister chan *RegisterInfo
-	ID         string
-	class      int
 }
 
-func newHub(id string) (hub *Hub) {
+func newHub(name string) (hub *Hub) {
 	hub = &Hub{
 		broadcast:  make(chan *Broadcast),
 		register:   make(chan *RegisterInfo),
 		unregister: make(chan *RegisterInfo),
 		rooms:      make(map[string]*Room),
 	}
-	hub.ID = id
+	hub.name = name
+	hub.uuid = strUUID()
 	return
 }
 
