@@ -1,8 +1,8 @@
 # WebRTC Signaling Server Ayame Update
-by Stoney Kang, sikang99@gmail.com in TeamGRIT
+    upgraded by Stoney Kang, sikang99@gmail.com in TeamGRIT
 
 ## History
-- 2019/10/12 add local db handling
+- 2019/10/12 add local db handling (19.03.01)
 - 2019/10/12 add Common for structs such as client, room, hub
 - 2019/10/11 /admin endpoint added to check the server info
 - 2019/10/10 not use logrus because of readability
@@ -15,6 +15,7 @@ by Stoney Kang, sikang99@gmail.com in TeamGRIT
 - 2019/07/08 update slightly Makefile, README.md
     - Refer the base example [webrtc/apprtc](https://github.com/webrtc/apprtc) : video chatting demo app
 - 2019/07/07 forked from [OpenAyame/ayame](https://github.com/OpenAyame/ayame)
+
 
 ## Information
 - [hakobera/serverless-webrtc-signaling-server](https://github.com/hakobera/serverless-webrtc-signaling-server) - Serverless WebRTC Signaling Server only works for WebRTC P2P
