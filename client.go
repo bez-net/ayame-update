@@ -12,6 +12,7 @@ type Client struct {
 	host     string
 	roomId   string
 	clientId string
+	nick     string
 	send     chan []byte
 	sync.Mutex
 }

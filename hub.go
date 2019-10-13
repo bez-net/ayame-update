@@ -14,14 +14,17 @@ type RegisterInfo struct {
 	key      *string
 }
 
+// TODO: Think more for the need
 const (
-	ROOM_TYPE_PRE_DEFINED  = 1
-	ROOM_TYPE_USER_DEFINED = 2
+	ROOM_TYPE_PRE_DEFINED  = iota
+	ROOM_TYPE_USER_DEFINED = iota
 )
 
 type Room struct {
 	clients map[*Client]bool
 	roomId  string
+	ID      string
+	class   int
 }
 
 type Hub struct {
@@ -29,15 +32,19 @@ type Hub struct {
 	broadcast  chan *Broadcast
 	register   chan *RegisterInfo
 	unregister chan *RegisterInfo
+	ID         string
+	class      int
 }
 
-func newHub() *Hub {
-	return &Hub{
+func newHub(id string) (hub *Hub) {
+	hub = &Hub{
 		broadcast:  make(chan *Broadcast),
 		register:   make(chan *RegisterInfo),
 		unregister: make(chan *RegisterInfo),
 		rooms:      make(map[string]*Room),
 	}
+	hub.ID = id
+	return
 }
 
 func (h *Hub) run() {
@@ -66,7 +73,7 @@ func (h *Hub) run() {
 				client.conn.Close()
 				break
 			}
-			// auth webhook を用いる場合
+			// use auth webhook
 			if Options.AuthWebhookURL != "" {
 				resp, err := AuthWebhookRequest(registerInfo.key, roomId, registerInfo.metadata, client.host)
 				if err != nil {

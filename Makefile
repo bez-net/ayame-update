@@ -62,7 +62,7 @@ git g:
 git-update gu:
 	git add .gitignore *.md Makefile doc/ sample/ go.* *.go *.yaml certs/
 	#git remote remove go.mod sse.go
-	git commit -m "prepare socket.io support"
+	git commit -m "data structures are modified for client, room, hub"
 	git push
 
 git-login gl:
