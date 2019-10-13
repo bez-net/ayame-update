@@ -33,7 +33,7 @@ func listHub(hub *Hub) (str string) {
 }
 
 func strHub(hub *Hub) (str string) {
-	str += fmt.Sprintf("hub=%.8s,%s\n", hub.uuid, hub.name)
+	str += fmt.Sprintf("hub=%s,%s\n", hub.uuid, hub.name)
 	for hk, hv := range hub.rooms {
 		for rk, rv := range hv.clients {
 			str += fmt.Sprintf("room=%s,%s client=%s,%t\n", hk, hv.roomId, rk.clientId, rv)

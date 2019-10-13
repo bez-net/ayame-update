@@ -30,18 +30,22 @@ func openDatabase() (db *sql.DB, err error) {
 	return
 }
 
-func readRecord(db *sql.DB) {
-
+func readTable(db *sql.DB) (err error) {
+	return
 }
 
-func addRecord(db *sql.DB) {
-
+func readRecord(db *sql.DB) (err error) {
+	return
 }
 
-func deleteRecord(db *sql.DB) {
-
+func addRecord(db *sql.DB) (err error) {
+	return
 }
 
-func updateRecord(db *sql.DB) {
+func deleteRecord(db *sql.DB) (err error) {
+	return
+}
 
+func updateRecord(db *sql.DB) (err error) {
+	return
 }
