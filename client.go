@@ -8,14 +8,15 @@ import (
 
 // Common part of structs such as client, room, hub
 type Common struct {
-	uuid  string
-	name  string
-	class string
+	uuid    string
+	name    string
+	class   string
+	created string
 }
 
 type Client struct {
 	Common
-	nick     string // nickname
+	device   string // device unique string
 	hub      *Hub
 	conn     *websocket.Conn
 	host     string
@@ -38,4 +39,15 @@ func (c *Client) Setup(roomId string, clientId string) *Client {
 	c.roomId = roomId
 	c.clientId = clientId
 	return c
+}
+
+type User struct {
+	Common
+	nick string
+	mail string
+	snss map[string]string
+}
+type Group struct {
+	Common
+	users map[string]*User
 }

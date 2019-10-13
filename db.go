@@ -10,8 +10,8 @@ import (
 
 const schema = `CREATE TABLE IF NOT EXISTS userinfo (
 	uuid CHAR(32) PRIMARY KEY NOT NULL,
-	username VARCHAR(64) NOT NULL,
-	nickname VARCHAR(64) NULL,
+	name VARCHAR(64) NOT NULL,
+	nick VARCHAR(64) NULL,
 	created DATE NULL
 )`
 
@@ -30,22 +30,37 @@ func openDatabase() (db *sql.DB, err error) {
 	return
 }
 
-func readTable(db *sql.DB) (err error) {
+func readTable(db *sql.DB, user *User) (err error) {
+	rows, err := db.Query("SELECT * FROM userinfo")
+	for rows.Next() {
+		err = rows.Scan(&user.uuid, &user.name, &user.nick, &user.created)
+		if err != nil {
+			break
+		}
+	}
 	return
 }
 
-func readRecord(db *sql.DB) (err error) {
+func readRecord(db *sql.DB, user *User) (err error) {
+	stmt, err := db.Prepare("SELECT DISTINCT * FROM userinfo where uuid=?")
+	_, err = stmt.Exec(user.uuid)
 	return
 }
 
-func addRecord(db *sql.DB) (err error) {
+func addRecord(db *sql.DB, user *User) (err error) {
+	stmt, err := db.Prepare("INSERT INTO userinfo(uuid, name, nick, created) values(?,?,?,?)")
+	_, err = stmt.Exec(user.uuid, user.name, user.nick, user.created)
 	return
 }
 
-func deleteRecord(db *sql.DB) (err error) {
+func deleteRecord(db *sql.DB, user *User) (err error) {
+	stmt, err := db.Prepare("DELETE from userinfo where uuid=?")
+	_, err = stmt.Exec(user.uuid)
 	return
 }
 
-func updateRecord(db *sql.DB) (err error) {
+func updateRecord(db *sql.DB, user *User) (err error) {
+	stmt, err := db.Prepare("UPDATE userinfo set name=? where uuid=?")
+	_, err = stmt.Exec("stoney", user.uuid)
 	return
 }
