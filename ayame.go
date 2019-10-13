@@ -13,7 +13,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var AyameVersion = "19.08.8"
+var AyameVersion = "19.08.9"
 
 type AyameOptions struct {
 	LogDir         string `yaml:"log_dir"`
@@ -71,7 +71,7 @@ func main() {
 	log.Printf("WebRTC Signaling Server Ayame, version=%s", AyameVersion)
 	log.Printf("running on http://<server>%s and https://<server>%s (Press Ctrl+C quit)", urlPlain, urlSecure)
 
-	hub := newHub("Ayame " + AyameVersion)
+	hub := newHub("Ayame" + AyameVersion)
 	go hub.run()
 
 	setupServerAPI(hub)

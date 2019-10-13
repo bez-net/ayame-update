@@ -2,6 +2,8 @@
 by Stoney Kang, sikang99@gmail.com in TeamGRIT
 
 ## History
+- 2019/10/12 add Common for structs such as client, room, hub
+- 2019/10/11 /admin endpoint added to check the server info
 - 2019/10/10 not use logus because of readability
 - 2019/10/10 add `MaxSessions` in the server configuration
 - 2019/10/10 removed `ws_handler.go`

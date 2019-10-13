@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+// Common part of structs such as client, room, hub
 type Common struct {
 	uuid  string
 	name  string
@@ -14,12 +15,12 @@ type Common struct {
 
 type Client struct {
 	Common
+	nick     string
 	hub      *Hub
 	conn     *websocket.Conn
 	host     string
 	roomId   string
 	clientId string
-	nick     string
 	send     chan []byte
 	sync.Mutex
 }
