@@ -49,3 +49,9 @@ func TrimOriginToHost(origin string) (*string, error) {
 	}
 	return &url.Host, nil
 }
+
+func recoverPanic() {
+	if r := recover(); r != nil {
+		log.Printf("recovered from panic")
+	}
+}

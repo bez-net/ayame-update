@@ -1,3 +1,6 @@
+/*
+	main function of ayame server package
+*/
 package main
 
 import (
@@ -13,7 +16,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var AyameVersion = "19.08.9"
+var AyameVersion = "19.03.1"
 
 type AyameOptions struct {
 	LogDir         string `yaml:"log_dir"`
@@ -76,6 +79,7 @@ func main() {
 
 	setupServerAPI(hub)
 
+	// start servers for protocols
 	go runSocketioServer(hub)
 	go runPlainServer(urlPlain)
 	runSecureServer(urlSecure)
