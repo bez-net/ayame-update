@@ -17,7 +17,7 @@ const disconnectButton = document.getElementById('disconnect-button');
 
 let connection = null;
 let localStream = null;
-let roomId = "agilertc"; //= 0123456789; //= randomString(9);
+let roomId = "agilertc"; //= randomString(9);
 setRoomId(roomId);
 let roomIds = [];
 
@@ -42,6 +42,7 @@ async function connect() {
     }
     localStorage.setItem(roomStorageKey, JSON.stringify(newRoomIds));
     recentRoomDiv.style.display = 'none';
+    
     // create ayame connection
     connection = window.Ayame.connection(wsUrl, roomId);
     connection.on('disconnect', (e) => {

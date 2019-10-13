@@ -15,7 +15,7 @@ type Common struct {
 
 type Client struct {
 	Common
-	nick     string
+	nick     string // nickname
 	hub      *Hub
 	conn     *websocket.Conn
 	host     string
