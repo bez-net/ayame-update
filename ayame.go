@@ -96,7 +96,7 @@ func setupServerAPI(hub *Hub) {
 		// log.Printf("/admin")
 		adminHandler(hub, w, r)
 	})
-	http.HandleFunc("/event", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/event/", func(w http.ResponseWriter, r *http.Request) {
 		// log.Printf("/admin")
 		eventHandler(hub, w, r)
 	})

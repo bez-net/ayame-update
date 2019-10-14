@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -23,6 +24,21 @@ type EventMessage struct {
 
 func eventHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	log.Printf(r.URL.Path)
+	op := strings.TrimPrefix(r.URL.Path, "/event/")
+
+	switch op {
+	case "send":
+		fmt.Fprintf(w, "%s not implemented", op)
+	case "recv":
+		sendEventStream(hub, w, r)
+	default:
+		log.Printf("%s not supported", op)
+	}
+
+	log.Printf("event closed for %s", op)
+}
+
+func sendEventStream(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	// check if SSE is supported
 	f, ok := w.(http.Flusher)
 	if !ok {
@@ -36,10 +52,6 @@ func eventHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Connection", "keep-alive")
 	w.Header().Set("Access-Control-Allow-Origin", "*") // cojam.tv
 
-	sendEventStream(hub, w, r, f)
-}
-
-func sendEventStream(hub *Hub, w http.ResponseWriter, r *http.Request, f http.Flusher) {
 	emsg := EventMessage{Event: "notify", Id: "ayame", Retry: "2"}
 	emsg.Data.UserId = "sikang99@gmail.com"
 	// fmt.Println(emsg)
@@ -50,13 +62,13 @@ func sendEventStream(hub *Hub, w http.ResponseWriter, r *http.Request, f http.Fl
 		f.Flush()
 		time.Sleep(1 * time.Second)
 	}
-	log.Printf("closed")
+	log.Printf("event stream closed")
 }
 
 func genStringEventMessage(emsg EventMessage) (str string) {
 	emsg.Data.OccurAt = time.Now().Format("2006/01/02 15:04:05")
-	jdata, err := json.Marshal(emsg.Data)
 	// jdata, err := json.MarshalIndent(edata, "", " ")
+	jdata, err := json.Marshal(emsg.Data)
 	if err != nil {
 		log.Printf("json error: ", err)
 		return
