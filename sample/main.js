@@ -2,7 +2,7 @@
 const isSSL = location.protocol === 'https:';
 const wsProtocol = isSSL ? 'wss://' : 'ws://';
 
-let wsUrl = wsProtocol + location.host + '/signaling';
+let wsUrl = wsProtocol + location.host + '/signal';
 if (!location.host) {
   wsUrl = 'wss://ayame.shiguredo.jp/signaling';
 }

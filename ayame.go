@@ -105,7 +105,7 @@ func setupServerAPI(hub *Hub) {
 		// log.Printf("/ws")
 		signalingHandler(hub, w, r)
 	})
-	http.HandleFunc("/signaling", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/signal", func(w http.ResponseWriter, r *http.Request) {
 		// log.Printf("/signaling")
 		signalingHandler(hub, w, r)
 	})
