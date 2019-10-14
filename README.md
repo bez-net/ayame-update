@@ -4,6 +4,7 @@
 
 ### History
 - 2019/10/14 rename `/signaling` into `/signal`
+    - handle SSE events
 - 2019/10/13 add endpoints of `/admin` and `/event`
 - 2019/10/12 add local db handling (19.03.01)
 - 2019/10/12 add Common for structs such as client, room, hub
