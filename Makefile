@@ -2,7 +2,7 @@
 # Makefile for ayame, WebRTC signaling server
 #
 PROG=ayame
-VERSION=19.03.1
+VERSION=19.03.2
 # -----------------------------------------------------------------------------------------------------------------------
 usage:
 	@echo "WebRTC signaling server : $(PROG) $(VERSION)"
@@ -61,8 +61,7 @@ git g:
 
 git-update gu:
 	git add .gitignore *.md Makefile doc/ sample/ go.* *.go *.yaml certs/
-	#git remote remove go.mod sse.go
-	git commit -m "data structures are modified for client, room, hub"
+	git commit -m "event handling using SSE"
 	git push
 
 git-login gl:
@@ -72,7 +71,7 @@ git-login gl:
 	git config credential.helper store
 
 git-tag gt:
-	git tag v0.0.3
+	git tag $(VERSION)
 	git push --tags
 
 git-status gs:

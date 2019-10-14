@@ -14,8 +14,8 @@ func adminHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	var body string
 	if r.Method == "GET" {
 		code = http.StatusOK
-		body = strHub(hub)
-		listHub(hub)
+		body = getStringHub(hub)
+		listStringHub(hub)
 	} else {
 		body = http.StatusText((code))
 	}
@@ -23,7 +23,7 @@ func adminHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(body))
 }
 
-func listHub(hub *Hub) (str string) {
+func listStringHub(hub *Hub) (str string) {
 	for hk, hv := range hub.rooms {
 		for rk, rv := range hv.clients {
 			log.Printf("room=%s,%s client=%s,%t\n", hk, hv.roomId, rk.clientId, rv)
@@ -32,7 +32,7 @@ func listHub(hub *Hub) (str string) {
 	return
 }
 
-func strHub(hub *Hub) (str string) {
+func getStringHub(hub *Hub) (str string) {
 	str += fmt.Sprintf("hub=%s,%s\n", hub.uuid, hub.name)
 	for hk, hv := range hub.rooms {
 		for rk, rv := range hv.clients {

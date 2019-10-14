@@ -16,7 +16,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var AyameVersion = "19.03.1"
+var AyameVersion = "19.03.2"
 
 type AyameOptions struct {
 	LogDir         string `yaml:"log_dir"`
@@ -95,6 +95,10 @@ func setupServerAPI(hub *Hub) {
 	http.HandleFunc("/admin", func(w http.ResponseWriter, r *http.Request) {
 		// log.Printf("/admin")
 		adminHandler(hub, w, r)
+	})
+	http.HandleFunc("/event", func(w http.ResponseWriter, r *http.Request) {
+		// log.Printf("/admin")
+		eventHandler(hub, w, r)
 	})
 	// /ws endpoint is same with /signaling for compatibility
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
