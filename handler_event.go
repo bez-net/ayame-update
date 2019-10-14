@@ -45,7 +45,7 @@ func sendEventStream(hub *Hub, w http.ResponseWriter, r *http.Request, f http.Fl
 			return
 		}
 
-		fmt.Fprintf(w, "id:%2d\ndata:%s\n\n", i+1, string(jdata))
+		fmt.Fprintf(w, "event:notify\nretry:2\nid:%2d\ndata:%s\n\n", i+1, string(jdata))
 		f.Flush()
 		time.Sleep(1 * time.Second)
 	}
