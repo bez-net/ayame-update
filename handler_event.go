@@ -49,4 +49,5 @@ func sendEventStream(hub *Hub, w http.ResponseWriter, r *http.Request, f http.Fl
 		f.Flush()
 		time.Sleep(1 * time.Second)
 	}
+	log.Printf("closed")
 }
