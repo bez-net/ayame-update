@@ -11,7 +11,8 @@ import (
 
 // CAUTION: don't use small case in fields of structure
 type EventData struct {
-	UserId  string `json:"user_id,omitempty"`
+	UserId  string `json:"user_id"`
+	Status  string `json:"staus,omitempty"`
 	OccurAt string `json:"occur_at,omitempty"`
 }
 
@@ -28,21 +29,25 @@ func eventHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
 	switch op {
 	case "send":
-		fmt.Fprintf(w, "%s not implemented", op)
+		recvEventData(hub, w, r)
 	case "recv":
 		sendEventStream(hub, w, r)
 	default:
 		log.Printf("%s not supported", op)
 	}
-
 	log.Printf("event closed for %s", op)
+}
+
+func recvEventData(hub *Hub, w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "send not implemented")
+	log.Printf("send not implemented")
 }
 
 func sendEventStream(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	// check if SSE is supported
 	f, ok := w.(http.Flusher)
 	if !ok {
-		log.Printf("SSE Streaming unsuported")
+		log.Printf("SSE Streaming not suported")
 		return
 	}
 
@@ -54,6 +59,7 @@ func sendEventStream(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
 	emsg := EventMessage{Event: "notify", Id: "ayame", Retry: "2"}
 	emsg.Data.UserId = "sikang99@gmail.com"
+	emsg.Data.Status = "idle"
 	// fmt.Println(emsg)
 
 	for i := 0; i < 100; i++ {
@@ -70,7 +76,7 @@ func genStringEventMessage(emsg EventMessage) (str string) {
 	// jdata, err := json.MarshalIndent(edata, "", " ")
 	jdata, err := json.Marshal(emsg.Data)
 	if err != nil {
-		log.Printf("json error: ", err)
+		log.Printf("json.Marshal error: ", err)
 		return
 	}
 	str = fmt.Sprintf("event:%s\nretry:%s\nid:%s\ndata:%s\n\n", emsg.Event, emsg.Retry, emsg.Id, string(jdata))
