@@ -3,6 +3,7 @@
 
 
 ## History
+- 2019/10/13 add endpoints of `/admin` and `/event`
 - 2019/10/12 add local db handling (19.03.01)
 - 2019/10/12 add Common for structs such as client, room, hub
 - 2019/10/11 /admin endpoint added to check the server info
