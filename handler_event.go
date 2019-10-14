@@ -55,9 +55,9 @@ func sendEventStream(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/event-stream")
 	w.Header().Set("Cache-Control", "no-cache")
 	w.Header().Set("Connection", "keep-alive")
-	w.Header().Set("Access-Control-Allow-Origin", "*") // cojam.tv
+	w.Header().Set("Access-Control-Allow-Origin", "*") // cojam.tv after test
 
-	emsg := EventMessage{Event: "notify", Id: "ayame", Retry: "2"}
+	emsg := EventMessage{Event: "notify", Id: "ayame", Retry: "1000"}
 	emsg.Data.UserId = "sikang99@gmail.com"
 	emsg.Data.Status = "idle"
 	// fmt.Println(emsg)
