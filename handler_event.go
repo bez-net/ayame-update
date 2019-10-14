@@ -27,7 +27,7 @@ func eventHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/event-stream")
 	w.Header().Set("Cache-Control", "no-cache")
 	w.Header().Set("Connection", "keep-alive")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*") // cojam.tv
 
 	sendEventStream(hub, w, r, f)
 }
@@ -45,7 +45,7 @@ func sendEventStream(hub *Hub, w http.ResponseWriter, r *http.Request, f http.Fl
 			return
 		}
 
-		fmt.Fprintf(w, "[%2d] stream data %s\n", i+1, string(jdata))
+		fmt.Fprintf(w, "id:%2d\ndata:%s\n\n", i+1, string(jdata))
 		f.Flush()
 		time.Sleep(1 * time.Second)
 	}
