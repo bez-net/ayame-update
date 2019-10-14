@@ -1,8 +1,8 @@
-# WebRTC Signaling Server Ayame Update
+## WebRTC Signaling Server Ayame Update
     upgraded by Stoney Kang(CSO), sikang99@gmail.com in TeamGRIT
 
 
-## History
+### History
 - 2019/10/13 add endpoints of `/admin` and `/event`
 - 2019/10/12 add local db handling (19.03.01)
 - 2019/10/12 add Common for structs such as client, room, hub
@@ -19,5 +19,9 @@
 - 2019/07/07 forked from [OpenAyame/ayame](https://github.com/OpenAyame/ayame)
 
 
-## Information
+### Information
 - [hakobera/serverless-webrtc-signaling-server](https://github.com/hakobera/serverless-webrtc-signaling-server) - Serverless WebRTC Signaling Server only works for WebRTC P2P
+
+
+### Reference
+- [How to format current time using a yyyyMMddHHmmss format?](https://stackoverflow.com/questions/20234104/how-to-format-current-time-using-a-yyyymmddhhmmss-format)

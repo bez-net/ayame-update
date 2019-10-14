@@ -33,15 +33,18 @@ func eventHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
 func sendEventStream(hub *Hub, w http.ResponseWriter, r *http.Request, f http.Flusher) {
 	edata := Event{Kind: "event", OccurAt: "2019/10/14"}
-	fmt.Println(edata)
-	jdata, err := json.Marshal(edata)
-	// jdata, err := json.MarshalIndent(edata, "", "\t")
-	if err != nil {
-		log.Printf("json error", err)
-	}
-	fmt.Println(string(jdata))
+	// fmt.Println(edata)
 
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 100; i++ {
+		edata.OccurAt = time.Now().Format("2006/01/02 15:04:05")
+		jdata, err := json.Marshal(edata)
+		// jdata, err := json.MarshalIndent(edata, "", "\t")
+		if err != nil {
+			log.Printf("json error", err)
+			return
+		}
+		// fmt.Println(string(jdata))
+
 		fmt.Fprintf(w, "[%2d] stream data %s\n", i+1, string(jdata))
 		f.Flush()
 		time.Sleep(1 * time.Second)
