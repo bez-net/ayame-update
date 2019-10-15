@@ -51,24 +51,33 @@ func sendEventStream(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// flusher required headers for SSE streams
+	// Headers setting for SSE streaming
 	w.Header().Set("Content-Type", "text/event-stream")
 	w.Header().Set("Cache-Control", "no-cache")
 	w.Header().Set("Connection", "keep-alive")
 	w.Header().Set("Access-Control-Allow-Origin", "*") // cojam.tv after test
 
 	emsg := EventMessage{Event: "notify", Id: "ayame", Retry: "1000"}
-	emsg.Data.UserId = "sikang99@gmail.com"
-	emsg.Data.Status = "idle"
-	// fmt.Println(emsg)
+
+	switch emsg.Event {
+	case "notify":
+		emsg.Data.UserId = "sikang99@gmail.com"
+		emsg.Data.Status = "idle"
+		// fmt.Println(emsg)
+	default:
+		log.Printf("%s is unknown event", emsg.Event)
+	}
 
 	for i := 0; i < 100; i++ {
 		str := genStringEventMessage(emsg)
 		fmt.Fprintf(w, str)
 		f.Flush()
 		time.Sleep(1 * time.Second)
+		if i > 2 {
+			return
+		}
 	}
-	log.Printf("event stream closed")
+	log.Printf("event streaming closed")
 }
 
 func genStringEventMessage(emsg EventMessage) (str string) {
