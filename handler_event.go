@@ -33,6 +33,7 @@ func eventHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	case "recv":
 		sendEventStream(hub, w, r)
 	default:
+		fmt.Fprintf(w, "[send|recv] should be used")
 		log.Printf("%s not supported", op)
 	}
 	log.Printf("event closed for %s", op)
