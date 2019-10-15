@@ -9,6 +9,13 @@ import (
 
 func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	log.Printf(r.URL.Path)
+	// send a response as a upload page
+	page, err := ioutil.ReadFile("./static/upload.html")
+	if err != nil {
+		log.Printf("ReadFile error: %s", err)
+		return
+	}
+	fmt.Fprintf(w, string(page))
 	// Parse our multipart form, 10 << 20 specifies a maximum upload of 10 MB files.
 	r.ParseMultipartForm(10 << 20)
 	// FormFile returns the first file for the given key `myFile`
@@ -42,5 +49,5 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	// write this byte array to our temporary file
 	tempFile.Write(fileBytes)
 	// return that we have successfully uploaded our file!
-	fmt.Fprintf(w, "Successfully Uploaded File\n")
+	fmt.Fprintf(w, "Successfully uploaded file\n")
 }
