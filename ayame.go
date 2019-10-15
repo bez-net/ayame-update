@@ -16,7 +16,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var AyameVersion = "19.03.8"
+var AyameVersion = "19.04.0"
 
 type AyameOptions struct {
 	LogDir         string `yaml:"log_dir"`
@@ -82,7 +82,9 @@ func main() {
 	// start servers for protocols supported
 	go runSocketioServer(hub) // support ws and wss at the same time
 	go runPlainServer(urlPlain)
-	runSecureServer(urlSecure)
+	go runSecureServer(urlSecure)
+
+	runSelfChecker()
 }
 
 // Setting API endpoints for signalling
@@ -142,4 +144,11 @@ func runSocketioServer(hub *Hub) {
 	gosf.Listen("message", handleSignalMessage)
 	gosf.Startup(map[string]interface{}{"port": 9999})
 	log.Printf("socket.io closed")
+}
+
+func runSelfChecker() {
+	for {
+		log.Printf("the service is alive")
+		time.Sleep(60 * time.Minute)
+	}
 }
