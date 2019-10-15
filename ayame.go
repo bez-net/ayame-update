@@ -103,7 +103,7 @@ func setupServerAPI(hub *Hub) {
 		adminHandler(hub, w, r)
 	})
 	http.HandleFunc("/event/", func(w http.ResponseWriter, r *http.Request) {
-		// log.Printf("/admin")
+		// log.Printf("/event")
 		eventHandler(hub, w, r)
 	})
 	// /ws endpoint is same with /signal for compatibility
