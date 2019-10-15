@@ -4,3 +4,4 @@ ayame
 *.log
 *.log.*
 bin/
+upload/
