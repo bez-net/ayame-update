@@ -61,7 +61,7 @@ git g:
 
 git-update gu:
 	git add .
-	git commit -m "event handling using SSE"
+	git commit -m "add upload and its page"
 	git push
 
 git-login gl:
