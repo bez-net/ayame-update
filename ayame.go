@@ -91,11 +91,10 @@ func main() {
 func setupServerAPI(hub *Hub) {
 	// web file server for working a sample page
 	http.HandleFunc("/static/", func(w http.ResponseWriter, r *http.Request) {
-		// http.ServeFile(w, r, "./static/"+r.URL.Path[1:])
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 	http.HandleFunc("/upload", func(w http.ResponseWriter, r *http.Request) {
-		// log.Printf("/signal")
+		// log.Printf("/upload")
 		uploadHandler(hub, w, r)
 	})
 	// /ws endpoint is same with /signaling for compatibility
@@ -148,7 +147,7 @@ func runSocketioServer(hub *Hub) {
 
 func runSelfChecker() {
 	for {
-		log.Printf("the service is alive")
+		log.Printf("the service is alive with 1hr interval checking")
 		time.Sleep(60 * time.Minute)
 	}
 }
