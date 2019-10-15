@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"path/filepath"
 )
 
 func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
@@ -27,7 +28,7 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("MIME Header: %+v\n", handler.Header)
 
 	// Create a temp file within our upload directory that follows a particular naming pattern
-	tempFile, err := ioutil.TempFile("upload", "cojam-")
+	tempFile, err := ioutil.TempFile("upload", "cojam-*"+filepath.Ext(handler.Filename))
 	if err != nil {
 		log.Printf("TempFile error: %s", err)
 		return
