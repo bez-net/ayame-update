@@ -10,6 +10,7 @@ import (
 
 func adminHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	log.Printf(r.URL.Path)
+
 	code := http.StatusBadRequest
 	var body string
 	if r.Method == "GET" {

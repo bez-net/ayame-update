@@ -74,9 +74,6 @@ func sendEventStream(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, str)
 		f.Flush()
 		time.Sleep(1 * time.Second)
-		if i > 2 {
-			return
-		}
 	}
 	log.Printf("event streaming closed")
 }
