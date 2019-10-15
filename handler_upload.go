@@ -9,13 +9,7 @@ import (
 
 func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	log.Printf(r.URL.Path)
-	// send a response as a upload page
-	page, err := ioutil.ReadFile("./static/upload.html")
-	if err != nil {
-		log.Printf("ReadFile error: %s", err)
-		return
-	}
-	fmt.Fprintf(w, string(page))
+
 	// Parse our multipart form, 10 << 20 specifies a maximum upload of 10 MB files.
 	r.ParseMultipartForm(10 << 20)
 	// FormFile returns the first file for the given key `myFile`
@@ -33,7 +27,7 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("MIME Header: %+v\n", handler.Header)
 
 	// Create a temp file within our upload directory that follows a particular naming pattern
-	tempFile, err := ioutil.TempFile("upload", "upload-*.png")
+	tempFile, err := ioutil.TempFile("upload", "cojam-")
 	if err != nil {
 		log.Printf("TempFile error: %s", err)
 		return
@@ -50,4 +44,15 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	tempFile.Write(fileBytes)
 	// return that we have successfully uploaded our file!
 	fmt.Fprintf(w, "Successfully uploaded file\n")
+}
+
+// Send a web page to the http client
+func sendFilePage(w http.ResponseWriter, filename string) (err error) {
+	page, err := ioutil.ReadFile(filename)
+	if err != nil {
+		log.Printf("ReadFile(%s) error: %s", filename, err)
+		return
+	}
+	fmt.Fprintf(w, string(page))
+	return
 }
