@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// CAUTION: don't use small case in fields of structure
+// CAUTION: don't use small case in fields of structure in json handling
 type EventData struct {
 	UserId  string `json:"user_id"`
 	Status  string `json:"staus,omitempty"`
