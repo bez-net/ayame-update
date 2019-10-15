@@ -55,6 +55,9 @@ func init() {
 }
 
 func main() {
+	stackInfo := getStringPanicStack()
+	log.Printf(stackInfo)
+
 	flag.Parse()
 	args := flag.Args()
 	// argument processing
@@ -80,9 +83,9 @@ func main() {
 	setupServerAPI(hub)
 
 	// start servers for protocols supported
-	go runSocketioServer(hub) // support ws and wss at the same time
 	go runPlainServer(urlPlain)
 	go runSecureServer(urlSecure)
+	go runSocketioServer(hub) // support ws and wss at the same time
 
 	runSelfChecker()
 }
@@ -119,7 +122,6 @@ func setupServerAPI(hub *Hub) {
 
 // Plain server supporint http and ws
 func runPlainServer(url string) {
-	// timeout is 10 sec
 	timeout := 10 * time.Second
 	server := &http.Server{Addr: url, Handler: nil, ReadHeaderTimeout: timeout}
 	err := server.ListenAndServe()
