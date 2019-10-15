@@ -8,8 +8,8 @@
 - 2019/10/13 add endpoints of `/admin` and `/event`
 - 2019/10/12 add local db handling (19.03.01)
 - 2019/10/12 add Common for structs such as client, room, hub
-- 2019/10/11 /admin endpoint added to check the server info
-- 2019/10/10 not use logrus because of readability
+- 2019/10/11 `/admin` endpoint added to check the server info
+- 2019/10/10 not use logrus because of readability, some day later return to use
 - 2019/10/10 add `MaxSessions` in the server configuration
 - 2019/10/10 removed `ws_handler.go`
 - 2019/10/09 update to support plain(3000) and secure(3443) server at the same time
