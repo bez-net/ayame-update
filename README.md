@@ -4,6 +4,7 @@
 
 ### History
 - 2019/10/15 add `/upload` to support file upload
+    - move `/sample` into `/static` as an endpoint for file server
 - 2019/10/14 rename `/signaling` into `/signal`
     - handle SSE events
 - 2019/10/13 add endpoints of `/admin` and `/event`

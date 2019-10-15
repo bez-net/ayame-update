@@ -60,7 +60,7 @@ git g:
 	@echo "> make (git) [update|login|tag|status]"
 
 git-update gu:
-	git add .gitignore *.md Makefile doc/ sample/ go.* *.go *.yaml certs/
+	git add .
 	git commit -m "event handling using SSE"
 	git push
 
