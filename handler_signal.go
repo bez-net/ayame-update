@@ -162,7 +162,7 @@ func (c *Client) broadcast(ctx context.Context) {
 	}
 }
 
-func signalingHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
+func signalHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)

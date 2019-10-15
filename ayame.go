@@ -79,8 +79,8 @@ func main() {
 
 	setupServerAPI(hub)
 
-	// start servers for protocols
-	go runSocketioServer(hub)
+	// start servers for protocols supported
+	go runSocketioServer(hub) // support ws and wss at the same time
 	go runPlainServer(urlPlain)
 	runSecureServer(urlSecure)
 }
@@ -91,6 +91,10 @@ func setupServerAPI(hub *Hub) {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./sample/"+r.URL.Path[1:])
 	})
+	http.HandleFunc("/upload", func(w http.ResponseWriter, r *http.Request) {
+		// log.Printf("/signal")
+		uploadHandler(hub, w, r)
+	})
 	// /ws endpoint is same with /signaling for compatibility
 	http.HandleFunc("/admin", func(w http.ResponseWriter, r *http.Request) {
 		// log.Printf("/admin")
@@ -100,14 +104,14 @@ func setupServerAPI(hub *Hub) {
 		// log.Printf("/admin")
 		eventHandler(hub, w, r)
 	})
-	// /ws endpoint is same with /signaling for compatibility
+	// /ws endpoint is same with /signal for compatibility
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		// log.Printf("/ws")
-		signalingHandler(hub, w, r)
+		signalHandler(hub, w, r)
 	})
 	http.HandleFunc("/signal", func(w http.ResponseWriter, r *http.Request) {
-		// log.Printf("/signaling")
-		signalingHandler(hub, w, r)
+		// log.Printf("/signal")
+		signalHandler(hub, w, r)
 	})
 }
 
