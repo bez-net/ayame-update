@@ -40,8 +40,14 @@ func eventHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 }
 
 func recvEventData(hub *Hub, w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "send not implemented")
-	log.Printf("send not implemented")
+	name := r.URL.Query().Get("name")
+	if name != "" {
+		log.Printf("%s user", name)
+		fmt.Fprintf(w, "%s is logged", name)
+	} else {
+		fmt.Fprintf(w, "send not implemented")
+		log.Printf("send not implemented")
+	}
 }
 
 func sendEventStream(hub *Hub, w http.ResponseWriter, r *http.Request) {
