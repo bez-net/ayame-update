@@ -2,6 +2,13 @@
     upgraded by Stoney Kang(CSO), sikang99@gmail.com in TeamGRIT
 
 
+### API endpoints
+- `/signal` : webrtc signaling
+- `/admin` : status monitoring
+- `/event` : push event
+- `/upload` : file upload for sharing
+
+
 ### History
 - 2019/10/15 add `/upload` to support file upload
     - move `/sample` into `/static` as an endpoint for file server
