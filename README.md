@@ -9,7 +9,7 @@ $ make run # or ./ayame
 ```
 2. connect to server to get web page on your browser
 ```
-$ open http://localhost/static # xdg-open in Linux, open in MacOS
+$ open http://localhost/static # use xdg-open in Linux instead of open of MacOS
 ```
 
 
