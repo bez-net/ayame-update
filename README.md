@@ -48,6 +48,7 @@ $ open http://localhost/static # use xdg-open in Linux instead of open of MacOS
 
 ### Information
 - [hakobera/serverless-webrtc-signaling-server](https://github.com/hakobera/serverless-webrtc-signaling-server) - Serverless WebRTC Signaling Server only works for WebRTC P2P
+- [FiloSottile/mkcert](https://github.com/FiloSottile/mkcert) - A simple zero-config tool to make locally trusted development certificates with any names you'd like. https://mkcert.dev
 
 
 ### Reference
