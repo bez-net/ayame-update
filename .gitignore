@@ -1,3 +1,4 @@
+.circleci/
 # ayame binary
 ayame
 # log file
