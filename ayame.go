@@ -16,7 +16,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var AyameVersion = "19.04.1"
+var AyameVersion = "19.04.02"
 
 type AyameOptions struct {
 	LogDir         string `yaml:"log_dir"`
@@ -70,7 +70,6 @@ func main() {
 	// NOTICE: I will not use logrus for readability
 	// logger = setupLogger()
 
-	panic("slack")
 	// CAUTION: don't use localhost in url
 	urlPlain := fmt.Sprintf(":%d", Options.PortPlain)
 	urlSecure := fmt.Sprintf(":%d", Options.PortSecure)
