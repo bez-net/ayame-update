@@ -6,7 +6,7 @@
 - `/static` : file server for web pages
 - `/signal` : webrtc signaling
 - `/admin` : status monitoring
-- `/event` : push event with sub points of `/send|/recv`
+- `/event` : handle push/pull event with sub points of `/event/send|/event/recv`
 - `/upload` : file upload for sharing
 
 
