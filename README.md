@@ -11,6 +11,9 @@
 
 
 ### History
+- 2019/10/16
+    - remove .circleci directory because of no more use
+    - add functions to send panic stack message to slack
 - 2019/10/15 add `/upload` to support file upload
     - move `/sample` into `/static` as an endpoint for file server
     - add self health checker for running
