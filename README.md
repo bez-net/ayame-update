@@ -3,6 +3,7 @@
 
 
 ### API endpoints
+- `/static` : file server for web pages
 - `/signal` : webrtc signaling
 - `/admin` : status monitoring
 - `/event` : push event
