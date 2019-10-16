@@ -60,7 +60,7 @@ git g:
 
 git-update gu:
 	git add .
-	git commit -m "panic stack to slack"
+	git commit -m "write the usage"
 	git push
 
 git-login gl:

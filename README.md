@@ -1,6 +1,17 @@
 ## WebRTC Signaling Server Ayame Update
     upgraded by Stoney Kang(CSO), sikang99@gmail.com in TeamGRIT
 
+### Usage
+1. build the server and run
+```
+$ make build
+$ make run
+```
+2. connect to server to get web page
+```
+$ open http://localhost/static # xdg-open in Linux, open in MacOS
+```
+
 
 ### API endpoints
 - `/static` : file server for web pages
