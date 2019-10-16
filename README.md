@@ -2,12 +2,12 @@
     upgraded by Stoney Kang(CSO), sikang99@gmail.com in TeamGRIT
 
 ### Usage
-1. build the server and run
+1. build the server and run it
 ```
 $ make build
-$ make run
+$ make run # or ./ayame
 ```
-2. connect to server to get web page
+2. connect to server to get web page on your browser
 ```
 $ open http://localhost/static # xdg-open in Linux, open in MacOS
 ```
