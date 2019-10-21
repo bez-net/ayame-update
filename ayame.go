@@ -93,12 +93,12 @@ func main() {
 // Setting API endpoints for signalling
 func setupServerAPI(hub *Hub) {
 	// web file server for working a sample page
-	// http.HandleFunc("/asset/", func(w http.ResponseWriter, r *http.Request) {
+	// http.HandleFunc("/asset", func(w http.ResponseWriter, r *http.Request) {
 	// 	http.ServeFile(w, r, r.URL.Path[1:])
 	// })
+	//http.Handle("/", http.FileServer(http.Dir("asset")))	// the simplest use
 	fs := http.FileServer(http.Dir("asset"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
-	//http.Handle("/", http.FileServer(http.Dir("asset")))	// the most simple use
 
 	// Belows are API endpoints
 	http.HandleFunc("/upload", func(w http.ResponseWriter, r *http.Request) {
