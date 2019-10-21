@@ -155,6 +155,6 @@ func runSocketioServer(hub *Hub) {
 func runSelfChecker() {
 	for {
 		log.Printf("the service is alive with 1hr interval checking")
-		time.Sleep(60 * time.Minute)
+		time.Sleep(10 * time.Minute)
 	}
 }

@@ -1,4 +1,7 @@
 <html>
+<body>
+<div id="messages"></div>    
+</body>
 
 <script>
 window.onload = function() {
@@ -7,6 +10,7 @@ window.onload = function() {
     var currentmsg = "";
     source.addEventListener('notify', function(event) {
         console.log(event)
+        document.getElementById('messages').innerHTML += event.data + '<br>';
     })
     // Below is not valid
     // source.onnotify = function() { 
