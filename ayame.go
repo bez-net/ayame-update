@@ -1,5 +1,5 @@
 /*
-	main function of ayame server package
+	main function of ayame signaling server package
 */
 package main
 
