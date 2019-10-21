@@ -60,7 +60,7 @@ git g:
 
 git-update gu:
 	git add .
-	git commit -m "write the usage"
+	git commit -m "start redis support"
 	git push
 
 git-login gl:
