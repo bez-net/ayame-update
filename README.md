@@ -22,6 +22,8 @@ $ open http://localhost/static # use xdg-open in Linux instead of open of MacOS
 
 
 ### History
+- 2019/10/21
+    - change `http.HandleFunc` into `http.Handle` for http file server
 - 2019/10/16
     - remove .circleci directory because of no more use
     - add functions to send panic stack message to slack

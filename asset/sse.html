@@ -1,0 +1,26 @@
+<html>
+
+<script>
+window.onload = function() {
+    var source = new EventSource("http://localhost:3000/event/recv")
+    var logg = "";
+    var currentmsg = "";
+    source.addEventListener('notify', function(event) {
+        console.log(event)
+    })
+    // Below is not valid
+    // source.onnotify = function() { 
+    //     console.log(event.data)
+    // }
+    // If event field is not assigned
+    source.onmessage = function (event){
+        var dashboard = event.data;
+        console.log(event.data)
+    }
+    source.onerror = function(event) {
+        console.log("SSE onerror " + event)
+    }
+}
+</script>
+
+</html>

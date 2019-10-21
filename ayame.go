@@ -16,7 +16,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var AyameVersion = "19.04.02"
+var AyameVersion = "19.04.03"
 
 type AyameOptions struct {
 	LogDir         string `yaml:"log_dir"`
@@ -29,6 +29,7 @@ type AyameOptions struct {
 	AuthWebhookURL string `yaml:"auth_webhook_url"`
 	AllowOrigin    string `yaml:"allow_origin"`
 	MaxSessions    int    `yaml:"max_sessions"`
+	FileDir        string
 }
 
 var (
@@ -92,9 +93,14 @@ func main() {
 // Setting API endpoints for signalling
 func setupServerAPI(hub *Hub) {
 	// web file server for working a sample page
-	http.HandleFunc("/static/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, r.URL.Path[1:])
-	})
+	// http.HandleFunc("/asset/", func(w http.ResponseWriter, r *http.Request) {
+	// 	http.ServeFile(w, r, r.URL.Path[1:])
+	// })
+	fs := http.FileServer(http.Dir("asset"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	//http.Handle("/", http.FileServer(http.Dir("asset")))	// the most simple use
+
+	// Belows are API endpoints
 	http.HandleFunc("/upload", func(w http.ResponseWriter, r *http.Request) {
 		// log.Printf("/upload")
 		uploadHandler(hub, w, r)

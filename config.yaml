@@ -5,6 +5,7 @@ addr: localhost
 port_plain: 3000
 port_secure: 3443
 max_sessions: 3
+file_dir: ./static
 
 # - Set flag for ping-pong in json format 
 # over_ws_ping_pong: true
