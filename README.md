@@ -60,3 +60,6 @@ $ open http://localhost/static # use xdg-open in Linux instead of open of MacOS
 - [Uploading Files in Go - Tutorial](https://tutorialedge.net/golang/go-file-upload-tutorial/)
 - [Basic Redis Examples with Go](https://medium.com/@gilcrest_65433/basic-redis-examples-with-go-a3348a12878e)
     - [go-redis](https://github.com/go-redis/redis):7.1k vs [redigo](https://github.com/gomodule/redigo):6.6k
+    - [gilcrest/redigo-example](https://github.com/gilcrest/redigo-example)
+
+    
