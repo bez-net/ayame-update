@@ -14,7 +14,7 @@ $ open http://localhost/static # use xdg-open in Linux instead of open of MacOS
 
 
 ### API endpoints
-- `/static` : file server for web pages
+- `/static` : file server for static web pages
 - `/signal` : webrtc signaling
 - `/admin` : status monitoring
 - `/event` : handle push/pull event with sub points of `/event/send|/event/recv`
@@ -62,4 +62,3 @@ $ open http://localhost/static # use xdg-open in Linux instead of open of MacOS
     - [go-redis](https://github.com/go-redis/redis):7.1k vs [redigo](https://github.com/gomodule/redigo):6.6k
     - [gilcrest/redigo-example](https://github.com/gilcrest/redigo-example)
 
-    
