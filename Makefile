@@ -35,7 +35,7 @@ log l:
 	tail -f $(PROG).log
 # ----------------------------------------------------------------------------------------
 PROG_IMAGE=agilertc/$(PROG):$(VERSION)
-PROG_NAME=agilertc/$(PROG)
+PROG_NAME=$(PROG)
 docker d:
 	@echo "> make ([35mdocker[0m) [build|run|kill|ps] for [33m$(PROG_IMAGE)[0m"
 
