@@ -59,6 +59,18 @@ docker-ps dp:
 docker-up du:
 	@docker push $(PROG_IMAGE)
 # ----------------------------------------------------------------------------------------
+compose c:
+	@echo "> make ([35mcompose[0m) [up|down] for $(PROG)"
+
+compose-up cu:
+	@docker-compose up -d
+
+compose-down cd:
+	@docker-compose down
+
+compose-ps cp:
+	@docker-compose ps
+# ----------------------------------------------------------------------------------------
 ngrok n:
 	@echo "> make (ngrok) [install|run]"
 
