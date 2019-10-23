@@ -26,6 +26,7 @@ $ open http://localhost:3000/{static,admin,event,upload}
 - 2019/10/23 : 19.04.05
     - public test on admazon aws with 19.04.04
     - change `Dockerfile` to use multi-stage build to reduce docker image size
+    - divide `Message` into `SignalMessage` and `ChatMessage` for its purpose 
 - 2019/10/22 : 19.04.04
     - add `Dockerfile` to build its docker image, and upload it [dockerhub.com](https://cloud.docker.com/u/agilertc/repository/docker/agilertc/ayame)
     - add `docker-compose.yml` to run with redis in a group
