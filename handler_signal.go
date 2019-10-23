@@ -26,7 +26,7 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-type Message struct {
+type SignalMessage struct {
 	Type     string       `json:"type"`
 	RoomId   string       `json:"roomId"`
 	ClientId string       `json:"clientId"`
@@ -81,7 +81,7 @@ func (c *Client) listen(cancel context.CancelFunc) {
 			return
 		}
 
-		msg := &Message{}
+		msg := &SignalMessage{}
 		json.Unmarshal(message, &msg)
 		log.Printf("message=%s", message)
 
