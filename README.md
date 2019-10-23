@@ -22,8 +22,9 @@ $ open http://localhost/static # use xdg-open in Linux instead of open of MacOS
 
 
 ### History
-- 2019/10/22 : 19.04.04
+- 2019/10/22 : 19.04.04 - 0.5
     - add `Dockerfile` to build its docker image, and upload it dockerhub.com
+    - add `docker-compose.yml` to run with redis in a group
 - 2019/10/21
     - change `http.HandleFunc` into `http.Handle` for http file server using directory mapping
     - add `sse.html` to test SSE support of server
