@@ -18,7 +18,7 @@ COPY --from=builder /app/ayame /
 
 COPY config.yaml /
 COPY certs/* /certs/
-COPY assets/* /assets/
+COPY asset/* /asset/
 
 EXPOSE 3000 3443
 ENTRYPOINT ["/ayame"]

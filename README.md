@@ -19,6 +19,7 @@ $ open http://localhost/{static,admin,event,upload} # use xdg-open in Linux inst
 - `/admin` : status monitoring
 - `/event` : handle push/pull event with sub points of `/event/send|/event/recv`
 - `/upload` : file upload for sharing
+- `/chat` : WIP
 
 
 ### History
