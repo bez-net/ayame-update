@@ -2,11 +2,11 @@
 # Makefile for ayame, WebRTC signaling server
 #
 PROG=ayame
-VERSION=19.04.03
+VERSION=19.04.04
 # -----------------------------------------------------------------------------------------------------------------------
 usage:
 	@echo "WebRTC signaling server : $(PROG) $(VERSION)"
-	@echo "> make [build|run|kill|ngrok|git]"
+	@echo "> make [build|run|kill|docker|compose|ngrok|git]"
 # -----------------------------------------------------------------------------------------------------------------------
 build b: *.go
 	GO111MODULE=on go build -ldflags '-X main.AyameVersion=${VERSION}' -o $(PROG)
@@ -33,7 +33,29 @@ kill k:
 
 log l:
 	tail -f $(PROG).log
-# -----------------------------------------------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------------------
+PROG_IMAGE=artc-$(PROG):$(VERSION)
+PROG_NAME=$(PROG)
+docker d:
+	@echo "> make ([35mdocker[0m) [build|run|kill|ps] for [33m$(PROG_IMAGE)[0m"
+
+docker-build db: $(PROG).go Dockerfile
+	@-docker rmi $(PROG_IMAGE)
+	@-PROG=$(PROG) docker build -t $(PROG_IMAGE) .
+	@docker images $(PROG_IMAGE)
+
+docker-run dr:
+	@-docker run -d -p=6379:6379 --name=$(PROG_NAME) $(PROG_IMAGE)
+	@docker ps
+
+# docker rm -f $(PROG_NAME)
+docker-kill dk:
+	@-docker stop $(PROG_NAME) | xargs docker rm
+	@docker ps
+
+docker-ps dp:
+	@docker ps -f name=$(PROG_NAME)
+# ----------------------------------------------------------------------------------------
 ngrok n:
 	@echo "> make (ngrok) [install|run]"
 

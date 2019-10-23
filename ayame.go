@@ -16,7 +16,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var AyameVersion = "19.04.03"
+var AyameVersion = "19.04.04"
 
 type AyameOptions struct {
 	LogDir         string `yaml:"log_dir"`
@@ -154,7 +154,7 @@ func runSocketioServer(hub *Hub) {
 
 func runSelfChecker() {
 	for {
-		log.Printf("the service is alive with 1hr interval checking")
+		log.Printf("the service is alive with 10 min interval checking")
 		time.Sleep(10 * time.Minute)
 	}
 }
