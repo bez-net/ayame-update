@@ -15,7 +15,7 @@ $ open http://localhost:3000/{static,admin,event,upload}
 
 ### API endpoints
 - `/static` : file server for static web pages
-- `/signal` : webrtc signaling
+- `/signal` : webrtc signaling (websocket)
 - `/admin` : status monitoring
 - `/event` : handle push/pull event with sub points of `/event/send|/event/recv`
 - `/upload` : file upload for sharing
