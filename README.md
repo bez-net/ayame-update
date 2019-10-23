@@ -25,7 +25,7 @@ $ open http://localhost/static # use xdg-open in Linux instead of open of MacOS
 - 2019/10/23 
     - public test on admazon aws
 - 2019/10/22 : 19.04.04 - 0.5
-    - add `Dockerfile` to build its docker image, and upload it dockerhub.com
+    - add `Dockerfile` to build its docker image, and upload it [dockerhub.com](https://cloud.docker.com/u/agilertc/repository/docker/agilertc/ayame)
     - add `docker-compose.yml` to run with redis in a group
 - 2019/10/21
     - change `http.HandleFunc` into `http.Handle` for http file server using directory mapping

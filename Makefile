@@ -24,6 +24,7 @@ fmt:
 
 clean:
 	rm -rf $(PROG)
+	docker system prune
 
 run r:
 	./$(PROG)
