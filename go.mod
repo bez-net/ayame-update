@@ -7,6 +7,7 @@ require (
 	github.com/ambelovsky/gosf v0.0.0-20190513201932-b27ff78c55c3
 	github.com/ambelovsky/gosf-socketio v0.0.0-20190513184750-bff8eb021ed1 // indirect
 	github.com/docker/docker v1.13.1 // indirect
+	github.com/garyburd/redigo v1.6.0
 	github.com/google/uuid v1.1.1
 	github.com/gorilla/websocket v1.4.1
 	github.com/lestrrat-go/file-rotatelogs v2.2.0+incompatible
