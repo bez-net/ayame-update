@@ -34,8 +34,8 @@ kill k:
 log l:
 	tail -f $(PROG).log
 # ----------------------------------------------------------------------------------------
-PROG_IMAGE=artc-$(PROG):$(VERSION)
-PROG_NAME=$(PROG)
+PROG_IMAGE=agilertc/$(PROG):$(VERSION)
+PROG_NAME=agilertc/$(PROG)
 docker d:
 	@echo "> make ([35mdocker[0m) [build|run|kill|ps] for [33m$(PROG_IMAGE)[0m"
 
@@ -45,7 +45,7 @@ docker-build db: $(PROG).go Dockerfile
 	@docker images $(PROG_IMAGE)
 
 docker-run dr:
-	@-docker run -d -p=6379:6379 --name=$(PROG_NAME) $(PROG_IMAGE)
+	@-docker run -d -p=3000:3000 -p=3443:3443 --name=$(PROG_NAME) $(PROG_IMAGE)
 	@docker ps
 
 # docker rm -f $(PROG_NAME)
@@ -55,6 +55,9 @@ docker-kill dk:
 
 docker-ps dp:
 	@docker ps -f name=$(PROG_NAME)
+
+docker-up du:
+	@docker push $(PROG_IMAGE)
 # ----------------------------------------------------------------------------------------
 ngrok n:
 	@echo "> make (ngrok) [install|run]"

@@ -13,5 +13,5 @@ COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ayame
 
-EXPOSE 8080
+EXPOSE 3000 3443
 ENTRYPOINT ["/app/ayame"]
