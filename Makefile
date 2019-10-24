@@ -57,11 +57,14 @@ docker-kill dk:
 docker-ps dp:
 	@docker ps -f name=$(PROG_NAME)
 
+docker-log dl:
+	@docker logs -f $(PROG_NAME)
+
 docker-upload du:
 	@docker push $(PROG_IMAGE)
 
 docker-open do:
-	@open https://cloud.docker.com/u/agilertc/repository/docker/agilertc/ayame/tags
+	@open https://cloud.docker.com/u/agilertc/repository/docker/agilertc/ayame
 # ----------------------------------------------------------------------------------------
 compose c:
 	@echo "> make ([35mcompose[0m) [up|down] for $(PROG)"

@@ -43,7 +43,7 @@ func chatHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func handleChatMessages() {
+func procChatMessages() {
 	for {
 		// Grab the next message from the broadcast channel
 		msg := <-broadcast

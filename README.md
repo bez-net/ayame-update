@@ -73,3 +73,6 @@ $ open http://localhost:3000/{static,admin,event,upload}
     - [go-redis](https://github.com/go-redis/redis):7.1k vs [redigo](https://github.com/gomodule/redigo):6.6k
     - [gilcrest/redigo-example](https://github.com/gilcrest/redigo-example)
 
+
+### Tools
+- Chrome [Extenstions](https://chrome.google.com/webstore/category/extensions): [Simple WebSocket Client](https://chrome.google.com/webstore/detail/simple-websocket-client/pfdhoblngboilpfeibdedpjgfnlcodoo)
