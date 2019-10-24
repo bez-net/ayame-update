@@ -152,7 +152,9 @@ func runSocketioServer(hub *Hub) {
 }
 
 func runSelfChecker() {
+	// chatting daemon function
 	go procChatMessages()
+
 	// checking the status
 	for {
 		log.Printf("the service is alive with 10 min interval checking")

@@ -44,6 +44,7 @@ func chatHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// message delivery runs in background
 func procChatMessages() {
 	for {
 		// Grab the next message from the broadcast channel
