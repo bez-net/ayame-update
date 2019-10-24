@@ -24,7 +24,7 @@ clean:
 	docker system prune
 
 web w:
-	open http://localhost:3000/static/signal
+	open http://localhost:3000/static
 
 run r:
 	./$(PROG)
