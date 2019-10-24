@@ -19,7 +19,7 @@ $ open http://localhost:3000/{static,admin,event,upload}
 - `/admin` : status monitoring
 - `/event` : handle push/pull event with sub points of `/event/send|/event/recv`
 - `/upload` : file upload for sharing
-- `/chat` : WIP
+- `/chat` : simple chatting
 
 
 ### History

@@ -21,7 +21,7 @@ check:
 
 clean:
 	rm -rf $(PROG)
-	docker system prune
+	docker system prune --force
 
 web w:
 	open http://localhost:3000/static
