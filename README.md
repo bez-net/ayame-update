@@ -26,6 +26,7 @@ $ open http://localhost:3000/static
 - 2019/10/24 : 19.04.07
     - remove `/ws` endpoint for compatibility backup
     - add `/chat` endpoint for chatting function
+    - fix `docker-compose.yml` error of not assigned ports
 - 2019/10/23 : 19.04.05
     - public test on admazon aws with 19.04.04
     - change `Dockerfile` to use multi-stage build to reduce docker image size
