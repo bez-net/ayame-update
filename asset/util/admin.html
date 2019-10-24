@@ -10,11 +10,12 @@ div {
 </style>
 </head>
 <body>
-<h2>Server Admin</h2>
+<h2>Server Administration</h2>
 <div id="condition">
-Command: list<br>
-Room: <input type="text" id="input" value="agilertc">
-<button onclick="sendAdminRequest()">Send</button>
+Command: [list|add|delete|block]<br>
+Room: <input type="text" id="room" value="agilertc"><br>
+User: <input type="text" id="user" value="">
+<button onclick="sendAdminRequest()">Submit</button>
 </div>
 <div id="messages"></div>  
 </body> 
@@ -26,11 +27,12 @@ function reqListener() {
 }
 
 function sendAdminRequest() {
-  var room = document.getElementById("input").value;
+  var room = document.getElementById("room").value;
+  var user = document.getElementById("user").value;
 
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", reqListener);
-  oReq.open("GET", "/admin?cmd=list&room="+room);
+  oReq.open("GET", "/admin?cmd=list"+"&room="+room+"&user="+user);
   oReq.send();
 }
 </script>

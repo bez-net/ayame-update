@@ -9,7 +9,7 @@ import (
 )
 
 func adminHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
-	log.Printf("%s, %s", r.URL.Path, r.RemoteAddr)
+	log.Println(r.URL.Path, r.RemoteAddr)
 
 	code := http.StatusBadRequest
 	var body string
@@ -25,11 +25,14 @@ func adminHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 }
 
 func procAdminQuery(hub *Hub, r *http.Request) (str string) {
+	cmd := r.URL.Query().Get("cmd")
 	room := r.URL.Query().Get("room")
+	user := r.URL.Query().Get("user")
+	log.Println("cmd="+cmd, "room="+room, "user="+user)
+
 	if room == "" {
 		str = getStringHub(hub)
 	} else {
-		log.Printf("room=%s", room)
 		str = getStringHubByRoom(hub, room)
 	}
 	return
