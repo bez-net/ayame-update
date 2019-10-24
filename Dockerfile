@@ -1,6 +1,5 @@
 # build stage
 FROM golang:1.13.3-alpine as builder
-
 ENV GO111MODULE=on
 
 WORKDIR /app
@@ -17,8 +16,8 @@ FROM scratch
 COPY --from=builder /app/ayame /
 
 COPY config.yaml /
-COPY certs/* /certs/
-COPY asset/* /asset/
+COPY certs/ /certs/
+COPY asset/ /asset/
 
 EXPOSE 3000 3443
 ENTRYPOINT ["/ayame"]
