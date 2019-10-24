@@ -101,6 +101,10 @@ func setupServerAPI(hub *Hub) {
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
 	// Belows are API endpoints
+	http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
+		// log.Printf("/hello")
+		fmt.Fprintf(w, "{\"msg\":\"hello\"}")
+	})
 	http.HandleFunc("/upload", func(w http.ResponseWriter, r *http.Request) {
 		// log.Printf("/upload")
 		uploadHandler(hub, w, r)
