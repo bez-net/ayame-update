@@ -10,7 +10,7 @@ $ make run # or ./ayame
 2. connect to server to get web page on your browser
 ```
 # use xdg-open in Linux instead of open of MacOS
-$ open http://localhost:3000/{static,admin,event,upload} 
+$ open http://localhost:3000/static 
 ```
 
 ### API endpoints
