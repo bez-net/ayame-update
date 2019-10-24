@@ -61,7 +61,7 @@ docker-upload du:
 	@docker push $(PROG_IMAGE)
 
 docker-open do:
-	@open https://cloud.docker.com/u/agilertc/repository/docker/agilertc/ayame
+	@open https://cloud.docker.com/u/agilertc/repository/docker/agilertc/ayame/tags
 # ----------------------------------------------------------------------------------------
 compose c:
 	@echo "> make ([35mcompose[0m) [up|down] for $(PROG)"
