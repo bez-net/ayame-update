@@ -23,7 +23,7 @@ $ open http://localhost:3000/static
 
 
 ### History
-- 2019/10/24 : 19.04.07
+- 2019/10/24 : 19.04.08
     - remove `/ws` endpoint for compatibility backup
     - add `/chat` endpoint for chatting function
     - fix `docker-compose.yml` error of not assigned ports
