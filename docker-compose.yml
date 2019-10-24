@@ -2,7 +2,7 @@ version: "2.2"
 
 services:
   app:
-    image: agilertc/ayame:19.04.04
+    image: agilertc/ayame:${VERSION}
     build:
       context: .
       dockerfile: Dockerfile

@@ -70,7 +70,7 @@ compose c:
 	@echo "> make ([35mcompose[0m) [up|down] for $(PROG)"
 
 compose-up cu:
-	@docker-compose up -d
+	@ VERSION=$(VERSION) docker-compose up -d
 
 compose-down cd:
 	@docker-compose down
