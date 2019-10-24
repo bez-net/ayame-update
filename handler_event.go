@@ -24,7 +24,7 @@ type EventMessage struct {
 }
 
 func eventHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
-	log.Printf(r.URL.Path)
+	log.Printf("%s, %s", r.URL.Path, r.RemoteAddr)
 
 	op := strings.TrimPrefix(r.URL.Path, "/event/")
 	switch op {

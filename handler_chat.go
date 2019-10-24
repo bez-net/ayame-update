@@ -18,7 +18,7 @@ type ChatMessage struct {
 }
 
 func chatHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
-	log.Printf(r.URL.Path)
+	log.Printf("%s, %s", r.URL.Path, r.RemoteAddr)
 
 	// Upgrade initial GET request to a websocket
 	ws, err := upgrader.Upgrade(w, r, nil)

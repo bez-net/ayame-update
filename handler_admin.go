@@ -9,7 +9,7 @@ import (
 )
 
 func adminHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
-	log.Printf("%s %s", r.URL.Path, r.RemoteAddr)
+	log.Printf("%s, %s", r.URL.Path, r.RemoteAddr)
 
 	code := http.StatusBadRequest
 	var body string

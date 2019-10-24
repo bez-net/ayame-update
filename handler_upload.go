@@ -9,7 +9,7 @@ import (
 )
 
 func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
-	log.Printf(r.URL.Path)
+	log.Printf("%s, %s", r.URL.Path, r.RemoteAddr)
 
 	// Parse our multipart form, 10 << 20 specifies a maximum upload of 10 MB files.
 	r.ParseMultipartForm(10 << 20)
