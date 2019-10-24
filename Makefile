@@ -101,7 +101,7 @@ git g:
 
 git-update gu:
 	git add .
-	git commit -m "start redis support"
+	git commit -m "start chat support in $(VERSION)"
 	git push
 
 git-login gl:
