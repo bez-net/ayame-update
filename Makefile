@@ -2,7 +2,7 @@
 # Makefile for ayame, WebRTC signaling server
 #
 PROG=ayame
-VERSION=19.04.06
+VERSION=19.04.07
 # -----------------------------------------------------------------------------------------------------------------------
 usage:
 	@echo "WebRTC signaling server : $(PROG) $(VERSION)"
@@ -101,7 +101,7 @@ git g:
 
 git-update gu:
 	git add .
-	git commit -m "start chat support in $(VERSION)"
+	git commit -m "$(VERSION): start chat support"
 	git push
 
 git-login gl:
