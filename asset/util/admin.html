@@ -1,0 +1,20 @@
+<html>
+<head>
+
+</head>
+<body>
+    <div id="messages"></div>  
+</body> 
+
+<script>
+function reqListener () {
+  console.log(this.responseText);
+  document.getElementById('messages').innerHTML += this.responseText;
+}
+
+var oReq = new XMLHttpRequest();
+oReq.addEventListener("load", reqListener);
+oReq.open("GET", "/admin");
+oReq.send();
+</script>
+</html>
