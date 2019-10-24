@@ -15,15 +15,15 @@ $ open http://localhost:3000/static
 
 ### API endpoints
 - `/static` : file server for static web pages
-- `/signal` : webrtc signaling (websocket)
 - `/admin` : status monitoring
 - `/event` : handle push/pull event with sub points of `/event/send|/event/recv`
 - `/upload` : file upload for sharing
-- `/chat` : simple chatting in a room, i.e without room concept
+- `/signal` : webrtc signaling (websocket)
+- `/chat` : simple chatting in a room, i.e without room concept (websocket)
 
 
 ### History
-- 2019/10/24 : 19.04.06
+- 2019/10/24 : 19.04.07
     - remove `/ws` endpoint for compatibility backup
     - add `/chat` endpoint for chatting function
 - 2019/10/23 : 19.04.05
