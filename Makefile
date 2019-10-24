@@ -73,10 +73,10 @@ compose-up cu:
 	@VERSION=$(VERSION) docker-compose up -d
 
 compose-down cd:
-	@docker-compose down
+	@VERSION=$(VERSION) docker-compose down
 
 compose-ps cp:
-	@docker-compose ps
+	@VERSION=$(VERSION) docker-compose ps
 # ----------------------------------------------------------------------------------------
 ngrok n:
 	@echo "> make (ngrok) [install|run]"
