@@ -19,12 +19,12 @@ build-linux bl: *.go
 check:
 	GO111MODULE=on go test ./...
 
-fmt:
-	go fmt ./...
-
 clean:
 	rm -rf $(PROG)
 	docker system prune
+
+web w:
+	open http://localhost:3000/static/signal
 
 run r:
 	./$(PROG)

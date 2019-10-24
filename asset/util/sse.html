@@ -5,7 +5,7 @@
 
 <script>
 window.onload = function() {
-    var source = new EventSource("http://localhost:3000/event/recv")
+    var source = new EventSource("/event/recv")
     var logg = "";
     var currentmsg = "";
     source.addEventListener('notify', function(event) {
