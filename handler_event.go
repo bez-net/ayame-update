@@ -42,8 +42,8 @@ func eventHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 func recvEventData(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Query().Get("name")
 	if name != "" {
-		log.Printf("%s user", name)
 		fmt.Fprintf(w, "%s is logged", name)
+		log.Printf("%s user", name)
 	} else {
 		fmt.Fprintf(w, "send not implemented")
 		log.Printf("send not implemented")
