@@ -15,13 +15,24 @@ func adminHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	var body string
 	if r.Method == "GET" {
 		code = http.StatusOK
-		body = getStringHub(hub)
+		body = procAdminQuery(hub, r)
 		listStringHub(hub)
 	} else {
 		body = http.StatusText((code))
 	}
 	w.WriteHeader(code)
 	w.Write([]byte(body))
+}
+
+func procAdminQuery(hub *Hub, r *http.Request) (str string) {
+	room := r.URL.Query().Get("room")
+	if room == "" {
+		str = getStringHub(hub)
+	} else {
+		log.Printf("room=%s", room)
+		str = getStringHubByRoom(hub, room)
+	}
+	return
 }
 
 func listStringHub(hub *Hub) (str string) {
@@ -38,6 +49,18 @@ func getStringHub(hub *Hub) (str string) {
 	for hk, hv := range hub.rooms {
 		for rk, rv := range hv.clients {
 			str += fmt.Sprintf("ROOM=%s,%s CLIENT=%s,%t<br>", hk, hv.roomId, rk.clientId, rv)
+		}
+	}
+	return
+}
+
+func getStringHubByRoom(hub *Hub, room string) (str string) {
+	str += fmt.Sprintf("HUB=%s, %s<br>", hub.uuid, hub.name)
+	for hk, hv := range hub.rooms {
+		if hk == room {
+			for rk, rv := range hv.clients {
+				str += fmt.Sprintf("ROOM=%s,%s CLIENT=%s,%t<br>", hk, hv.roomId, rk.clientId, rv)
+			}
 		}
 	}
 	return

@@ -23,6 +23,8 @@ $ open http://localhost:3000/static
 
 
 ### History
+- 2019/10/25 : 19.04.09
+    - define admin APIs and write its page
 - 2019/10/24 : 19.04.08
     - remove `/ws` endpoint for compatibility backup
     - add `/chat` endpoint for chatting function

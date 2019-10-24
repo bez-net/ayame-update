@@ -1,20 +1,37 @@
 <html>
 <head>
-
+<style>
+body {
+  margin: 1rem;
+}
+div {
+  margin: 1rem;
+}
+</style>
 </head>
 <body>
-    <div id="messages"></div>  
+<h2>Server Admin</h2>
+<div id="condition">
+Command: list<br>
+Room: <input type="text" id="input" value="agilertc">
+<button onclick="sendAdminRequest()">Send</button>
+</div>
+<div id="messages"></div>  
 </body> 
 
 <script>
-function reqListener () {
+function reqListener() {
   console.log(this.responseText);
-  document.getElementById('messages').innerHTML += this.responseText;
+  document.getElementById('messages').innerHTML = this.responseText;
 }
 
-var oReq = new XMLHttpRequest();
-oReq.addEventListener("load", reqListener);
-oReq.open("GET", "/admin");
-oReq.send();
+function sendAdminRequest() {
+  var room = document.getElementById("input").value;
+
+  var oReq = new XMLHttpRequest();
+  oReq.addEventListener("load", reqListener);
+  oReq.open("GET", "/admin?cmd=list&room="+room);
+  oReq.send();
+}
 </script>
 </html>
