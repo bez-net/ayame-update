@@ -13,11 +13,15 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ayame
 
 # final stage
 FROM scratch
-COPY --from=builder /app/ayame /
 
-COPY config.yaml /
-COPY certs/ /certs/
-COPY asset/ /asset/
+WORKDIR /
+
+COPY --from=builder /app/ayame .
+
+COPY config.yaml .
+COPY certs/ ./certs/
+COPY asset/ ./asset/
+COPY upload/ ./upload/
 
 EXPOSE 3000 3443
 ENTRYPOINT ["/ayame"]
