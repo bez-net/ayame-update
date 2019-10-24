@@ -7,6 +7,8 @@ port_secure: 3443
 max_sessions: 3
 file_dir: asset
 check_period: 10
+send_timout: 10
+recv_timeout: 10
 
 # - Set flag for ping-pong in json format 
 # over_ws_ping_pong: true

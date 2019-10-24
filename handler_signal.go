@@ -163,6 +163,8 @@ func (c *Client) broadcast(ctx context.Context) {
 }
 
 func signalHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
+	log.Printf(r.URL.Path)
+
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)

@@ -85,7 +85,22 @@ function onChangeRoomId() {
 // local stream を video element set
 async function startVideo() {
   disconnectButton.disabled = true;
-  localStream = await navigator.mediaDevices.getUserMedia({audio: true, video: true});
+
+  var noiseConstraints = {
+    video: true,
+    audio: {
+      optional: [
+        {echoCancellation: true},
+        {mozAutoGainControl: true},
+        {mozNoiseSuppression: true},
+        {googEchoCancellation: true},
+        {googAutoGainControl: true},
+        {googNoiseSuppression: true},
+        {googHighpassFilter: true}
+      ]
+    }
+  };
+  localStream = await navigator.mediaDevices.getUserMedia(noiseConstraints);
   playVideo(localVideo, localStream);
 }
 

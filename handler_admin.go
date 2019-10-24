@@ -9,7 +9,7 @@ import (
 )
 
 func adminHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
-	log.Printf(r.URL.Path)
+	log.Printf("%s %s", r.URL.Path, r.RemoteAddr)
 
 	code := http.StatusBadRequest
 	var body string
@@ -34,10 +34,10 @@ func listStringHub(hub *Hub) (str string) {
 }
 
 func getStringHub(hub *Hub) (str string) {
-	str += fmt.Sprintf("hub=%s,%s\n", hub.uuid, hub.name)
+	str += fmt.Sprintf("HUB=%s, %s<br>", hub.uuid, hub.name)
 	for hk, hv := range hub.rooms {
 		for rk, rv := range hv.clients {
-			str += fmt.Sprintf("room=%s,%s client=%s,%t\n", hk, hv.roomId, rk.clientId, rv)
+			str += fmt.Sprintf("ROOM=%s,%s CLIENT=%s,%t<br>", hk, hv.roomId, rk.clientId, rv)
 		}
 	}
 	return
