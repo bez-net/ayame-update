@@ -14,7 +14,7 @@ var broadcast = make(chan ChatMessage)       // broadcast channel
 type ChatMessage struct {
 	Email    string `json:"email"`
 	Username string `json:"username"`
-	Message  string `json:"message"`
+	Content  string `json:"content"`
 }
 
 func chatHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
@@ -28,6 +28,7 @@ func chatHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
 	// Register our new client
 	clients[ws] = true
+	log.Printf("chat: connected")
 
 	for {
 		var msg ChatMessage

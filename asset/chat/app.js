@@ -19,7 +19,7 @@ new Vue({
                     + '<img src="' + self.gravatarURL(msg.email) + '">' // Avatar
                     + msg.username
                 + '</div>'
-                + emojione.toImage(msg.message) + '<br/>'; // Parse emojis
+                + emojione.toImage(msg.content) + '<br/>'; // Parse emojis
 
             var element = document.getElementById('chat-messages');
             element.scrollTop = element.scrollHeight; // Auto scroll to the bottom
@@ -33,7 +33,7 @@ new Vue({
                     JSON.stringify({
                         email: this.email,
                         username: this.username,
-                        message: $('<p>').html(this.newMsg).text() // Strip out html
+                        content: $('<p>').html(this.newMsg).text() // Strip out html
                     }
                 ));
                 this.newMsg = ''; // Reset newMsg

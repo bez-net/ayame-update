@@ -40,7 +40,7 @@ PROG_NAME=$(PROG)
 docker d:
 	@echo "> make ([35mdocker[0m) [build|run|kill|ps] for [33m$(PROG_IMAGE)[0m"
 
-docker-build db: $(PROG).go Dockerfile
+docker-build db: *.go Dockerfile
 	@-docker rmi $(PROG_IMAGE)
 	@-PROG=$(PROG) docker build -t $(PROG_IMAGE) .
 	@docker images $(PROG_IMAGE)
@@ -70,7 +70,7 @@ compose c:
 	@echo "> make ([35mcompose[0m) [up|down] for $(PROG)"
 
 compose-up cu:
-	@ VERSION=$(VERSION) docker-compose up -d
+	@VERSION=$(VERSION) docker-compose up -d
 
 compose-down cd:
 	@docker-compose down

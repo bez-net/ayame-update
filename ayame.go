@@ -118,11 +118,6 @@ func setupServerAPI(hub *Hub) {
 		// log.Printf("/chat")
 		chatHandler(hub, w, r)
 	})
-	// /ws endpoint is same with /signal for compatibility
-	// http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
-	// 	// log.Printf("/ws")
-	// 	signalHandler(hub, w, r)
-	// })
 	http.HandleFunc("/signal", func(w http.ResponseWriter, r *http.Request) {
 		// log.Printf("/signal")
 		signalHandler(hub, w, r)
