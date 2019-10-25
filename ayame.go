@@ -74,10 +74,10 @@ func main() {
 	// CAUTION: don't use localhost in url
 	urlPlain := fmt.Sprintf(":%d", Options.PortPlain)
 	urlSecure := fmt.Sprintf(":%d", Options.PortSecure)
-	log.Printf("WebRTC Signaling Server Ayame, version=%s", AyameVersion)
+	log.Printf("WebRTC Signaling Server, Ayame v%s", AyameVersion)
 	log.Printf("running on http://<server>%s and https://<server>%s (Press Ctrl+C quit)", urlPlain, urlSecure)
 
-	hub := newHub("Ayame" + AyameVersion)
+	hub := newHub(fmt.Sprintf("Ayame v%s (%d)", AyameVersion, Options.MaxSessions))
 	go hub.run()
 
 	setupServerAPI(hub)

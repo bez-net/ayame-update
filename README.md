@@ -24,6 +24,8 @@ $ open http://localhost:3000/static
 
 ### History
 - 2019/10/26 : 19.04.10
+    - enhance some test pages
+    - set the default the number of sessions to 100
 - 2019/10/25 : 19.04.09
     - define admin APIs and write its page
 - 2019/10/24 : 19.04.08

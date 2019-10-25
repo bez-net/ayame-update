@@ -45,7 +45,7 @@ type User struct {
 	Common
 	nick string
 	mail string
-	snss map[string]string
+	SNSs map[string]string
 }
 type Group struct {
 	Common
