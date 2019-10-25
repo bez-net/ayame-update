@@ -7,14 +7,22 @@ body {
 div {
   margin: 1rem;
 }
+select, input, button {
+  margin-top: 5px;
+}
 </style>
 </head>
 <body>
 <h2>Server Administration</h2>
 <div id="condition">
-Command: [list|add|delete|block]<br>
+Command: <select id="cmd">
+  <option slected value="list">list</option>
+  <option value="add">add</option>
+  <option value="delete">delete</option>
+  <option value="block">block</option>
+</select><br>
 Room: <input type="text" id="room" value="agilertc"><br>
-User: <input type="text" id="user" value=""><br>
+User: <input type="text" id="user" value="stoney"><br>
 <button onclick="sendAdminRequest()">Submit</button>
 </div>
 <div id="messages"></div>  
@@ -27,12 +35,13 @@ function reqListener() {
 }
 
 function sendAdminRequest() {
+  var cmd = document.getElementById("cmd").value;
   var room = document.getElementById("room").value;
   var user = document.getElementById("user").value;
 
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", reqListener);
-  oReq.open("GET", "/admin?cmd=list"+"&room="+room+"&user="+user);
+  oReq.open("GET", "/admin?cmd="+cmd+"&room="+room+"&user="+user);
   oReq.send();
 }
 </script>
