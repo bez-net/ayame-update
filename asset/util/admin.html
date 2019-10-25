@@ -36,12 +36,19 @@ function reqListener() {
 
 function sendAdminRequest() {
   var cmd = document.getElementById("cmd").value;
+  var query = "/admin?cmd="+cmd
   var room = document.getElementById("room").value;
+  if (room != "") {
+    query += "&room="+room
+  }
   var user = document.getElementById("user").value;
+  if (user != "") {
+    query += "&user="+user
+  }
 
   var oReq = new XMLHttpRequest();
   oReq.addEventListener("load", reqListener);
-  oReq.open("GET", "/admin?cmd="+cmd+"&room="+room+"&user="+user);
+  oReq.open("GET", query);
   oReq.send();
 }
 </script>
