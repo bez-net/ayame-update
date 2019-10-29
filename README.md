@@ -39,7 +39,7 @@ $ open http://localhost:3000/static
     - change `Dockerfile` to use multi-stage build to reduce docker image size
     - divide `Message` into `SignalMessage` and `ChatMessage` for its purpose 
 - 2019/10/22 : 19.04.04
-    - add `Dockerfile` to build its docker image, and upload it [dockerhub.com](https://cloud.docker.com/u/agilertc/repository/docker/agilertc/ayame)
+    - add `Dockerfile` to build its docker image, and upload it to [dockerhub.com](https://cloud.docker.com/u/agilertc/repository/docker/agilertc/ayame)
     - add `docker-compose.yml` to run with redis in a group
 - 2019/10/21
     - change `http.HandleFunc` into `http.Handle` for http file server using directory mapping
