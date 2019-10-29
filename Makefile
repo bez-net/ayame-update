@@ -104,7 +104,7 @@ git g:
 
 git-update gu:
 	git add .
-	git commit -m "$(VERSION): write the admin part"
+	git commit -m "$(VERSION): period monitoring"
 	git push
 
 git-login gl:
