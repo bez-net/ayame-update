@@ -40,11 +40,11 @@ func DiskUsage(path string) (disk DiskStatus) {
 }
 
 func StringDiskUsage(disk DiskStatus) (report string) {
-	report = fmt.Sprintf("All: %.2f GB, ", float64(disk.All)/float64(GB))
-	report += fmt.Sprintf("Avail: %.2f GB, ", float64(disk.Avail)/float64(GB))
-	report += fmt.Sprintf("Used: %.2f GB, ", float64(disk.Used)/float64(GB))
-	report += fmt.Sprintf("Free: %.2f GB, ", float64(disk.Free)/float64(GB))
-	report += fmt.Sprintf("Spare ratio: %.2f %%", (float64(disk.Avail)/float64(disk.All))*100)
+	report = fmt.Sprintf("All=%.1fGB ", float64(disk.All)/float64(GB))
+	report += fmt.Sprintf("Avail=%.1fGB ", float64(disk.Avail)/float64(GB))
+	report += fmt.Sprintf("Used=%.1fGB ", float64(disk.Used)/float64(GB))
+	report += fmt.Sprintf("Free=%.1fGB ", float64(disk.Free)/float64(GB))
+	report += fmt.Sprintf("Spare=%.1f%%", (float64(disk.Avail)/float64(disk.All))*100)
 	return
 }
 
@@ -74,22 +74,3 @@ type CheckConfig struct {
 	period int     `json:"period"`
 	loop   bool    `json:"loop"`
 }
-
-// -----------------------------------------------------------------------------------------
-// func main() {
-// 	var check CheckConfig
-
-// 	disk := DiskUsage("/")
-// 	summary := StringDiskUsage(disk)
-// 	log.Println(summary)
-// 	err := SendSlackNotification(cobot_ops, summary)
-// 	if err != nil {
-// 		log.Println(err)
-// 	}
-
-// 	for conf.loop {
-// 		disk = DiskUsage("/")
-// 		CheckDiskWarning(disk, conf.level)
-// 		time.Sleep(time.Duration(conf.period) * time.Minute)
-// 	}
-// }

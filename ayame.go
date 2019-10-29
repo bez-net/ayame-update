@@ -166,7 +166,7 @@ func runSelfChecker() {
 
 	// checking the status
 	for {
-		log.Printf("the service is alive with %d min interval checking", check.period)
+		log.Printf("The service is now alive with %d min interval checking", check.period)
 		time.Sleep(10 * time.Minute)
 		disk := DiskUsage("/")
 		CheckDiskWarning(disk, check.level)
