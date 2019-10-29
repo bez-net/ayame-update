@@ -23,6 +23,8 @@ $ open http://localhost:3000/static
 
 
 ### History
+- 2019/10/29 : 19.04.12
+    - add disk space monitoring
 - 2019/10/26 : 19.04.10
     - enhance some test pages
     - set the default the number of sessions to 100

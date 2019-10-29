@@ -16,7 +16,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var AyameVersion = "19.04.11"
+var AyameVersion = "19.04.12"
 
 type AyameOptions struct {
 	LogDir         string `yaml:"log_dir"`
@@ -159,9 +159,17 @@ func runSelfChecker() {
 	// chatting daemon function
 	go procChatMessages()
 
+	check := CheckConfig{level: 10.0, period: 10}
+	disk := DiskUsage("/")
+	summary := StringDiskUsage(disk)
+	log.Println(summary)
+
 	// checking the status
 	for {
-		log.Printf("the service is alive with 10 min interval checking")
+		log.Printf("the service is alive with %d min interval checking", check.period)
 		time.Sleep(10 * time.Minute)
+		disk := DiskUsage("/")
+		CheckDiskWarning(disk, check.level)
+		time.Sleep(time.Duration(check.period) * time.Minute)
 	}
 }

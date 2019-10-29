@@ -10,8 +10,6 @@ import (
 	"time"
 )
 
-const cobot_dbs = "https://hooks.slack.com/services/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"
-
 func getStringPanicStack() (str string) {
 	if r := recover(); r != nil {
 		str = string(debug.Stack())
