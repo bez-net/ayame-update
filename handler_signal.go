@@ -94,7 +94,7 @@ func (c *Client) listen(cancel context.CancelFunc) {
 			c.conn.SetReadDeadline(time.Now().Add(pongWait))
 		case "register":
 			if msg.ClientId == "" || msg.RoomId == "" {
-				log.Printf("register error: clientId=%s, roomId=%s", msg.ClientId, msg.RoomId)
+				log.Printf("%s error: clientId=%s, roomId=%s", msg.Type, msg.ClientId, msg.RoomId)
 				return
 			}
 			c.hub.register <- &RegisterInfo{
@@ -142,20 +142,23 @@ func (c *Client) broadcast(ctx context.Context) {
 			}
 			w, err := c.conn.NextWriter(websocket.TextMessage)
 			if err != nil {
+				log.Printf("%v", err)
 				return
 			}
 			w.Write(message)
 		case <-ticker.C:
 			c.conn.SetWriteDeadline(time.Now().Add(writeWait))
-			// if over_ws_ping_pong is set
+			// if over_ws_ping_pong option is set
 			if Options.OverWsPingPong {
 				log.Println("send ping over WS")
 				pingMsg := &PingMessage{Type: "ping"}
 				if err := c.SendJSON(pingMsg); err != nil {
+					log.Printf("%v", err)
 					return
 				}
 			} else {
 				if err := c.conn.WriteMessage(websocket.PingMessage, nil); err != nil {
+					log.Printf("%v", err)
 					return
 				}
 			}
@@ -165,7 +168,7 @@ func (c *Client) broadcast(ctx context.Context) {
 
 func signalHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s, %s", r.URL.Path, r.RemoteAddr)
-	defer log.Printf("signalHandler")
+	defer log.Printf("signalHandler exit")
 
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
