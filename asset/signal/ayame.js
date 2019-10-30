@@ -18,8 +18,8 @@
 
     return result.join('');
   }
-  /* @ignore */
 
+  /* @ignore */
   function traceLog(title, value) {
     let prefix = '';
 
@@ -35,7 +35,7 @@
   }
   function getVideoCodecsFromString(codec, codecs) {
     if (browser() !== 'chrome') {
-      throw new Error('codec 指定は chrome canary でのみ利用できます');
+      throw new Error('codec selection is maybe possible in chrome canary');
     }
 
     let mimeType = '';
@@ -60,7 +60,7 @@
   }
   function getAudioCodecsFromString(codec, codecs) {
     if (browser() !== 'chrome') {
-      throw new Error('codec 指定は chrome canary でのみ利用できます');
+      throw new Error('codec selection is maybe possible in chrome canary');
     }
 
     let mimeType = '';
@@ -106,8 +106,7 @@
   }
 
   /*       */
-  /**
-   * オーディオ、ビデオの送受信方向に関するオプションです。
+  /*
    * - sendrecv
    * - recvonly
    * - sendonly
@@ -115,32 +114,23 @@
    */
 
   /*
-   * オーディオ接続のコーデックに関するオプションです。
    * @typedef {string} VideoCodecOption
    */
 
   /*
-   * オーディオ接続に関するオプションです。
    * @typedef {Object} ConnectionAudioOption
    */
 
   /*
-   * ビデオ接続のコーデックに関するオプションです。
-   * @typedef {string} VideoCodecOption
-   */
-
-  /*
-   * ビデオ接続に関するオプションです。
    * @typedef {Object} ConnectionVideoOption
    */
 
   /*
-    接続時に指定するオプションです。
    * @typedef {Object} ConnectionOptions
    */
 
   /*
-   * Peer Connection 接続を管理するクラスです。
+   * Peer Connection management class
    */
 
   class Connection {
@@ -163,10 +153,10 @@
         removestream: () => {}
       };
     }
+    
     /*
      * @private
      */
-
 
     on(kind, callback) {
       if (kind in this._callbacks) {
@@ -177,7 +167,6 @@
     async connect(stream, authnMetadata = null) {
       if (this._ws || this._pc) {
         this._traceLog('connection already exists');
-
         throw new Error('Connection Already Exists!');
       }
 
@@ -578,7 +567,7 @@
 
   }
 
-  /*       */
+  /*  Default options for connection     */
   const defaultOptions = {
     audio: {
       direction: 'sendrecv',
@@ -595,14 +584,14 @@
     }],
     clientId: randomString(17)
   };
+  
   /*
-   * Ayame Connection を生成します。
+   * Ayame Connection create.
    *
-   * @param {String} signalingUrl シグナリングに用いる websocket url
-   * @param {ConnectionOptions} options 接続時のオプション
-   * @param {debug} boolean デバッグログを出力するかどうかのフラグ
+   * @param {String} signalingUrl : signaling websocket url
+   * @param {ConnectionOptions} options
+   * @param {debug} boolean : debug log output
    */
-
   function connection(signalingUrl, roomId, options = defaultOptions, debug = false) {
     return new Connection(signalingUrl, roomId, options, debug);
   }
