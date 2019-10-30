@@ -21,7 +21,8 @@ check:
 
 clean:
 	rm -rf $(PROG)
-	docker system prune --force
+	@-docker rmi $(shell docker images -q "agilertc/ayame")
+	@-docker system prune --force
 
 web w:
 	open http://localhost:3000/static
