@@ -150,6 +150,6 @@ function loadLocalRoomIds() {
   roomUl.appendChild(fragment);
 }
 
+
 loadLocalRoomIds();
 startVideo();
-

@@ -11,7 +11,7 @@ send_timout: 10
 recv_timeout: 10
 
 # - Set flag for ping-pong in json format 
-# over_ws_ping_pong: true
+#over_ws_ping_pong: true
 
 # - Authenticated Webhook URL
 # auth_webhook_url: http://127.0.0.1:3001/auth/webhook

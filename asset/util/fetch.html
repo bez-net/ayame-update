@@ -22,7 +22,7 @@ h2 {
 <body>
 <form id="upload">
   <label>Filename:</label>
-  <input type="file" name="myFile">
+  <input type="file" name="file">
   <input type="submit" value="Upload" onclick="FileUpload()">
 </form>
 </body>
@@ -48,6 +48,7 @@ function FileUpload() {
     .then(response => {
       return response.blob();
     })
+    .catch(error => console.log(error))
 }
 </script>
 </html>
