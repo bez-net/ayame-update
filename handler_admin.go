@@ -29,7 +29,8 @@ func procAdminQuery(hub *Hub, r *http.Request) (str string) {
 	room := r.URL.Query().Get("room")
 	user := r.URL.Query().Get("user")
 	misc := r.URL.Query().Get("misc")
-	log.Println("cmd="+cmd, "room="+room, "user="+user, "misc="+misc)
+	format := r.URL.Query().Get("format") // text, json, html
+	log.Println("cmd="+cmd, "room="+room, "user="+user, "misc="+misc, "format="+format)
 
 	if room == "" {
 		str = getStringHub(hub)
