@@ -87,7 +87,7 @@ func main() {
 	go runSecureServer(urlSecure)
 	go runSocketioServer(hub) // support ws and wss at the same time
 
-	runSelfChecker()
+	runSelfChecker(hub)
 }
 
 // Setting API endpoints for signalling
@@ -108,6 +108,10 @@ func setupServerAPI(hub *Hub) {
 	http.HandleFunc("/upload", func(w http.ResponseWriter, r *http.Request) {
 		// log.Printf("/upload")
 		uploadHandler(hub, w, r)
+	})
+	http.HandleFunc("/fetch", func(w http.ResponseWriter, r *http.Request) {
+		// log.Printf("/upload")
+		fetchHandler(hub, w, r)
 	})
 	// /ws endpoint is same with /signaling for compatibility
 	http.HandleFunc("/admin", func(w http.ResponseWriter, r *http.Request) {
@@ -155,7 +159,7 @@ func runSocketioServer(hub *Hub) {
 	log.Printf("socket.io closed")
 }
 
-func runSelfChecker() {
+func runSelfChecker(hub *Hub) {
 	// chatting daemon function
 	go procChatMessages()
 
@@ -166,6 +170,9 @@ func runSelfChecker() {
 
 	// checking the status
 	for {
+		event := &EventInfo{content: "event test"}
+		hub.event <- event
+
 		log.Printf("The service is now alive with %d min interval checking", check.period)
 		time.Sleep(10 * time.Minute)
 		disk := DiskUsage("/")

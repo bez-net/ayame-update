@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<title>Document</title>
+<style>
+body {
+  margin: 1rem;
+}
+h2 {
+  color: purple;
+	font-family: 'Comic Sans MS';
+	font-size: 2em;  
+}
+</style>
+</head>
+<body>
+<h2>File Upload (fetch) to Server</h2>
+</head>
+<body>
+<form>
+  <div>
+    <label>Select file to upload</label>
+    <input type="file" name="myFile">
+  </div>
+  <button type="submit" onclick="FileUpload()">Upload</button>
+</form>
+</body>
+<script>
+function FileUpload() {
+  var input = document.querySelector('input[type="file"]')
+
+  var data = new FormData()
+  data.append('file', input.files[0])
+  data.append('user', 'stoney')
+
+  fetch('/fetch', {
+    method: 'POST',
+    body: data
+  })
+}
+</script>
+</html>

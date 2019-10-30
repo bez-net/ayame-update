@@ -84,12 +84,15 @@ func sendEventStream(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
 	for {
 		select {
-		case <-hub.event:
-		case <-time.After(1 * time.Second):
+		case event := <-hub.event:
+			log.Printf(event.content)
+		case <-time.After(3 * time.Second):
 			str := genStringEventMessage(emsg)
 			fmt.Fprintf(w, str)
 			f.Flush()
 		}
+		// log.Printf("select out")
+		// time.Sleep(1 * time.Second)
 	}
 	log.Printf("event streaming closed")
 }
