@@ -14,6 +14,11 @@ type RegisterInfo struct {
 	key      *string
 }
 
+type EventInfo struct {
+	class   string
+	content string
+}
+
 // TODO: Think more for the need
 const (
 	ROOM_TYPE_PRE_DEFINED  = iota
@@ -32,6 +37,7 @@ type Hub struct {
 	broadcast  chan *Broadcast
 	register   chan *RegisterInfo
 	unregister chan *RegisterInfo
+	event      chan *EventInfo
 }
 
 func newHub(name string) (hub *Hub) {
@@ -39,6 +45,7 @@ func newHub(name string) (hub *Hub) {
 		broadcast:  make(chan *Broadcast),
 		register:   make(chan *RegisterInfo),
 		unregister: make(chan *RegisterInfo),
+		event:      make(chan *EventInfo),
 		rooms:      make(map[string]*Room),
 	}
 	hub.name = name

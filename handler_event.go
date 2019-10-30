@@ -75,11 +75,21 @@ func sendEventStream(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		log.Printf("%s is unknown event", emsg.Event)
 	}
 
-	for i := 0; i < 100; i++ {
-		str := genStringEventMessage(emsg)
-		fmt.Fprintf(w, str)
-		f.Flush()
-		time.Sleep(1 * time.Second)
+	// for i := 0; i < 100; i++ {
+	// 	str := genStringEventMessage(emsg)
+	// 	fmt.Fprintf(w, str)
+	// 	f.Flush()
+	// 	time.Sleep(1 * time.Second)
+	// }
+
+	for {
+		select {
+		case <-hub.event:
+		case <-time.After(1 * time.Second):
+			str := genStringEventMessage(emsg)
+			fmt.Fprintf(w, str)
+			f.Flush()
+		}
 	}
 	log.Printf("event streaming closed")
 }

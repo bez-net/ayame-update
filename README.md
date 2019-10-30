@@ -26,6 +26,7 @@ $ open http://localhost:3000/static
 - 2019/10/29 : 19.04.12
     - add disk space monitoring
     - define `format={text|json|html}` in query
+    - add an event channel in hub to send event via sse
 - 2019/10/26 : 19.04.10
     - enhance some test pages
     - set the default the number of sessions to 100
