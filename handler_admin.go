@@ -10,6 +10,7 @@ import (
 
 func adminHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	log.Println(r.URL.Path, r.RemoteAddr)
+	defer log.Printf("adminHandler exit")
 
 	code := http.StatusBadRequest
 	var body string

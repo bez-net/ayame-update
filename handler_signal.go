@@ -164,6 +164,7 @@ func (c *Client) broadcast(ctx context.Context) {
 
 func signalHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s, %s", r.URL.Path, r.RemoteAddr)
+	defer log.Printf("signalHandler")
 
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {

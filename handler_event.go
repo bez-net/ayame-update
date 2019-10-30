@@ -25,7 +25,7 @@ type EventMessage struct {
 
 func eventHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s, %s", r.URL.Path, r.RemoteAddr)
-	defer log.Printf("eventHandler closed")
+	defer log.Printf("eventHandler exit")
 
 	op := strings.TrimPrefix(r.URL.Path, "/event/")
 	switch op {
