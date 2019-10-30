@@ -20,26 +20,34 @@ h2 {
 <h2>File Upload (fetch) to Server</h2>
 </head>
 <body>
-<form>
-  <div>
-    <label>Select file to upload</label>
-    <input type="file" name="myFile">
-  </div>
-  <button type="submit" onclick="FileUpload()">Upload</button>
+<form id="upload">
+  <label>Filename:</label>
+  <input type="file" name="myFile">
+  <input type="submit" value="Upload" onclick="FileUpload()">
 </form>
 </body>
 <script>
 function FileUpload() {
   var input = document.querySelector('input[type="file"]')
 
-  var data = new FormData()
-  data.append('file', input.files[0])
-  data.append('user', 'stoney')
+  var form = new FormData()
+  form.append('file', input.files[0])
+  // form.append('user', 'stoney')
 
-  fetch('/fetch', {
-    method: 'POST',
-    body: data
-  })
+  const options = {
+  method: 'POST',
+  body: form,
+  // If you add this, upload won't work
+  // headers: {
+  //   'Content-Type': 'multipart/form-data',
+  // }
+  };
+  delete options.headers['Content-Type'];
+
+  fetch('/fetch', options)
+    .then(response => {
+      return response.blob();
+    })
 }
 </script>
 </html>

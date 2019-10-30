@@ -25,6 +25,7 @@ type EventMessage struct {
 
 func eventHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s, %s", r.URL.Path, r.RemoteAddr)
+	defer log.Printf("eventHandler closed")
 
 	op := strings.TrimPrefix(r.URL.Path, "/event/")
 	switch op {
@@ -36,7 +37,6 @@ func eventHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "[send|recv] should be used")
 		log.Printf("%s not supported", op)
 	}
-	log.Printf("event closed for %s", op)
 }
 
 func recvEventData(hub *Hub, w http.ResponseWriter, r *http.Request) {
@@ -51,6 +51,7 @@ func recvEventData(hub *Hub, w http.ResponseWriter, r *http.Request) {
 }
 
 func sendEventStream(hub *Hub, w http.ResponseWriter, r *http.Request) {
+	defer log.Printf("sendEventStream closed")
 	// check if SSE is supported
 	f, ok := w.(http.Flusher)
 	if !ok {
@@ -82,19 +83,19 @@ func sendEventStream(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	// 	time.Sleep(1 * time.Second)
 	// }
 
-	for {
+	for i := 0; i < 10; i++ {
 		select {
 		case event := <-hub.event:
 			log.Printf(event.content)
-		case <-time.After(3 * time.Second):
+		case <-time.After(10 * time.Second):
 			str := genStringEventMessage(emsg)
 			fmt.Fprintf(w, str)
 			f.Flush()
+			return
 		}
-		// log.Printf("select out")
 		// time.Sleep(1 * time.Second)
+		// log.Printf("select out")
 	}
-	log.Printf("event streaming closed")
 }
 
 func genStringEventMessage(emsg EventMessage) (str string) {
