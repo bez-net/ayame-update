@@ -157,7 +157,6 @@
     /*
      * @private
      */
-
     on(kind, callback) {
       if (kind in this._callbacks) {
         this._callbacks[kind] = callback;
