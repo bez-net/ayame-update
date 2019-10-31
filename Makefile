@@ -6,7 +6,7 @@ VERSION=19.04.13
 # -----------------------------------------------------------------------------------------------------------------------
 usage:
 	@echo "WebRTC signaling server : $(PROG) $(VERSION)"
-	@echo "> make [build|run|kill|docker|compose|ngrok|git]"
+	@echo "usage: make [build|run|kill|docker|compose|ngrok|git]"
 # -----------------------------------------------------------------------------------------------------------------------
 build b: *.go
 	GO111MODULE=on go build -ldflags '-X main.AyameVersion=${VERSION}' -o $(PROG)

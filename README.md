@@ -11,6 +11,10 @@ $ make run # or ./ayame
 ```
 # use xdg-open in Linux instead of open of MacOS
 $ open http://localhost:3000/static 
+
+3. type make to do other handlings such as docker, docker-compose
+$ make 
+usage: make [build|run|kill|docker|compose|ngrok|git]
 ```
 
 ### API endpoints
