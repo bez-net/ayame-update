@@ -1,5 +1,5 @@
 ## WebRTC Signaling Server Ayame Update
-updated by Stoney Kang(CSO), sikang99@gmail.com in [TeamGRIT](https://teamgrit.kr)
+updated by Stoney Kang(CSO), sikang99@gmail.com in [TeamGRIT.kr](https://teamgrit.kr)
 
 ### Usage
 1. build the server and run it
