@@ -26,7 +26,7 @@ $ open http://localhost:3000/static
 ### History
 - 2019/10/30 : 19.04.13
     - consider connection error and ping
-    - add `isExistUser` in ayame origin
+    - add `isExistUser` in ayame origin of 2019/10/22
     - test for golang 1.12.12, 1.13.3
 - 2019/10/29 : 19.04.12
     - add disk space monitoring
