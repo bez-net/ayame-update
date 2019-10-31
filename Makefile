@@ -105,7 +105,7 @@ git g:
 
 git-update gu:
 	git add .
-	git commit -m "$(VERSION): period monitoring"
+	git commit -m "$(VERSION): syncing origin source"
 	git push
 
 git-login gl:
