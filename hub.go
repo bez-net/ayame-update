@@ -79,6 +79,7 @@ func (h *Hub) run() {
 				client.conn.Close()
 				break
 			}
+			isExistUser := len(room.clients) > 0
 			// use auth webhook
 			if Options.AuthWebhookURL != "" {
 				resp, err := AuthWebhookRequest(registerInfo.key, roomId, registerInfo.metadata, client.host)
@@ -94,9 +95,11 @@ func (h *Hub) run() {
 					client.conn.Close()
 					break
 				}
+
 				msg := &AcceptMetadataMessage{
-					Type:       "accept",
-					IceServers: resp.IceServers,
+					Type:        "accept",
+					IceServers:  resp.IceServers,
+					IsExistUser: isExistUser,
 				}
 				if resp.AuthzMetadata != nil {
 					msg.Metadata = resp.AuthzMetadata
@@ -106,7 +109,8 @@ func (h *Hub) run() {
 				client.SendJSON(msg)
 			} else {
 				msg := &AcceptMessage{
-					Type: "accept",
+					Type:        "accept",
+					IsExistUser: isExistUser,
 				}
 				room.clients[client] = true
 				client.SendJSON(msg)

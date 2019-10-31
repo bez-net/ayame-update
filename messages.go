@@ -1,8 +1,9 @@
 package main
 
 type AcceptMessage struct {
-	Type       string        `json:"type"`
-	IceServers []interface{} `json:"ice_servers,omitempty"`
+	Type        string        `json:"type"`
+	IceServers  []interface{} `json:"ice_servers,omitempty"`
+	IsExistUser bool          `json:"isExistUser"`
 }
 
 type RejectMessage struct {
@@ -11,7 +12,8 @@ type RejectMessage struct {
 }
 
 type AcceptMetadataMessage struct {
-	Type       string        `json:"type"`
-	Metadata   interface{}   `json:"authz_metadata,omitempty"`
-	IceServers []interface{} `json:"ice_servers,omitempty"`
+	Type        string        `json:"type"`
+	Metadata    interface{}   `json:"authz_metadata,omitempty"`
+	IceServers  []interface{} `json:"ice_servers,omitempty"`
+	IsExistUser bool          `json:"isExistUser"`
 }

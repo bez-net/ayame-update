@@ -146,6 +146,7 @@ func (c *Client) broadcast(ctx context.Context) {
 				return
 			}
 			w.Write(message)
+			w.Close()
 		case <-ticker.C:
 			c.conn.SetWriteDeadline(time.Now().Add(writeWait))
 			// if over_ws_ping_pong option is set
