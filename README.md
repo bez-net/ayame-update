@@ -25,6 +25,7 @@ $ open http://localhost:3000/static
 
 ### History
 - 2019/10/30 : 19.04.13
+    - consider connection error and ping
 - 2019/10/29 : 19.04.12
     - add disk space monitoring
     - define `format={text|json|html}` in query
