@@ -30,7 +30,7 @@ usage: make [build|run|kill|docker|compose|ngrok|git]
 ### History
 - 2019/10/30 : 19.04.13
     - consider connection error and ping
-    - add `isExistUser` in [ayame origin Commits](https://github.com/OpenAyame/ayame/commits/develop) of 2019/10/22
+    - add `isExistUser` in ayame [Commits](https://github.com/OpenAyame/ayame/commits/develop) of 2019/10/22
     - test for golang 1.12.12, 1.13.3
 - 2019/10/29 : 19.04.12
     - add disk space monitoring
