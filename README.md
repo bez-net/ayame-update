@@ -10,7 +10,7 @@ $ make run # or ./ayame
 2. connect to server to get web page on your browser
 ```
 # use xdg-open in Linux instead of open of MacOS
-$ open http://localhost:3000/static 
+$ [open|xdg-open] http://localhost:3000/static 
 ```
 
 3. type make to do other handlings such as docker, docker-compose
