@@ -52,6 +52,12 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	err = getMediaInfo(tempFile)
+	if err != nil {
+		log.Println("getMediaInfo error:", err)
+		return
+	}
+
 	err = makeMediaSet(tempFile)
 	if err != nil {
 		log.Println("makeMediaSet error:", err)
@@ -64,7 +70,8 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 }
 
 // Make a set of media files for a video
-func makeMediaSet(mediaFile *os.File) (err error) {
+func getMediaInfo(mediaFile *os.File) (err error) {
+	// check mediainfo command if it is executable
 	path, err := exec.LookPath("mediainfo")
 	if err != nil {
 		log.Fatal(err)
@@ -82,6 +89,13 @@ func makeMediaSet(mediaFile *os.File) (err error) {
 	}
 	outStr, errStr := string(stdout.Bytes()), string(stderr.Bytes())
 	log.Println(outStr, errStr)
+
+	// make a media set of the file
+	return
+}
+
+// Make a set of media files for a video
+func makeMediaSet(mediaFile *os.File) (err error) {
 	return
 }
 
