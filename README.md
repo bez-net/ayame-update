@@ -31,7 +31,7 @@ usage: make [build|run|kill|docker|compose|ngrok|git]
 
 ### History
 - 2019/11/11 : 19.04.15
-    - modify Dockerfile to include ffmpeg for video conversion
+    - modify `Dockerfile` to include ffmpeg for video conversion
 - 2019/10/30 : 19.04.13
     - consider connection error and ping
     - add `isExistUser` in ayame [Commits](https://github.com/OpenAyame/ayame/commits/develop) of 2019/10/22
