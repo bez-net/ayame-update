@@ -52,21 +52,29 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = getMediaInfo(tempFile)
+	// return that we have successfully uploaded our file!
+	fmt.Fprintf(w, "Successfully did upload the file and process it.\n")
+	log.Printf("%s is stored to %s", handler.Filename, tempFile.Name())
+
+	// Do post media processing in background
+	go postMediaProcessing(tempFile)
+}
+
+func postMediaProcessing(mediaFile *os.File) (err error) {
+	err = getMediaInfo(mediaFile)
 	if err != nil {
 		log.Println("getMediaInfo error:", err)
 		return
 	}
+	log.Println("getMediaInfo")
 
-	err = makeMediaSet(tempFile)
+	err = makeMediaSet(mediaFile)
 	if err != nil {
 		log.Println("makeMediaSet error:", err)
 		return
 	}
-
-	// return that we have successfully uploaded our file!
-	fmt.Fprintf(w, "Successfully did upload the file and process it.\n")
-	log.Printf("%s is stored to %s", handler.Filename, tempFile.Name())
+	log.Println("makeMediaSet")
+	return
 }
 
 // Make a set of media files for a video
@@ -89,13 +97,27 @@ func getMediaInfo(mediaFile *os.File) (err error) {
 	}
 	outStr, errStr := string(stdout.Bytes()), string(stderr.Bytes())
 	log.Println(outStr, errStr)
-
-	// make a media set of the file
 	return
 }
 
 // Make a set of media files for a video
 func makeMediaSet(mediaFile *os.File) (err error) {
+	path, err := exec.LookPath("ffmpeg")
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println("ffmpeg:", path)
+
+	// Get meta information for the media file
+	inPart := mediaFile.Name()
+	outPart := "record/sample.webp"
+	log.Println(inPart, outPart)
+	cmd := exec.Command("ffmpeg", "-y", "-i", inPart, outPart)
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		log.Println(err)
+	}
+	log.Println(string(out))
 	return
 }
 
