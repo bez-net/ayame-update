@@ -59,7 +59,7 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	}
 
 	// return that we have successfully uploaded our file!
-	fmt.Fprintf(w, "Successfully uploaded file\n")
+	fmt.Fprintf(w, "Successfully did upload the file and process it.\n")
 	log.Printf("%s is stored to %s", handler.Filename, tempFile.Name())
 }
 
