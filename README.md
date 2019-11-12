@@ -31,6 +31,7 @@ usage: make [build|run|kill|docker|compose|ngrok|git]
 
 ### History
 - 2019/11/11 : 19.04.15
+    - enhance uploadHandler to make a media set of upload file for service
     - modify `Dockerfile` to include ffmpeg for video conversion
 - 2019/10/30 : 19.04.13
     - consider connection error and ping
