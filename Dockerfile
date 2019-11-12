@@ -16,6 +16,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ayame
 FROM jrottenberg/ffmpeg:4.2-alpine
 MAINTAINER Stoney Kang <sikang@teamgrit.kr>
 
+# checking ffmpeg
 RUN ffmpeg -hide_banner -buildconf
 
 # ayame with ffmpeg

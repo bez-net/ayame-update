@@ -101,3 +101,4 @@ usage: make [build|run|kill|docker|compose|ngrok|git]
 
 ### Tools
 - Chrome [Extenstions](https://chrome.google.com/webstore/category/extensions): [Simple WebSocket Client](https://chrome.google.com/webstore/detail/simple-websocket-client/pfdhoblngboilpfeibdedpjgfnlcodoo)
+- [jrottenberg/ffmpeg](https://github.com/jrottenberg/ffmpeg) - Docker build for FFmpeg on Ubuntu / Alpine / Centos 7 / Scratch
