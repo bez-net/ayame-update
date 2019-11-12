@@ -9,6 +9,9 @@ services:
     ports:
       - "3000:3000"
       - "3443:3443"
+    volumes:
+      - ./record:/record
+      - ./upload:/upload
     environment: 
       - REDIS_URL=redis:6379
     #  - REDIS_PASSWORD=teamgrit

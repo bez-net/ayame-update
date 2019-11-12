@@ -58,8 +58,8 @@ docker-kill dk:
 	@docker ps
 
 docker-clean dc:
-	docker rmi $(PROG_IMAGE)
 	docker system prune --force
+	docker rmi $(PROG_IMAGE)
 
 docker-ps dp:
 	@docker ps -f name=$(PROG_NAME)
