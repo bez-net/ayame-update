@@ -55,6 +55,10 @@ docker-kill dk:
 	@-docker stop $(PROG_NAME) | xargs docker rm
 	@docker ps
 
+docker-clean dc:
+	docker rmi $(PROG_IMAGE)
+	docker system prune --force
+
 docker-ps dp:
 	@docker ps -f name=$(PROG_NAME)
 
