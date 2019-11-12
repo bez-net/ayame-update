@@ -11,7 +11,8 @@ COPY *.go ./
 RUN go mod download
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ayame
 
-## --- ffmpeg stage
+
+## --- final stage as base with ffmpeg
 FROM jrottenberg/ffmpeg:4.2-alpine
 MAINTAINER Stoney Kang <sikang@teamgrit.kr>
 
@@ -19,6 +20,7 @@ RUN ffmpeg -hide_banner -buildconf
 
 # ayame with ffmpeg
 WORKDIR /
+
 COPY --from=builder /app/ayame .
 COPY config.yaml .
 COPY certs/ ./certs/
