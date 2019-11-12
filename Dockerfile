@@ -21,7 +21,7 @@ RUN ffmpeg -buildconf
 
 # install mediainfo and check it
 RUN apk add mediainfo
-RUN mediainfo
+RUN mediainfo --Help
 
 # install ayame
 WORKDIR /
@@ -30,7 +30,6 @@ COPY --from=builder /app/ayame .
 COPY config.yaml .
 COPY certs/ ./certs/
 COPY asset/ ./asset/
-COPY upload/ ./upload/
 
 EXPOSE 3000 3443
 ENTRYPOINT ["/ayame"]
