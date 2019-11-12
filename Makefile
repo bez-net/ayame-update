@@ -105,7 +105,7 @@ git g:
 
 git-update gu:
 	git add .
-	git commit -m "$(VERSION): syncing origin source"
+	git commit -m "$(VERSION): building dockerimage with ffmpeg"
 	git push
 
 git-login gl:
