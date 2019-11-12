@@ -2,7 +2,7 @@
 # Makefile for ayame, WebRTC signaling server
 #
 PROG=ayame
-VERSION=19.04.14
+VERSION=19.04.15
 # -----------------------------------------------------------------------------------------------------------------------
 usage:
 	@echo "WebRTC signaling server : $(PROG) $(VERSION)"
@@ -43,7 +43,7 @@ docker d:
 
 docker-build db: *.go Dockerfile
 	@-docker rmi $(PROG_IMAGE)
-	@-PROG=$(PROG) docker build -t $(PROG_IMAGE) .
+	@-PROG=$(PROG) docker build -f Dockerfile -t $(PROG_IMAGE) .
 	@docker images $(PROG_IMAGE)
 
 docker-run dr:
