@@ -16,7 +16,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var AyameVersion = "19.04.16"
+var AyameVersion = "19.04.17"
 
 type AyameOptions struct {
 	LogDir         string `yaml:"log_dir"`
