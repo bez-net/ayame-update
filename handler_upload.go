@@ -11,11 +11,12 @@ import (
 	"path/filepath"
 )
 
+// Handler for Uploading and Transcoding
 func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s, %s", r.URL.Path, r.RemoteAddr)
 	defer log.Printf("uploadHandler exit")
 
-	// Parse our multipart form, 10 << 20 specifies a maximum upload of 10 MB files.
+	// parse our multipart form, 10 << 20 specifies a maximum upload of 10 MB files.
 	r.ParseMultipartForm(10 << 20)
 	// FormFile returns the first file for the given key `myFile`
 	// it also returns the FileHeader so we can get the Filename,
@@ -31,7 +32,7 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	// fmt.Printf("File Size: %+v\n", handler.Size)
 	// fmt.Printf("MIME Header: %+v\n", handler.Header)
 
-	// Create a temp file within our upload directory that follows a particular naming pattern
+	// create a temp file within our upload directory that follows a particular naming pattern
 	tempFile, err := ioutil.TempFile("upload", "cobot-*"+filepath.Ext(handler.Filename))
 	if err != nil {
 		log.Printf("TempFile error: %s", err)
@@ -53,27 +54,28 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	}
 
 	// return that we have successfully uploaded our file!
-	fmt.Fprintf(w, "Successfully did upload the file and process it.\n")
+	fmt.Fprintf(w, "Successfully did upload the file and being processed it.\n")
 	log.Printf("%s is stored to %s", handler.Filename, tempFile.Name())
 
-	// Do post media processing in background
+	// do post media processing in background
 	go postMediaProcessing(tempFile)
 }
 
+// Postprocessing for the video file uploaded
 func postMediaProcessing(mediaFile *os.File) (err error) {
 	err = getMediaInfo(mediaFile)
 	if err != nil {
 		log.Println("getMediaInfo error:", err)
 		return
 	}
-	log.Println("getMediaInfo")
+	log.Println("getMediaInfo:", "Done")
 
 	err = makeMediaSet(mediaFile)
 	if err != nil {
 		log.Println("makeMediaSet error:", err)
 		return
 	}
-	log.Println("makeMediaSet")
+	log.Println("makeMediaSet:", "Done")
 	return
 }
 
@@ -108,16 +110,34 @@ func makeMediaSet(mediaFile *os.File) (err error) {
 	}
 	log.Println("ffmpeg:", path)
 
-	// Get meta information for the media file
+	// generate related files for the input video
+	dir := "asset/record/"
 	inPart := mediaFile.Name()
-	outPart := "record/sample.webp"
-	log.Println(inPart, outPart)
-	cmd := exec.Command("ffmpeg", "-y", "-i", inPart, outPart)
+	mp4Opt := `-vf "scale=1280:720"`
+	mp4Part := changePathExtention(dir, inPart, ".mp4")
+	jpgOpt := `-ss 00:00:01.000 -frames:v 1 -vf "scale=320:180"`
+	jpgPart := changePathExtention(dir, inPart, ".jpg")
+	webpPart := changePathExtention(dir, inPart, ".webp")
+	gifPart := changePathExtention(dir, inPart, ".gif")
+	aniOpt := `-r 10 -t 5 -vf "scale=160:90"`
+	cmdStr := fmt.Sprintf("ffmpeg -y -i %s %s %s %s %s %s %s %s %s",
+		inPart, mp4Opt, mp4Part, jpgOpt, jpgPart, aniOpt, webpPart, aniOpt, gifPart)
+	log.Println(cmdStr)
+
+	cmd := exec.Command("sh", "-c", cmdStr)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Println(err)
 	}
 	log.Println(string(out))
+	return
+}
+
+// Change extension of the filename with another one
+func changePathExtention(dir, fpath, fext string) (str string) {
+	newFile := filepath.Base(fpath)
+	ext := filepath.Ext(newFile)
+	str = dir + newFile[0:len(newFile)-len(ext)] + fext
 	return
 }
 
