@@ -4,6 +4,8 @@ ayame
 # log file
 *.log
 *.log.*
+
+# working dirs
 bin/
 upload/
 record/
