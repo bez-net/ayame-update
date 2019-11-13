@@ -10,8 +10,8 @@ services:
       - "3000:3000"
       - "3443:3443"
     volumes:
-      - ./record:/record
       - ./upload:/upload
+      - ./record:/asset/record
     environment: 
       - REDIS_URL=redis:6379
     #  - REDIS_PASSWORD=teamgrit

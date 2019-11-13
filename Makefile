@@ -47,8 +47,10 @@ docker-build db: *.go Dockerfile
 	@docker images $(PROG_IMAGE)
 
 docker-run dr:
-	@-docker run -d -p=3000:3000 -p=3443:3443 \
-		-v=$(PWD)/record:/record -v=$(PWD)/upload:/upload \
+	@-docker run -d \
+		-p=3000:3000 -p=3443:3443 \
+		-v=$(PWD)/upload:/upload \
+		-v=$(PWD)/record:/asset/record \
 		--name=$(PROG_NAME) $(PROG_IMAGE)
 	@docker ps
 
