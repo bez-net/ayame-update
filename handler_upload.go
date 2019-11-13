@@ -76,6 +76,12 @@ func postMediaProcessing(mediaFile *os.File) (err error) {
 		return
 	}
 	log.Println("makeMediaSet:", "Done")
+
+	err = os.Remove(mediaFile.Name())
+	if err != nil {
+		log.Println("Remove error:", err)
+		return
+	}
 	return
 }
 
@@ -119,7 +125,7 @@ func makeMediaSet(mediaFile *os.File) (err error) {
 	jpgPart := changePathExtention(dir, inPart, ".jpg")
 	// gifOpt := `-r 10 -vf "scale=320:180"`
 	// gifPart := changePathExtention(dir, inPart, ".gif")
-	webpOpt := `-r 10 -vf "scale=320:180"`
+	webpOpt := `-r 10 -vf "scale=320:180" -loop 0`
 	webpPart := changePathExtention(dir, inPart, ".webp")
 	webmOpt := `-r 10 -vf "scale=320:180" -an`
 	webmPart := changePathExtention(dir, inPart, ".webm")
