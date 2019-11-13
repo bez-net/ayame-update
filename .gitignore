@@ -6,3 +6,4 @@ ayame
 *.log.*
 bin/
 upload/
+record/
