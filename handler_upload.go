@@ -115,15 +115,16 @@ func makeMediaSet(mediaFile *os.File) (err error) {
 	inPart := mediaFile.Name()
 	mp4Opt := `-vf "scale=1280:720"`
 	mp4Part := changePathExtention(dir, inPart, ".mp4")
-	jpgOpt := `-ss 00:00:01.000 -frames:v 1 -vf "scale=320:180"`
+	jpgOpt := `-ss 00:00:01.000 -frames:v 1 -vf "scale=640:360"`
 	jpgPart := changePathExtention(dir, inPart, ".jpg")
-	gifPart := changePathExtention(dir, inPart, ".gif")
+	// gifOpt := `-r 10 -vf "scale=320:180"`
+	// gifPart := changePathExtention(dir, inPart, ".gif")
+	webpOpt := `-r 10 -vf "scale=320:180"`
 	webpPart := changePathExtention(dir, inPart, ".webp")
-	webmOpt := `-r 10 -vf "scale=160:90" -an`
+	webmOpt := `-r 10 -vf "scale=320:180" -an`
 	webmPart := changePathExtention(dir, inPart, ".webm")
-	aniOpt := `-r 10 -vf "scale=160:90"`
-	cmdStr := fmt.Sprintf("ffmpeg -y -i %s %s %s %s %s %s %s %s %s %s %s",
-		inPart, mp4Opt, mp4Part, jpgOpt, jpgPart, aniOpt, webpPart, aniOpt, gifPart, webmOpt, webmPart)
+	cmdStr := fmt.Sprintf("ffmpeg -y -i %s %s %s %s %s %s %s %s %s",
+		inPart, mp4Opt, mp4Part, jpgOpt, jpgPart, webpOpt, webpPart, webmOpt, webmPart)
 	log.Println(cmdStr)
 
 	cmd := exec.Command("sh", "-c", cmdStr)
