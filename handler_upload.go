@@ -118,12 +118,14 @@ func makeMediaSet(mediaFile *os.File) (err error) {
 
 	// generate related files for the input video
 	dir := "asset/record/"
+	os.Mkdir(dir, 755)
+
 	inPart := mediaFile.Name()
 	mp4Opt := `-vf "scale=1280:720"`
 	mp4Part := changePathExtention(dir, inPart, ".mp4")
 	jpgOpt := `-ss 00:00:01.000 -frames:v 1 -vf "scale=640:360"`
 	jpgPart := changePathExtention(dir, inPart, ".jpg")
-	// gifOpt := `-r 10 -vf "scale=320:180"`
+	// gifOpt := `-r 10 -vf "scale=320:180" -loop 0`
 	// gifPart := changePathExtention(dir, inPart, ".gif")
 	webpOpt := `-r 10 -vf "scale=320:180" -loop 0`
 	webpPart := changePathExtention(dir, inPart, ".webp")
