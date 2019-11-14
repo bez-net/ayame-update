@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 )
 
+// Set of media files for service
 type MediaSet struct {
 	PathDir  string     `json:"path_dir,omitempty"`
 	PathBase string     `json:"path_base,omitempty"`
