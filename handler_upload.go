@@ -11,6 +11,13 @@ import (
 	"path/filepath"
 )
 
+type MediaSet struct {
+	PathDir  string     `json:"path_dir,omitempty"`
+	PathBase string     `json:"path_base,omitempty"`
+	Files    []*os.File `json:"files,omitempty"`
+	OpsCmd   string     `json:"ops_cmd,omitempty"`
+}
+
 // Handler for Uploading and Transcoding
 func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s, %s", r.URL.Path, r.RemoteAddr)
