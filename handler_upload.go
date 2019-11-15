@@ -139,8 +139,10 @@ func makeMediaSet(mediaFile *os.File) (err error) {
 	webpPart := changePathExtention(dir, inPart, ".webp")
 	webmOpt := `-r 10 -vf "scale=320:180" -an`
 	webmPart := changePathExtention(dir, inPart, ".webm")
-	cmdStr := fmt.Sprintf("ffmpeg -y -i %s %s %s %s %s %s %s %s %s",
-		inPart, mp4Opt, mp4Part, jpgOpt, jpgPart, webpOpt, webpPart, webmOpt, webmPart)
+	mpvOpt := `-r 10 -vf "scale=320:180" -an -f mp4`
+	mpvPart := changePathExtention(dir, inPart, ".mpv")
+	cmdStr := fmt.Sprintf("ffmpeg -y -i %s %s %s %s %s %s %s %s %s %s %s",
+		inPart, mp4Opt, mp4Part, jpgOpt, jpgPart, webpOpt, webpPart, webmOpt, webmPart, mpvOpt, mpvPart)
 	log.Println(cmdStr)
 
 	cmd := exec.Command("sh", "-c", cmdStr)
