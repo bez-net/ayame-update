@@ -35,8 +35,8 @@ func (m *MediaSet) String() string {
 
 // Handler for Uploading and Transcoding
 func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
-	log.Printf("%s, %s", r.URL.Path, r.RemoteAddr)
 	defer log.Printf("uploadHandler exit")
+	log.Printf("%s, %s", r.URL.Path, r.RemoteAddr)
 
 	// parse our multipart form, 10 << 20 specifies a maximum upload of 10 MB files.
 	r.ParseMultipartForm(10 << 20)
@@ -54,8 +54,10 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	// fmt.Printf("File Size: %+v\n", handler.Size)
 	// fmt.Printf("MIME Header: %+v\n", handler.Header)
 
+	basename := time.Now().Format("D20060102T150405")
+
 	// create a temp file within our upload directory that follows a particular naming pattern
-	tempFile, err := ioutil.TempFile("upload", "cobot-*"+filepath.Ext(handler.Filename))
+	tempFile, err := ioutil.TempFile("upload", "COBOT-"+basename+filepath.Ext(handler.Filename))
 	if err != nil {
 		log.Printf("TempFile error: %s", err)
 		return
@@ -84,7 +86,7 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	mset.SrcDir = "upload/"
 	mset.SrcName = filepath.Base(tempFile.Name())
 	mset.DstDir = "asset/record/"
-	mset.DstBase = time.Now().Format("D20060102T150405/")
+	mset.DstBase = basename + "/" // time.Now().Format("D20060102T150405/")
 	mset.DstName = mset.SrcName
 	log.Println(mset)
 
@@ -94,7 +96,7 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
 // Postprocessing for the video file uploaded
 func postMediaProcessing(mset *MediaSet) (err error) {
-	defer log.Println("postMediaProcessing Done")
+	defer log.Printf("postMediaProcessing Done")
 
 	err = getMediaInfo(mset)
 	if err != nil {

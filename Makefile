@@ -21,6 +21,7 @@ check:
 
 clean:
 	rm -rf ./record/* ./asset/record/*
+	ls -lF ./upload/* ./record/*
 
 clobber:
 	@make clean
