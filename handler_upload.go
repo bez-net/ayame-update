@@ -167,10 +167,7 @@ func makeMediaSet(mset *MediaSet) (err error) {
 	mpvPart := changePathExtention(outPart, ".mpv")
 	cmdStr += fmt.Sprintf(" %s %s", mpvOpt, mpvPart)
 
-	// cmdStr := fmt.Sprintf("ffmpeg -y -i %s %s %s %s %s %s %s %s %s %s %s",
-	// 	inPart, mp4Opt, mp4Part, jpgOpt, jpgPart, webpOpt, webpPart, webmOpt, webmPart, mpvOpt, mpvPart)
 	log.Println(cmdStr)
-
 	cmd := exec.Command("sh", "-c", cmdStr)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
