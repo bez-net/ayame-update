@@ -167,6 +167,7 @@ func makeMediaSet(mset *MediaSet) (err error) {
 	mp4Part := changePathExtention(outPart, ".mp4")
 	cmdStr += fmt.Sprintf(" %s %s", mp4Opt, mp4Part)
 
+	// consider use middle(480:270) if the size(320:180) is small
 	mpvOpt := `-vcodec libx264 -r 10 -vf "scale=320:180" -an -f mp4`
 	mpvPart := changePathExtention(outPart, ".mpv")
 	cmdStr += fmt.Sprintf(" %s %s", mpvOpt, mpvPart)
