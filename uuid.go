@@ -8,6 +8,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// based on google/uuid
 func getUUIDString() string {
 	uuid := uuid.New()
 	return fmt.Sprintf("%016x", uuid[0:16])
