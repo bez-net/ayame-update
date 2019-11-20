@@ -2,7 +2,9 @@ package main
 
 import (
 	"bytes"
+	"crypto/rand"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -14,11 +16,16 @@ import (
 
 // Set of media files for service
 type MediaSet struct {
-	SrcDir   string `json:"path_dir,omitempty"`
+	SrcDir   string
 	DstDir   string
+	BaseDir  string
 	Basename string     `json:"path_base,omitempty"`
 	Files    []*os.File `json:"files,omitempty"`
 	Desc     string     `json:"ops_cmd,omitempty"`
+}
+
+func (m *MediaSet) String() string {
+	return fmt.Sprintf("MediaSet SrcDir: %s, DstDir: %s", m.SrcDir, m.DstDir)
 }
 
 // Handler for Uploading and Transcoding
@@ -68,10 +75,11 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s is stored to %s", handler.Filename, tempFile.Name())
 
 	// prepare a media set for the upload file
-	baseDir := time.Now().Format("D20060102T150405/")
-	log.Println(baseDir)
-
-	mset := &MediaSet{SrcDir: "upload/", DstDir: "asset/record/" + baseDir, Basename: filepath.Base(tempFile.Name())}
+	mset := &MediaSet{}
+	mset.SrcDir = "upload/"
+	mset.DstDir = "asset/record/"
+	mset.BaseDir = time.Now().Format("D20060102T150405/")
+	mset.Basename = filepath.Base(tempFile.Name())
 	log.Println(mset)
 
 	// do post media processing in background
@@ -134,11 +142,11 @@ func makeMediaSet(mset *MediaSet) (err error) {
 	log.Println("ffmpeg:", path)
 
 	// generate related files for the input video
-	os.MkdirAll(mset.DstDir, os.ModePerm)
+	os.MkdirAll(mset.DstDir+mset.BaseDir, os.ModePerm)
 	// os.Chdir(mset.DstDir)
 
 	inPart := mset.SrcDir + mset.Basename
-	outPart := mset.DstDir + mset.Basename
+	outPart := mset.DstDir + mset.BaseDir + mset.Basename
 	log.Println(inPart, outPart)
 
 	cmdStr := fmt.Sprintf("ffmpeg -y -i %s", inPart)
@@ -193,4 +201,18 @@ func sendFilePage(w http.ResponseWriter, filename string) (err error) {
 	}
 	fmt.Fprintf(w, string(page))
 	return
+}
+
+// newUUID generates a random UUID according to RFC 4122
+func newUUIDString() (string, error) {
+	uuid := make([]byte, 16)
+	n, err := io.ReadFull(rand.Reader, uuid)
+	if n != len(uuid) || err != nil {
+		return "", err
+	}
+	// variant bits; see section 4.1.1
+	uuid[8] = uuid[8]&^0xc0 | 0x80
+	// version 4 (pseudo-random); see section 4.1.3
+	uuid[6] = uuid[6]&^0xf0 | 0x40
+	return fmt.Sprintf("%x-%x-%x-%x-%x", uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:]), nil
 }
