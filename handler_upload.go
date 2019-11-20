@@ -16,16 +16,16 @@ import (
 
 // Set of media files for service
 type MediaSet struct {
-	SrcDir   string
-	DstDir   string
-	BaseDir  string
+	SrcDir   string     `json:"src_dir,omitempty"`
+	DstDir   string     `json:"dst_dir,omitempty"`
+	BaseDir  string     `json:"base_dir,omitempty"`
 	Basename string     `json:"path_base,omitempty"`
-	Files    []*os.File `json:"files,omitempty"`
 	Desc     string     `json:"ops_cmd,omitempty"`
+	Files    []*os.File `json:"files,omitempty"`
 }
 
 func (m *MediaSet) String() string {
-	return fmt.Sprintf("MediaSet SrcDir: %s, DstDir: %s", m.SrcDir, m.DstDir)
+	return fmt.Sprintf("MediaSet> SrcDir=%s, DstDir=%s, BaseDir=%s, Basename=%s", m.SrcDir, m.DstDir, m.BaseDir, m.Basename)
 }
 
 // Handler for Uploading and Transcoding
@@ -117,7 +117,7 @@ func getMediaInfo(mset *MediaSet) (err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("mediainfo:", path)
+	// log.Println("mediainfo:", path)
 
 	// Get meta information for the media file
 	var stdout, stderr bytes.Buffer
