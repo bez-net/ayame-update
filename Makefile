@@ -119,7 +119,7 @@ git g:
 
 git-update gu:
 	git add .
-	git commit -m "$(VERSION): building dockerimage with ffmpeg"
+	git commit -m "$(VERSION): upload and transcode files"
 	git push
 
 git-login gl:

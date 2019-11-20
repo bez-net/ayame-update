@@ -31,7 +31,7 @@ usage: make [build|run|kill|docker|compose|ngrok|git]
 
 ### History
 - 2019/11/20 : 19.04.18
-    - record the designated directory
+    - record the designated directory with UUID based filenames
     - define MediaSet for recording
 - 2019/11/11 : 19.04.15
     - enhance uploadHandler to make a media set of upload file for service
