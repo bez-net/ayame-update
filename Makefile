@@ -2,13 +2,13 @@
 # Makefile for ayame, WebRTC signaling server
 #
 PROG=ayame
-VERSION=19.04.17
+VERSION=19.04.18
 # -----------------------------------------------------------------------------------------------------------------------
 usage:
 	@echo "WebRTC signaling server : $(PROG) $(VERSION)"
 	@echo "usage: make [build|run|kill|docker|compose|ngrok|git]"
 # -----------------------------------------------------------------------------------------------------------------------
-build b: *.go
+build b $(PROG): *.go
 	GO111MODULE=on go build -ldflags '-X main.AyameVersion=${VERSION}' -o $(PROG)
 
 build-darwin bd: *.go
@@ -20,6 +20,10 @@ check:
 	GO111MODULE=on go test ./...
 
 clean:
+	rm -rf ./record/* ./asset/record/*
+
+clobber:
+	@make clean
 	rm -rf $(PROG)
 	@-docker rmi $(shell docker images -q "agilertc/ayame")
 	@-docker system prune --force
@@ -27,7 +31,7 @@ clean:
 web w:
 	open http://localhost:3000/static
 
-run r:
+run r: $(PROG)
 	./$(PROG)
 
 kill k:

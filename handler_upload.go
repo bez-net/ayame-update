@@ -9,14 +9,16 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"time"
 )
 
 // Set of media files for service
 type MediaSet struct {
-	PathDir  string     `json:"path_dir,omitempty"`
-	PathBase string     `json:"path_base,omitempty"`
+	SrcDir   string `json:"path_dir,omitempty"`
+	DstDir   string
+	Basename string     `json:"path_base,omitempty"`
 	Files    []*os.File `json:"files,omitempty"`
-	OpsCmd   string     `json:"ops_cmd,omitempty"`
+	Desc     string     `json:"ops_cmd,omitempty"`
 }
 
 // Handler for Uploading and Transcoding
@@ -65,27 +67,34 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Successfully did upload the file and being processed it.\n")
 	log.Printf("%s is stored to %s", handler.Filename, tempFile.Name())
 
+	// prepare a media set for the upload file
+	baseDir := time.Now().Format("D20060102T150405/")
+	log.Println(baseDir)
+
+	mset := &MediaSet{SrcDir: "upload/", DstDir: "asset/record/" + baseDir, Basename: filepath.Base(tempFile.Name())}
+	log.Println(mset)
+
 	// do post media processing in background
-	go postMediaProcessing(tempFile)
+	go postMediaProcessing(mset)
 }
 
 // Postprocessing for the video file uploaded
-func postMediaProcessing(mediaFile *os.File) (err error) {
-	err = getMediaInfo(mediaFile)
+func postMediaProcessing(mset *MediaSet) (err error) {
+	err = getMediaInfo(mset)
 	if err != nil {
 		log.Println("getMediaInfo error:", err)
 		return
 	}
-	log.Println("getMediaInfo:", "Done")
+	// log.Println("getMediaInfo:", "Done")
 
-	err = makeMediaSet(mediaFile)
+	err = makeMediaSet(mset)
 	if err != nil {
 		log.Println("makeMediaSet error:", err)
 		return
 	}
-	log.Println("makeMediaSet:", "Done")
+	// log.Println("makeMediaSet:", "Done")
 
-	err = os.Remove(mediaFile.Name())
+	err = os.Remove(mset.SrcDir + mset.Basename)
 	if err != nil {
 		log.Println("Remove error:", err)
 		return
@@ -94,7 +103,7 @@ func postMediaProcessing(mediaFile *os.File) (err error) {
 }
 
 // Make a set of media files for a video
-func getMediaInfo(mediaFile *os.File) (err error) {
+func getMediaInfo(mset *MediaSet) (err error) {
 	// check mediainfo command if it is executable
 	path, err := exec.LookPath("mediainfo")
 	if err != nil {
@@ -104,7 +113,7 @@ func getMediaInfo(mediaFile *os.File) (err error) {
 
 	// Get meta information for the media file
 	var stdout, stderr bytes.Buffer
-	cmd := exec.Command("mediainfo", mediaFile.Name())
+	cmd := exec.Command("mediainfo", mset.SrcDir+mset.Basename)
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 	err = cmd.Run()
@@ -117,7 +126,7 @@ func getMediaInfo(mediaFile *os.File) (err error) {
 }
 
 // Make a set of media files for a video
-func makeMediaSet(mediaFile *os.File) (err error) {
+func makeMediaSet(mset *MediaSet) (err error) {
 	path, err := exec.LookPath("ffmpeg")
 	if err != nil {
 		log.Fatal(err)
@@ -125,24 +134,41 @@ func makeMediaSet(mediaFile *os.File) (err error) {
 	log.Println("ffmpeg:", path)
 
 	// generate related files for the input video
-	dir := "asset/record/"
-	os.Mkdir(dir, 755)
+	os.MkdirAll(mset.DstDir, os.ModePerm)
+	// os.Chdir(mset.DstDir)
 
-	inPart := mediaFile.Name()
+	inPart := mset.SrcDir + mset.Basename
+	outPart := mset.DstDir + mset.Basename
+	log.Println(inPart, outPart)
+
+	cmdStr := fmt.Sprintf("ffmpeg -y -i %s", inPart)
+
 	mp4Opt := `-vf "scale=1280:720"`
-	mp4Part := changePathExtention(dir, inPart, ".mp4")
+	mp4Part := changePathExtention(outPart, ".mp4")
+	cmdStr += fmt.Sprintf(" %s %s", mp4Opt, mp4Part)
+
 	jpgOpt := `-ss 00:00:01.000 -frames:v 1 -vf "scale=640:360"`
-	jpgPart := changePathExtention(dir, inPart, ".jpg")
+	jpgPart := changePathExtention(outPart, ".jpg")
+	cmdStr += fmt.Sprintf(" %s %s", jpgOpt, jpgPart)
+
 	// gifOpt := `-r 10 -vf "scale=320:180" -loop 0`
-	// gifPart := changePathExtention(dir, inPart, ".gif")
-	webpOpt := `-r 10 -vf "scale=320:180" -loop 0`
-	webpPart := changePathExtention(dir, inPart, ".webp")
-	webmOpt := `-r 10 -vf "scale=320:180" -an`
-	webmPart := changePathExtention(dir, inPart, ".webm")
+	// gifPart := changePathExtention(outPart, ".gif")
+	// cmdStr += fmt.Sprintf("%s %s", gifOpt, gifPart)
+
+	// webpOpt := `-r 10 -vf "scale=320:180" -loop 0`
+	// webpPart := changePathExtention(outPart, ".webp")
+	// cmdStr += fmt.Sprintf(" %s %s", webpOpt, webpPart)
+
+	// webmOpt := `-r 10 -vf "scale=320:180" -an`
+	// webmPart := changePathExtention(outPart, ".webm")
+	// cmdStr += fmt.Sprintf(" %s %s", webmOpt, webmPart)
+
 	mpvOpt := `-r 10 -vf "scale=320:180" -an -f mp4`
-	mpvPart := changePathExtention(dir, inPart, ".mpv")
-	cmdStr := fmt.Sprintf("ffmpeg -y -i %s %s %s %s %s %s %s %s %s %s %s",
-		inPart, mp4Opt, mp4Part, jpgOpt, jpgPart, webpOpt, webpPart, webmOpt, webmPart, mpvOpt, mpvPart)
+	mpvPart := changePathExtention(outPart, ".mpv")
+	cmdStr += fmt.Sprintf(" %s %s", mpvOpt, mpvPart)
+
+	// cmdStr := fmt.Sprintf("ffmpeg -y -i %s %s %s %s %s %s %s %s %s %s %s",
+	// 	inPart, mp4Opt, mp4Part, jpgOpt, jpgPart, webpOpt, webpPart, webmOpt, webmPart, mpvOpt, mpvPart)
 	log.Println(cmdStr)
 
 	cmd := exec.Command("sh", "-c", cmdStr)
@@ -155,10 +181,9 @@ func makeMediaSet(mediaFile *os.File) (err error) {
 }
 
 // Change extension of the filename with another one
-func changePathExtention(dir, fpath, fext string) (str string) {
-	newFile := filepath.Base(fpath)
-	ext := filepath.Ext(newFile)
-	str = dir + newFile[0:len(newFile)-len(ext)] + fext
+func changePathExtention(fpath, fext string) (str string) {
+	ext := filepath.Ext(fpath)
+	str = fpath[0:len(fpath)-len(ext)] + fext
 	return
 }
 
