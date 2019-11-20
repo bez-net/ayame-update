@@ -49,7 +49,7 @@ func newHub(name string) (hub *Hub) {
 		rooms:      make(map[string]*Room),
 	}
 	hub.name = name
-	hub.uuid = getStringUUID()
+	hub.uuid = getUUIDString()
 	return
 }
 
