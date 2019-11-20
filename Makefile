@@ -47,7 +47,7 @@ docker d:
 	@echo "> make ([35mdocker[0m) [build|run|kill|ps] for [33m$(PROG_IMAGE)[0m"
 
 docker-build db: *.go Dockerfile
-	@-rm -rf record/* asset/record/*
+	@-rm -rf asset/upload/* asset/record/*
 	@-docker rmi $(PROG_IMAGE)
 	@-PROG=$(PROG) docker build -f Dockerfile -t $(PROG_IMAGE) .
 	@docker images $(PROG_IMAGE)

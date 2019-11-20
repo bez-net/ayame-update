@@ -31,6 +31,7 @@ usage: make [build|run|kill|docker|compose|ngrok|git]
 
 ### History
 - 2019/11/20 : 19.04.18
+    - move the directories of `upload/ & `record/` to below `asset/`
     - record the designated directory with UUID based filenames
     - define MediaSet for recording
 - 2019/11/11 : 19.04.15
