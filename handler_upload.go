@@ -28,7 +28,8 @@ type MediaSet struct {
 
 // Stringer for MediaSet
 func (m *MediaSet) String() string {
-	return fmt.Sprintf("MediaSet> SrcDir=%s, DstDir=%s, SrcName=%s, DstName=%s", m.SrcDir, m.DstDir, m.SrcName, m.DstName)
+	return fmt.Sprintf("MediaSet> SrcDir=%s, DstDir=%s, SrcName=%s, DstName=%s, Desc=%s",
+		m.SrcDir, m.DstDir, m.SrcName, m.DstName, m.Desc)
 }
 
 // Handler for Uploading and Transcoding
@@ -87,6 +88,7 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	mset.DstDir = "asset/record/"
 	mset.DstBase = basename + "/" // time.Now().Format("D20060102T150405/")
 	mset.DstName = "COBOT-" + basename + "-U" + getUUIDString()
+	mset.Desc = "libx264 / aac / mp4"
 	log.Println(mset)
 
 	// do post media processing in background
@@ -160,9 +162,14 @@ func makeMediaSet(mset *MediaSet) (err error) {
 	cmdStr := fmt.Sprintf("ffmpeg -loglevel error -stats -y")
 	cmdStr += fmt.Sprintf(" -i %s", inPart)
 
-	mp4Opt := `-vf "scale=1280:720"`
+	// if you want to use libfdk_aac, check its support in ffmpeg -codecs / -encoders
+	mp4Opt := `-vcodec libx264 -vf "scale=1280:720" -acodec aac`
 	mp4Part := changePathExtention(outPart, ".mp4")
 	cmdStr += fmt.Sprintf(" %s %s", mp4Opt, mp4Part)
+
+	mpvOpt := `-vcodec libx264 -r 10 -vf "scale=320:180" -an -f mp4`
+	mpvPart := changePathExtention(outPart, ".mpv")
+	cmdStr += fmt.Sprintf(" %s %s", mpvOpt, mpvPart)
 
 	jpgOpt := `-ss 00:00:01.000 -frames:v 1 -vf "scale=640:360"`
 	jpgPart := changePathExtention(outPart, ".jpg")
@@ -179,10 +186,6 @@ func makeMediaSet(mset *MediaSet) (err error) {
 	// webmOpt := `-r 10 -vf "scale=320:180" -an`
 	// webmPart := changePathExtention(outPart, ".webm")
 	// cmdStr += fmt.Sprintf(" %s %s", webmOpt, webmPart)
-
-	mpvOpt := `-r 10 -vf "scale=320:180" -an -f mp4`
-	mpvPart := changePathExtention(outPart, ".mpv")
-	cmdStr += fmt.Sprintf(" %s %s", mpvOpt, mpvPart)
 
 	log.Println(cmdStr)
 	cmd := exec.Command("sh", "-c", cmdStr)
