@@ -163,12 +163,12 @@ func makeMediaSet(mset *MediaSet) (err error) {
 	cmdStr += fmt.Sprintf(" -i %s", inPart)
 
 	// if you want to use libfdk_aac, check its support in ffmpeg -codecs / -encoders
-	mp4Opt := `-vcodec libx264 -vf "scale=1280:720" -acodec aac`
+	mp4Opt := `-vcodec libx264 -vf "scale=1280:720" -acodec aac -movflags faststart -f mp4`
 	mp4Part := changePathExtention(outPart, ".mp4")
 	cmdStr += fmt.Sprintf(" %s %s", mp4Opt, mp4Part)
 
 	// consider use middle(480:270) if the size(320:180) is small
-	mpvOpt := `-vcodec libx264 -r 10 -vf "scale=480:270" -an -f mp4`
+	mpvOpt := `-vcodec libx264 -r 10 -vf "scale=480:270" -an -movflags faststart -f mp4`
 	mpvPart := changePathExtention(outPart, ".mpv")
 	cmdStr += fmt.Sprintf(" %s %s", mpvOpt, mpvPart)
 
