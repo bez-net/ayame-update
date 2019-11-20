@@ -56,7 +56,7 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	basename := time.Now().Format("D20060102T150405")
 
 	// create a temp file within our upload directory that follows a particular naming pattern
-	tempFile, err := ioutil.TempFile("upload", "COBOT-"+basename+"-R*"+filepath.Ext(handler.Filename))
+	tempFile, err := ioutil.TempFile("asset/upload", "COBOT-"+basename+"-R*"+filepath.Ext(handler.Filename))
 	if err != nil {
 		log.Printf("TempFile error: %s", err)
 		return
@@ -82,7 +82,7 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
 	// prepare a media set for the upload file
 	mset := &MediaSet{}
-	mset.SrcDir = "upload/"
+	mset.SrcDir = "asset/upload/"
 	mset.SrcBase = ""
 	mset.SrcName = filepath.Base(tempFile.Name())
 	mset.DstDir = "asset/record/"
@@ -168,7 +168,7 @@ func makeMediaSet(mset *MediaSet) (err error) {
 	cmdStr += fmt.Sprintf(" %s %s", mp4Opt, mp4Part)
 
 	// consider use middle(480:270) if the size(320:180) is small
-	mpvOpt := `-vcodec libx264 -r 10 -vf "scale=320:180" -an -f mp4`
+	mpvOpt := `-vcodec libx264 -r 10 -vf "scale=480:270" -an -f mp4`
 	mpvPart := changePathExtention(outPart, ".mpv")
 	cmdStr += fmt.Sprintf(" %s %s", mpvOpt, mpvPart)
 
