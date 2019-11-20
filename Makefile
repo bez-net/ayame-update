@@ -20,8 +20,8 @@ check:
 	GO111MODULE=on go test ./...
 
 clean:
-	rm -rf ./record/* ./asset/record/*
-	ls -lF ./upload/* ./record/*
+	@rm -rf ./record/* ./asset/record/*
+	@ls -lF ./upload/* ./record/*
 
 clobber:
 	@make clean

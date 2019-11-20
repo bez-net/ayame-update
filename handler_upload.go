@@ -2,9 +2,7 @@ package main
 
 import (
 	"bytes"
-	"crypto/rand"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -57,7 +55,7 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	basename := time.Now().Format("D20060102T150405")
 
 	// create a temp file within our upload directory that follows a particular naming pattern
-	tempFile, err := ioutil.TempFile("upload", "COBOT-"+basename+filepath.Ext(handler.Filename))
+	tempFile, err := ioutil.TempFile("upload", "COBOT-"+basename+"-R*"+filepath.Ext(handler.Filename))
 	if err != nil {
 		log.Printf("TempFile error: %s", err)
 		return
@@ -84,10 +82,11 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	// prepare a media set for the upload file
 	mset := &MediaSet{}
 	mset.SrcDir = "upload/"
+	mset.SrcBase = ""
 	mset.SrcName = filepath.Base(tempFile.Name())
 	mset.DstDir = "asset/record/"
 	mset.DstBase = basename + "/" // time.Now().Format("D20060102T150405/")
-	mset.DstName = mset.SrcName
+	mset.DstName = "COBOT-" + basename + "-" + newUUIDString()
 	log.Println(mset)
 
 	// do post media processing in background
@@ -211,18 +210,4 @@ func sendFilePage(w http.ResponseWriter, filename string) (err error) {
 	}
 	fmt.Fprintf(w, string(page))
 	return
-}
-
-// newUUID generates a random UUID according to RFC 4122
-func newUUIDString() (string, error) {
-	uuid := make([]byte, 16)
-	n, err := io.ReadFull(rand.Reader, uuid)
-	if n != len(uuid) || err != nil {
-		return "", err
-	}
-	// variant bits; see section 4.1.1
-	uuid[8] = uuid[8]&^0xc0 | 0x80
-	// version 4 (pseudo-random); see section 4.1.3
-	uuid[6] = uuid[6]&^0xf0 | 0x40
-	return fmt.Sprintf("%x-%x-%x-%x-%x", uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:]), nil
 }
