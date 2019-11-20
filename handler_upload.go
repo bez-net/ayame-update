@@ -24,6 +24,7 @@ type MediaSet struct {
 	Files    []*os.File `json:"files,omitempty"`
 }
 
+// Stringer for MediaSet
 func (m *MediaSet) String() string {
 	return fmt.Sprintf("MediaSet> SrcDir=%s, DstDir=%s, BaseDir=%s, Basename=%s", m.SrcDir, m.DstDir, m.BaseDir, m.Basename)
 }
@@ -72,7 +73,7 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
 	// return that we have successfully uploaded our file!
 	fmt.Fprintf(w, "Successfully did upload the file and being processed it.\n")
-	log.Printf("%s is stored to %s", handler.Filename, tempFile.Name())
+	log.Printf("%s => %s", handler.Filename, tempFile.Name())
 
 	// prepare a media set for the upload file
 	mset := &MediaSet{}
@@ -88,6 +89,8 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 
 // Postprocessing for the video file uploaded
 func postMediaProcessing(mset *MediaSet) (err error) {
+	defer log.Println("postMediaProcessing Done")
+
 	err = getMediaInfo(mset)
 	if err != nil {
 		log.Println("getMediaInfo error:", err)
@@ -113,7 +116,7 @@ func postMediaProcessing(mset *MediaSet) (err error) {
 // Make a set of media files for a video
 func getMediaInfo(mset *MediaSet) (err error) {
 	// check mediainfo command if it is executable
-	path, err := exec.LookPath("mediainfo")
+	_, err = exec.LookPath("mediainfo")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -135,11 +138,11 @@ func getMediaInfo(mset *MediaSet) (err error) {
 
 // Make a set of media files for a video
 func makeMediaSet(mset *MediaSet) (err error) {
-	path, err := exec.LookPath("ffmpeg")
+	_, err = exec.LookPath("ffmpeg")
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("ffmpeg:", path)
+	// log.Println("ffmpeg:", path)
 
 	// generate related files for the input video
 	os.MkdirAll(mset.DstDir+mset.BaseDir, os.ModePerm)
@@ -147,9 +150,10 @@ func makeMediaSet(mset *MediaSet) (err error) {
 
 	inPart := mset.SrcDir + mset.Basename
 	outPart := mset.DstDir + mset.BaseDir + mset.Basename
-	log.Println(inPart, outPart)
+	log.Println(inPart, "=>", outPart)
 
-	cmdStr := fmt.Sprintf("ffmpeg -y -i %s", inPart)
+	cmdStr := fmt.Sprintf("ffmpeg -loglevel error -stats -y")
+	cmdStr += fmt.Sprintf(" -i %s", inPart)
 
 	mp4Opt := `-vf "scale=1280:720"`
 	mp4Part := changePathExtention(outPart, ".mp4")
