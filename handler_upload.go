@@ -86,7 +86,7 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	mset.SrcName = filepath.Base(tempFile.Name())
 	mset.DstDir = "asset/record/"
 	mset.DstBase = basename + "/" // time.Now().Format("D20060102T150405/")
-	mset.DstName = "COBOT-" + basename + "-" + newUUIDString()
+	mset.DstName = "COBOT-" + basename + "-U" + getUUIDString()
 	log.Println(mset)
 
 	// do post media processing in background

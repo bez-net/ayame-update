@@ -8,9 +8,10 @@ import (
 	"github.com/google/uuid"
 )
 
-func getStringUUID() (str string) {
+func getUUIDString() (str string) {
 	uuid := uuid.New()
-	return uuid.String()
+	// return uuid.String()
+	return fmt.Sprintf("%016x", uuid)
 }
 
 // newUUID generates a random UUID according to RFC 4122
@@ -25,5 +26,5 @@ func newUUIDString() string {
 	// version 4 (pseudo-random); see section 4.1.3
 	uuid[6] = uuid[6]&^0xf0 | 0x40
 	// return fmt.Sprintf("%x-%x-%x-%x-%x", uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:])
-	return fmt.Sprintf("%012X", uuid)
+	return fmt.Sprintf("%016x", uuid)
 }
