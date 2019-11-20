@@ -16,17 +16,21 @@ import (
 
 // Set of media files for service
 type MediaSet struct {
-	SrcDir   string     `json:"src_dir,omitempty"`
-	DstDir   string     `json:"dst_dir,omitempty"`
-	BaseDir  string     `json:"base_dir,omitempty"`
-	Basename string     `json:"path_base,omitempty"`
-	Desc     string     `json:"ops_cmd,omitempty"`
-	Files    []*os.File `json:"files,omitempty"`
+	SrcDir  string `json:"src_dir,omitempty"`
+	DstDir  string `json:"dst_dir,omitempty"`
+	SrcName string
+	DstName string
+	SrcBase string
+	DstBase string
+	// BaseDir  string     `json:"base_dir,omitempty"`
+	// Basename string     `json:"path_base,omitempty"`
+	Desc  string     `json:"ops_cmd,omitempty"`
+	Files []*os.File `json:"files,omitempty"`
 }
 
 // Stringer for MediaSet
 func (m *MediaSet) String() string {
-	return fmt.Sprintf("MediaSet> SrcDir=%s, DstDir=%s, BaseDir=%s, Basename=%s", m.SrcDir, m.DstDir, m.BaseDir, m.Basename)
+	return fmt.Sprintf("MediaSet> SrcDir=%s, DstDir=%s, SrcName=%s, DstName=%s", m.SrcDir, m.DstDir, m.SrcName, m.DstName)
 }
 
 // Handler for Uploading and Transcoding
@@ -78,9 +82,10 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	// prepare a media set for the upload file
 	mset := &MediaSet{}
 	mset.SrcDir = "upload/"
+	mset.SrcName = filepath.Base(tempFile.Name())
 	mset.DstDir = "asset/record/"
-	mset.BaseDir = time.Now().Format("D20060102T150405/")
-	mset.Basename = filepath.Base(tempFile.Name())
+	mset.DstBase = time.Now().Format("D20060102T150405/")
+	mset.DstName = mset.SrcName
 	log.Println(mset)
 
 	// do post media processing in background
@@ -105,7 +110,7 @@ func postMediaProcessing(mset *MediaSet) (err error) {
 	}
 	// log.Println("makeMediaSet:", "Done")
 
-	err = os.Remove(mset.SrcDir + mset.Basename)
+	err = os.Remove(mset.SrcDir + mset.SrcName)
 	if err != nil {
 		log.Println("Remove error:", err)
 		return
@@ -124,7 +129,7 @@ func getMediaInfo(mset *MediaSet) (err error) {
 
 	// Get meta information for the media file
 	var stdout, stderr bytes.Buffer
-	cmd := exec.Command("mediainfo", mset.SrcDir+mset.Basename)
+	cmd := exec.Command("mediainfo", mset.SrcDir+mset.SrcName)
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 	err = cmd.Run()
@@ -145,11 +150,10 @@ func makeMediaSet(mset *MediaSet) (err error) {
 	// log.Println("ffmpeg:", path)
 
 	// generate related files for the input video
-	os.MkdirAll(mset.DstDir+mset.BaseDir, os.ModePerm)
-	// os.Chdir(mset.DstDir)
+	os.MkdirAll(mset.DstDir+mset.DstBase, os.ModePerm)
 
-	inPart := mset.SrcDir + mset.Basename
-	outPart := mset.DstDir + mset.BaseDir + mset.Basename
+	inPart := mset.SrcDir + mset.SrcName
+	outPart := mset.DstDir + mset.DstBase + mset.DstName
 	log.Println(inPart, "=>", outPart)
 
 	cmdStr := fmt.Sprintf("ffmpeg -loglevel error -stats -y")
