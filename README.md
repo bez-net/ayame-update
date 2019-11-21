@@ -30,6 +30,8 @@ usage: make [build|run|kill|docker|compose|ngrok|git]
 
 
 ### History
+- 2019/11/21 : 19.04.19
+    - source refactoring for file names
 - 2019/11/20 : 19.04.18
     - move the directories of `upload/ & `record/` to below `asset/`
     - record the designated directory with UUID based filenames
