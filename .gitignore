@@ -5,6 +5,12 @@ ayame
 *.log
 *.log.*
 
+# media files
+*.mp4
+*.avi
+*.vtt
+*.srt
+
 # working dirs
 bin/
 upload/
