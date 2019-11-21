@@ -104,6 +104,7 @@ usage: make [build|run|kill|docker|compose|ngrok|git]
     - [go-redis](https://github.com/go-redis/redis):7.1k vs [redigo](https://github.com/gomodule/redigo):6.6k
     - [gilcrest/redigo-example](https://github.com/gilcrest/redigo-example)
 - [Uploading files using 'fetch' and 'FormData'](https://muffinman.io/uploading-files-using-fetch-multipart-form-data/)
+- [비디오에 캡션 달기 예제](http://visualssing.dothome.co.kr/temp/videocaption.html)
 
 
 ### Tools
