@@ -17,18 +17,18 @@ import (
 type MediaSet struct {
 	SrcDir   string   `json:"src_dir,omitempty"`
 	DstDir   string   `json:"dst_dir,omitempty"`
-	SrcName  string   `json:"src_name,omitempty"`
-	DstName  string   `json:"dst_name,omitempty"`
 	SrcBase  string   `json:"src_base,omitempty"`
 	DstBase  string   `json:"dst_base,omitempty"`
-	Desc     string   `json:"desc,omitempty"`
+	SrcName  string   `json:"src_name,omitempty"`
+	DstName  string   `json:"dst_name,omitempty"`
+	DstDesc  string   `json:"dst_desc,omitempty"`
 	DstFiles []string `json:"dst_files,omitempty"`
 }
 
 // Stringer for MediaSet
 func (m *MediaSet) String() string {
-	return fmt.Sprintf("MediaSet> SrcDir=%s, DstDir=%s, SrcName=%s, DstName=%s, Desc=%s",
-		m.SrcDir, m.DstDir, m.SrcName, m.DstName, m.Desc)
+	return fmt.Sprintf("MediaSet> SrcDir=%s, DstDir=%s, SrcName=%s, DstName=%s, DstDesc=%s",
+		m.SrcDir, m.DstDir, m.SrcName, m.DstName, m.DstDesc)
 }
 
 // Convert JSON output for the struct
@@ -107,7 +107,7 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	mset.DstDir = "asset/record/"
 	mset.DstBase = basename + "/" // time.Now().Format("D20060102T150405/")
 	mset.DstName = "COBOT-" + basename + "-U" + getUUIDString()
-	mset.Desc = "ffmpeg (libx264/aac) mp4/mpv/jpg/vtt"
+	mset.DstDesc = "ffmpeg (libx264/aac) mp4/mpv/jpg/vtt"
 	log.Println("MediaSet>\n", mset.JSONIndentString())
 
 	// do post media processing in background
