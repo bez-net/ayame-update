@@ -229,7 +229,7 @@ func makeMediaSet(mset *MediaSet) (err error) {
 		log.Printf("recordMediaSetFiles err: %s", err)
 		return
 	}
-	log.Println(mset.JSONIndentString())
+	log.Println("MediaSet>\n", mset.JSONIndentString())
 	return
 }
 
