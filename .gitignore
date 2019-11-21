@@ -8,8 +8,8 @@ ayame
 # media files
 *.mp4
 *.avi
-*.vtt
-*.srt
+#*.vtt
+#*.srt
 
 # working dirs
 bin/
