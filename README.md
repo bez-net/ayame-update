@@ -21,9 +21,12 @@ usage: make [build|run|kill|docker|compose|ngrok|git]
 
 ### API endpoints
 - `/static` : file server for static web pages
+    - `/upload` : directory for file upload
+    - `/record` : directory for media transcoding
+    - `/util` : test pages
+    - `/sample` : sample media test with subtitle
 - `/admin` : status monitoring
 - `/event` : handle push/pull event with sub points of `/event/send|/event/recv`
-- `/upload` : file upload for sharing
 - `/fetch` : fetch upload test
 - `/signal` : webrtc signaling (websocket)
 - `/chat` : simple chatting in a room, i.e without room concept (websocket)
