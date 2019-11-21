@@ -148,7 +148,8 @@ func getMediaInfo(mset *MediaSet) (err error) {
 func makeMediaSet(mset *MediaSet) (err error) {
 	_, err = exec.LookPath("ffmpeg")
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("LookPath error: %s", err)
+		return
 	}
 	// log.Println("ffmpeg:", path)
 
@@ -192,9 +193,15 @@ func makeMediaSet(mset *MediaSet) (err error) {
 	cmd := exec.Command("sh", "-c", cmdStr)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		log.Println(err)
+		log.Printf("CombinedOutput error: %s", err)
+		return
 	}
 	log.Println(string(out))
+
+	err = makeSubtitleFile(changePathExtention(outPart, ".vtt"))
+	if err != nil {
+		log.Printf("makeSubtitleFile err: %s", err)
+	}
 	return
 }
 
@@ -213,5 +220,31 @@ func sendFilePage(w http.ResponseWriter, filename string) (err error) {
 		return
 	}
 	fmt.Fprintf(w, string(page))
+	return
+}
+
+const sampleTitle = `WEBVTT - Translation of that film I like
+NOTE
+This is comment part. It is not displayed on screen.
+
+00:00:01.000 --> 00:00:05.000 line:-3
+<b>This is sample subtitle text.</b>
+HTML style tag can be used.
+`
+
+func makeSubtitleFile(fname string) (err error) {
+	f, err := os.Create(fname)
+	if err != nil {
+		log.Printf("Create error: %s", err)
+		return
+	}
+	defer f.Close()
+
+	n, err := f.WriteString(sampleTitle)
+	if n < len(sampleTitle) || err != nil {
+		log.Printf("WriteString error: %s, %d", err, n)
+		return
+	}
+	f.Sync()
 	return
 }
