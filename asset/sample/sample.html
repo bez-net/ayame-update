@@ -1,0 +1,30 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>Video Caption Sample</title>
+<style type="text/css">
+body{
+    text-align: center;
+}
+video{
+    width: 640px;
+    height: 400px;
+}
+.captionstyle {
+    color : white;
+    background-color: #898989; 
+    font-weight : bold;
+}
+</style>
+</head>
+
+<body>
+<h2>Video Caption Sample</h2>
+<video src="sample.mp4" autoplay loop controls>
+    <track src="sample-kr.vtt" kind="subtitles" srclang="kr" label="기본한국어" default>
+    <track src="sample-en.vtt" kind="subtitles" srclang="en" label="English">
+    Sorry, your browser doesn't support embedded videos
+</video> 
+<p>(c)2019 TeamGRIT.kr</p>  
+</body>
+</html>

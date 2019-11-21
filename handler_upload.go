@@ -15,14 +15,14 @@ import (
 
 // Set of media files for service
 type MediaSet struct {
-	SrcDir  string     `json:"src_dir,omitempty"`
-	DstDir  string     `json:"dst_dir,omitempty"`
-	SrcName string     `json:"src_name,omitempty"`
-	DstName string     `json:"dst_name,omitempty"`
-	SrcBase string     `json:"src_base,omitempty"`
-	DstBase string     `json:"dst_base,omitempty"`
-	Desc    string     `json:"desc,omitempty"`
-	Files   []*os.File `json:"files,omitempty"`
+	SrcDir   string   `json:"src_dir,omitempty"`
+	DstDir   string   `json:"dst_dir,omitempty"`
+	SrcName  string   `json:"src_name,omitempty"`
+	DstName  string   `json:"dst_name,omitempty"`
+	SrcBase  string   `json:"src_base,omitempty"`
+	DstBase  string   `json:"dst_base,omitempty"`
+	Desc     string   `json:"desc,omitempty"`
+	DstFiles []string `json:"dst_files,omitempty"`
 }
 
 // Stringer for MediaSet
@@ -31,12 +31,26 @@ func (m *MediaSet) String() string {
 		m.SrcDir, m.DstDir, m.SrcName, m.DstName, m.Desc)
 }
 
-// JSON output for the struct
-func (m *MediaSet) JSON() string {
+// Convert JSON output for the struct
+func (m *MediaSet) JSONString() string {
+	jbyte, _ := json.Marshal(m)
+	return string(jbyte)
+}
+
+// Convert JSON Indent output for the struct
+func (m *MediaSet) JSONIndentString() string {
 	jbyte, _ := json.MarshalIndent(m, "", "  ")
 	return string(jbyte)
 }
 
+// Send struct as the response in JSON
+func (m *MediaSet) SendJSON(w http.ResponseWriter) {
+	jbyte, _ := json.Marshal(m)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jbyte)
+}
+
+// --------------------------------------------------------------------------------------
 // Handler for Uploading and Transcoding
 func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	defer log.Printf("uploadHandler exit")
@@ -93,8 +107,8 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	mset.DstDir = "asset/record/"
 	mset.DstBase = basename + "/" // time.Now().Format("D20060102T150405/")
 	mset.DstName = "COBOT-" + basename + "-U" + getUUIDString()
-	mset.Desc = "libx264 / aac / mp4"
-	log.Println(mset.JSON())
+	mset.Desc = "ffmpeg (libx264/aac) mp4/mpv/jpg/vtt"
+	log.Println("MediaSet>\n", mset.JSONIndentString())
 
 	// do post media processing in background
 	go postMediaProcessing(mset)
@@ -207,7 +221,15 @@ func makeMediaSet(mset *MediaSet) (err error) {
 	err = makeSubtitleFile(vttPart)
 	if err != nil {
 		log.Printf("makeSubtitleFile err: %s", err)
+		return
 	}
+
+	err = recordMediaSetFiles(mset)
+	if err != nil {
+		log.Printf("recordMediaSetFiles err: %s", err)
+		return
+	}
+	log.Println(mset.JSONIndentString())
 	return
 }
 
@@ -252,5 +274,25 @@ func makeSubtitleFile(fname string) (err error) {
 		return
 	}
 	f.Sync()
+	return
+}
+
+func recordMediaSetFiles(mset *MediaSet) (err error) {
+	d, err := os.Open(mset.DstDir + mset.DstBase)
+	if err != nil {
+		log.Printf("Open error: %s", err)
+		return
+	}
+	defer d.Close()
+	files, err := d.Readdir(-1)
+	if err != nil {
+		log.Printf("Readdir error: %s", err)
+		return
+	}
+	for _, f := range files {
+		if f.Mode().IsRegular() && f.Size() > 0 {
+			mset.DstFiles = append(mset.DstFiles, f.Name())
+		}
+	}
 	return
 }
