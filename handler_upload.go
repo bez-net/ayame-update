@@ -223,7 +223,7 @@ func sendFilePage(w http.ResponseWriter, filename string) (err error) {
 	return
 }
 
-const sampleTitle = `WEBVTT - Translation of that film I like
+const sampleTitle = `WEBVTT - Sample text for testing
 NOTE
 This is comment part. It is not displayed on screen.
 
