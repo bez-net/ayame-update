@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -14,22 +15,26 @@ import (
 
 // Set of media files for service
 type MediaSet struct {
-	SrcDir  string `json:"src_dir,omitempty"`
-	DstDir  string `json:"dst_dir,omitempty"`
-	SrcName string
-	DstName string
-	SrcBase string
-	DstBase string
-	// BaseDir  string     `json:"base_dir,omitempty"`
-	// Basename string     `json:"path_base,omitempty"`
-	Desc  string     `json:"ops_cmd,omitempty"`
-	Files []*os.File `json:"files,omitempty"`
+	SrcDir  string     `json:"src_dir,omitempty"`
+	DstDir  string     `json:"dst_dir,omitempty"`
+	SrcName string     `json:"src_name,omitempty"`
+	DstName string     `json:"dst_name,omitempty"`
+	SrcBase string     `json:"src_base,omitempty"`
+	DstBase string     `json:"dst_base,omitempty"`
+	Desc    string     `json:"desc,omitempty"`
+	Files   []*os.File `json:"files,omitempty"`
 }
 
 // Stringer for MediaSet
 func (m *MediaSet) String() string {
 	return fmt.Sprintf("MediaSet> SrcDir=%s, DstDir=%s, SrcName=%s, DstName=%s, Desc=%s",
 		m.SrcDir, m.DstDir, m.SrcName, m.DstName, m.Desc)
+}
+
+// JSON output for the struct
+func (m *MediaSet) JSON() string {
+	jbyte, _ := json.MarshalIndent(m, "", "  ")
+	return string(jbyte)
 }
 
 // Handler for Uploading and Transcoding
@@ -89,7 +94,7 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	mset.DstBase = basename + "/" // time.Now().Format("D20060102T150405/")
 	mset.DstName = "COBOT-" + basename + "-U" + getUUIDString()
 	mset.Desc = "libx264 / aac / mp4"
-	log.Println(mset)
+	log.Println(mset.JSON())
 
 	// do post media processing in background
 	go postMediaProcessing(mset)
@@ -198,7 +203,8 @@ func makeMediaSet(mset *MediaSet) (err error) {
 	}
 	log.Println(string(out))
 
-	err = makeSubtitleFile(changePathExtention(outPart, ".vtt"))
+	vttPart := changePathExtention(outPart, ".vtt")
+	err = makeSubtitleFile(vttPart)
 	if err != nil {
 		log.Printf("makeSubtitleFile err: %s", err)
 	}
