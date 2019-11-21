@@ -132,6 +132,7 @@ func postMediaProcessing(mset *MediaSet) (err error) {
 	}
 	// log.Println("makeMediaSet:", "Done")
 
+	// remove the upload file after sucessful record
 	err = os.Remove(mset.SrcDir + mset.SrcName)
 	if err != nil {
 		log.Println("Remove error:", err)
