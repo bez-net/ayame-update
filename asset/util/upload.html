@@ -20,14 +20,10 @@ h2 {
 <h2>File Upload to Server</h2>
 </head>
 <body>
-<form
-  enctype="multipart/form-data"
-  action="/upload"
-  method="post"
->
-<label for="file">Filename:</label>
-<input type="file" name="uploadFile" />
-<input type="submit" value="Submit" />
+<form action="/upload" method="post" enctype="multipart/form-data">
+  <label for="file">Filename:</label>
+  <input type="file" name="uploadFile" />
+  <input type="submit" value="Submit" />
 </form>
 </body>
 </html>
