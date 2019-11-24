@@ -19,6 +19,11 @@ func fetchHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// for debugging, check the elements of multipart form
+	for k := range r.MultipartForm.File {
+		log.Println(k)
+	}
+
 	file, handler, err := r.FormFile("uploadFile")
 	if err != nil {
 		log.Printf("FormFile error: %s", err)

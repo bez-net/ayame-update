@@ -59,13 +59,13 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	// parse our multipart form, 10 << 20 specifies a maximum upload of 10 MB files.
 	err := r.ParseMultipartForm(10 << 20)
 	if err != nil {
-		log.Printf("ParseMultipartForm error: %s", err)
+		log.Println("ParseMultipartForm error:", err)
 		return
 	}
 
 	file, handler, err := r.FormFile("uploadFile")
 	if err != nil {
-		log.Printf("FormFile error: %s", err)
+		log.Println("FormFile error:", err)
 		return
 	}
 	defer file.Close()
@@ -77,7 +77,7 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	// create a temp file within our upload directory that follows a particular naming pattern
 	tempFile, err := ioutil.TempFile("asset/upload", "COBOT-"+basename+"-R*"+filepath.Ext(handler.Filename))
 	if err != nil {
-		log.Printf("TempFile error: %s", err)
+		log.Println("TempFile error:", err)
 		return
 	}
 	defer tempFile.Close()
@@ -96,7 +96,7 @@ func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	}
 
 	// return that we have successfully uploaded our file!
-	fmt.Fprintf(w, "Successfully did upload the file and being processed it.\n")
+	fmt.Fprintf(w, "Successfully uploaded the file and being processed it.\n")
 	log.Printf("%s => %s", handler.Filename, tempFile.Name())
 
 	// prepare a media set for the upload file
