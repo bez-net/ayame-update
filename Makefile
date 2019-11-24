@@ -2,7 +2,7 @@
 # Makefile for ayame, WebRTC signaling server
 #
 PROG=ayame
-VERSION=19.05.01
+VERSION=19.05.02
 # -----------------------------------------------------------------------------------------------------------------------
 usage:
 	@echo "WebRTC signaling server : $(PROG) $(VERSION)"
