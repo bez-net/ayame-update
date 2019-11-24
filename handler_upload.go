@@ -53,24 +53,24 @@ func (m *MediaSet) SendJSON(w http.ResponseWriter) {
 // --------------------------------------------------------------------------------------
 // Handler for Uploading and Transcoding
 func uploadHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
+	log.Println(r.URL.Path, r.RemoteAddr, r.Method, r.Header.Get("Content-Type"))
 	defer log.Printf("uploadHandler exit")
-	log.Printf("%s, %s", r.URL.Path, r.RemoteAddr)
 
 	// parse our multipart form, 10 << 20 specifies a maximum upload of 10 MB files.
-	r.ParseMultipartForm(10 << 20)
-	// FormFile returns the first file for the given key `myFile`
-	// it also returns the FileHeader so we can get the Filename,
-	// the Header and the size of the file
-	file, handler, err := r.FormFile("myFile")
+	err := r.ParseMultipartForm(10 << 20)
+	if err != nil {
+		log.Printf("ParseMultipartForm error: %s", err)
+		return
+	}
+
+	file, handler, err := r.FormFile("uploadFile")
 	if err != nil {
 		log.Printf("FormFile error: %s", err)
 		return
 	}
 	defer file.Close()
 
-	// fmt.Printf("Uploaded File: %+v\n", handler.Filename)
-	// fmt.Printf("File Size: %+v\n", handler.Size)
-	// fmt.Printf("MIME Header: %+v\n", handler.Header)
+	// log.Println(handler)
 
 	basename := time.Now().Format("D20060102T150405")
 

@@ -2,7 +2,7 @@
 # Makefile for ayame, WebRTC signaling server
 #
 PROG=ayame
-VERSION=19.05.00
+VERSION=19.05.01
 # -----------------------------------------------------------------------------------------------------------------------
 usage:
 	@echo "WebRTC signaling server : $(PROG) $(VERSION)"
@@ -119,7 +119,7 @@ git g:
 
 git-update gu:
 	git add .
-	git commit -m "$(VERSION): upload and transcode files"
+	git commit -m "$(VERSION): upload files using fetch"
 	git push
 
 git-login gl:
