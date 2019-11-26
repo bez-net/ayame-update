@@ -39,9 +39,8 @@ function Upload() {
   };
 
   fetch('/fetch', options)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
+    .then(response => {
+      window.location.href = "/static/upload";
     })
     .catch(error => console.log(error))
 }
