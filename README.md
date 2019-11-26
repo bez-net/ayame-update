@@ -33,6 +33,8 @@ usage: make [build|run|kill|docker|compose|ngrok|git]
 
 
 ### History
+- 2019/11/26 : 19.05.02
+    - tested upload using `fetch()` in the web
 - 2019/11/21 : 19.04.19
     - support `MediaSet` and it JSON
     - test subtitle display with video
