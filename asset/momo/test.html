@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="shortcut icon" href="#">
+    <title>Momo P2P</title>
+  </head>
+  <body>
+    <h3>Momo P2P</h3>
+    <div>
+      <select id="codec">
+        <option value="H264">H264</option>
+        <option value="VP8">VP8</option>
+        <option value="VP9">VP9</option>
+      </select>
+      <input type="button" onclick="connect();" value="Connect">
+      <input type="button" onclick="disconnect();" value="Disconnect">
+      <input type="button" onclick="play();" value="Play">
+      <input type="button" onclick="servo1();" value="Servo1">
+      <input type="button" onclick="servo2();" value="Servo2">
+      <input type="button" onclick="servo3();" value="Servo3">
+      <input type="button" onclick="mainLF();" value="main LEFT">
+      <input type="button" onclick="mainFW();" value="main FORWARD">
+      <input type="button" onclick="mainBW();" value="main BACKWARD">
+      <input type="button" onclick="mainRT();" value="main RIGHT">
+      <input type="button" onclick="mainStop();" value="main Stop">
+
+      <input type="button" onclick="motor3CW();" value="sub1 Left">
+      <input type="button" onclick="motor3CCW();" value="sub1 Right">
+
+      <input type="button" onclick="motor4CW();" value="sub2 Left">
+      <input type="button" onclick="motor4CCW();" value="sub2 Right">
+
+      <input type="button" onclick="motor5CW();" value="sub3 Left">
+      <input type="button" onclick="motor5CCW();" value="sub3 Right">
+      <input type="button" onclick="cmdTest();" value="cmdTest">
+    </div>
+    <span id="orientation">null</span>
+    <div>
+      <video id="remote_video" autoplay playsinline style="border: 3px solid gray;"></video>
+    </div>
+    <script type='text/javascript' src='./webrtc.js'></script>
+  </body>
+</html>
