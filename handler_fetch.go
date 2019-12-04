@@ -12,7 +12,7 @@ func fetchHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	log.Println(r.URL.Path, r.RemoteAddr, r.Method, r.Header.Get("Content-Type"))
 	defer log.Printf("fetchHandler exit")
 
-	// Parse our multipart form, 10 << 20 specifies a maximum upload of 32 MB files.
+	// Parse our multipart form, 32 << 20 specifies a maximum upload of 32 MB files.
 	err := r.ParseMultipartForm(32 << 20)
 	if err != nil {
 		log.Printf("ParseMultipartForm error: %s", err)
