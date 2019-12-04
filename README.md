@@ -34,7 +34,7 @@ usage: make [build|run|kill|docker|compose|ngrok|git]
 
 ### History
 - 2019/12/03 : 19.05.03
-    - add page and js for momo
+    - add page and js for momo (embedded)
 - 2019/11/26 : 19.05.02
     - tested upload using `fetch()` in the web
 - 2019/11/21 : 19.04.19
@@ -42,7 +42,7 @@ usage: make [build|run|kill|docker|compose|ngrok|git]
     - test subtitle display with video
     - source refactoring for file names
 - 2019/11/20 : 19.04.18
-    - move the directories of `upload/ & `record/` to below `asset/`
+    - move the directories of `upload/` & `record/` to below `asset/`
     - record the designated directory with UUID based filenames
     - define MediaSet for recording
 - 2019/11/11 : 19.04.15
