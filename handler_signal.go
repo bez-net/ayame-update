@@ -171,21 +171,32 @@ func signalHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	log.Printf("%s, %s", r.URL.Path, r.RemoteAddr)
 	defer log.Printf("signalHandler exit")
 
+	// allow all CORS
+	// w.Header().Set("Access-Control-Allow-Origin", "*")
+	// w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	// w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+
+	// allow CORS in websocket
+	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
+
 	c, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
 		return
 	}
+
 	origin := r.Header.Get("Origin")
 	host, err := TrimOriginToHost(origin)
 	if err != nil {
 		log.Println(err)
 		return
 	}
+
 	client := &Client{hub: hub, conn: c, host: *host, send: make(chan []byte, 256)}
 	log.Printf("[WS] connected")
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
+
 	go client.listen(cancel)
 	go client.broadcast(ctx)
 }

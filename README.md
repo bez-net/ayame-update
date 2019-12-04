@@ -33,6 +33,8 @@ usage: make [build|run|kill|docker|compose|ngrok|git]
 
 
 ### History
+- 2019/12/04 : 19.05.04
+    - allow CORS
 - 2019/12/03 : 19.05.03
     - add page and js for momo (embedded)
 - 2019/11/26 : 19.05.02

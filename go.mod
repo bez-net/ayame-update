@@ -9,6 +9,7 @@ require (
 	github.com/docker/docker v1.13.1 // indirect
 	github.com/garyburd/redigo v1.6.0
 	github.com/google/uuid v1.1.1
+	github.com/gorilla/handlers v1.4.2
 	github.com/gorilla/websocket v1.4.1
 	github.com/lestrrat-go/file-rotatelogs v2.2.0+incompatible
 	github.com/lestrrat-go/strftime v0.0.0-20190725011945-5c849dd2c51d // indirect

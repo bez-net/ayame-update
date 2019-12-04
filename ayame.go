@@ -16,7 +16,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var AyameVersion = "19.05.03"
+var AyameVersion = "19.05.04"
 
 type AyameOptions struct {
 	LogDir         string `yaml:"log_dir"`
@@ -134,9 +134,16 @@ func setupServerAPI(hub *Hub) {
 	})
 }
 
+/*
+websocket CORS example
+https://play.golang.org/p/AOrlJsWhvf
+*/
+
 // Plain server supporint http and ws
 func runPlainServer(url string) {
 	timeout := 10 * time.Second
+	// corsObj := handlers.AllowedOrigins([]string{"*"})
+	// server := &http.Server{Addr: url, Handler: handlers.CORS(corsObj)(), ReadHeaderTimeout: timeout}
 	server := &http.Server{Addr: url, Handler: nil, ReadHeaderTimeout: timeout}
 	err := server.ListenAndServe()
 	if err != nil {
