@@ -176,7 +176,7 @@ func signalHandler(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	// w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	// w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 
-	// allow CORS in websocket
+	// allow CORS in websocket, modify it later for security
 	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 
 	c, err := upgrader.Upgrade(w, r, nil)
